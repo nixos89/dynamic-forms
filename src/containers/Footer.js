@@ -2,13 +2,14 @@ import React from "react";
 
 function Footer() {
   return (
-    <div className="card-footer">
-      <footer>
-        <p>Home</p>
-        <p>About</p>
-        <p>Contact</p>
-      </footer>
-    </div>
+    <footer className="footer mt-auto py-3">
+      <div className="container">
+        <div className="footer-copyright text-center py-3">
+          © 2021 Copyright:
+          <a href="https://www.dossier.com/"> Dossier Solutions</a>
+        </div>
+      </div>
+    </footer>
   );
 }
 
