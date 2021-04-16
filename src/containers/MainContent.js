@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { actions } from "../redux/store";
+import PropTypes from "prop-types";
+import FormListComponent from "../components/FormListComponent";
+import InputTextComponent from "../components/InputTextComponent";
 
 class MainContent extends Component {
   constructor(props) {
@@ -14,6 +17,10 @@ class MainContent extends Component {
   formSubmitted = (e) => {
     e.preventDefault();
     console.log("User has submitted values");
+    this.props.onAddNewForm({
+      formName: this.props.newForm.formName,
+      formElements: [],
+    });
   };
 
   render() {
@@ -27,7 +34,7 @@ class MainContent extends Component {
                 this.props.onNewFormChanged(event.target.value)
               }
               value={this.props.formType}
-              placeholder="Please enter Type of Form"
+              placeholder="Please enter Type of FormComponent"
             />
             &nbsp;
             <button className="btn btn-primary">Submit</button>
@@ -35,6 +42,13 @@ class MainContent extends Component {
             <button className="btn btn-danger">Reset</button>
           </form>
         </div>
+        <FormListComponent forms={this.props.forms} />
+        <br />
+        {/*TODO: fix passed 'props' to InputTextComponent */}
+        <InputTextComponent
+          label={this.props.forms.formElements.label}
+          name={this.props.forms.formElements.value}
+        />
       </main>
     );
   }
@@ -43,8 +57,7 @@ class MainContent extends Component {
 function mapStateToProps(state) {
   return {
     message: state.message,
-    formName: state.formName,
-    formElements: state.formElements,
+    forms: state.forms,
   };
 }
 
@@ -58,5 +71,10 @@ function mapDispatchToProps(dispatch) {
     },
   };
 }
+
+/** Read this https://reactjs.org/docs/typechecking-with-proptypes.html */
+MainContent.propTypes = {
+  formType: PropTypes.string,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainContent);

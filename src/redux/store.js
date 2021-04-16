@@ -1,4 +1,5 @@
 // constant "actions"
+import { List, Map } from "immutable";
 const ADD_NEW_FORM_CHANGED = "ADD_NEW_FORM_CHANGED";
 const ADD_NEW_FORM = "ADD_NEW_FORM";
 const ADD_TEXT_INPUT_FIELD = "ADD_TEXT_INPUT_FIELD";
@@ -30,24 +31,32 @@ export const actions = {
   },
 };
 
+/** TODO: review initialState for complex data maybe take a look here:
+ *  https://stackoverflow.com/q/37980109/6805866 */
 const initialState = {
-  message: "",
-  formName: "Medarbeidere navn",
-  formElements: [
+  message: "Var så snill opprett skjemaer",
+  // use List and Map from Immutable.js library
+  forms: [
     {
-      formElementType: ADD_TEXT_INPUT_FIELD,
-      label: "Navn",
-      value: "Nikola",
-    },
-    {
-      formElementType: ADD_TEXT_INPUT_FIELD,
-      label: "Etternavn",
-      value: "Stevanovic",
-    },
-    {
-      formElementType: ADD_TEXTAREA_INPUT_FIELD,
-      label: "Info",
-      value: "Jeg heter Nikola. Hva heter du? ",
+      //form-object-0
+      formName: "Medarbeidere navn",
+      formElements: [
+        {
+          formElementType: ADD_TEXT_INPUT_FIELD,
+          label: "Navn",
+          value: "Nikola",
+        },
+        {
+          formElementType: ADD_TEXT_INPUT_FIELD,
+          label: "Etternavn",
+          value: "Stevanovic",
+        },
+        {
+          formElementType: ADD_TEXTAREA_INPUT_FIELD,
+          label: "Info",
+          value: "Jeg heter Nikola. Hva heter du? ",
+        },
+      ],
     },
   ],
 }; //END::initialState
@@ -58,14 +67,14 @@ export function reducer(state = initialState, action) {
     case ADD_NEW_FORM_CHANGED: {
       return {
         ...state,
-        newForm: action.newForm,
+        formName: action.newForm,
       };
     }
     case ADD_NEW_FORM: {
       return {
         // returns (shallow) copy of state (do NOT modify EXISTING 1, but return NEW 1)
         ...state,
-        addNewForm: action.newForm,
+        forms: [...state.forms, action.newForm],
       };
     }
     default:
