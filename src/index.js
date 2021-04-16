@@ -2,19 +2,25 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import App from "./App";
-import {createStore, applyMiddleware, compose} from "redux";
-import {Provider} from "react-redux";
-import {reducer} from "./redux/store";
+import { createStore, applyMiddleware, compose } from "redux";
+import { Provider } from "react-redux";
+import { reducer } from "./reducers/index";
 import reportWebVitals from "./reportWebVitals";
-import {logger} from "redux-logger/src";
+import { logger } from "redux-logger/src";
 
-/** TODO: Implement 'store' function-object for Store -> DONE! */
-const createdStore = createStore(reducer, compose(applyMiddleware(logger),
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()));
+const createdStore = createStore(
+  reducer,
+  compose(
+    applyMiddleware(logger),
+    window.__REDUX_DEVTOOLS_EXTENSION__
+      ? window.__REDUX_DEVTOOLS_EXTENSION__()
+      : (f) => f
+  )
+);
 
 ReactDOM.render(
   <Provider store={createdStore}>
-    <App/>
+    <App />
   </Provider>,
   document.getElementById("root")
 );

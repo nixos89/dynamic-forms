@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React /*, { useState }*/ from "react";
 
 const InputTextComponent = (props) => {
-  const [elems, setElems] = useState(props.form);
+  // const [elems, setElems] = useState(props.form);
 
   return (
     <React.Fragment>

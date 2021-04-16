@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { actions } from "../redux/store";
+import { actions } from "../actions/index";
 import PropTypes from "prop-types";
 import FormListComponent from "../components/FormListComponent";
-import InputTextComponent from "../components/InputTextComponent";
 
 class MainContent extends Component {
   constructor(props) {
@@ -12,43 +11,49 @@ class MainContent extends Component {
       formType: "",
     };
     // this.formSubmitted = this.formSubmitted.bind(this);
+    // this.resetForm = this.resetForm.bind(this);
   }
 
   formSubmitted = (e) => {
     e.preventDefault();
     console.log("User has submitted values");
     this.props.onAddNewForm({
-      formName: this.props.newForm.formName,
+      message: this.props.message,
       formElements: [],
     });
   };
 
+  resetForm = (e) => {
+    e.preventDefault();
+    this.props.onClearCurrentForm({
+      newFormName: ""
+    });
+  }
+
   render() {
     return (
       <main>
+        <hr/>
+        <h2>{this.props.message}</h2>
         <div className="form-control">
-          <form onSubmit={this.formSubmitted}>
+          <form onSubmit={this.formSubmitted} id="dynamicForm">
             <input
               type="text"
               onChange={(event) =>
                 this.props.onNewFormChanged(event.target.value)
               }
-              value={this.props.formType}
-              placeholder="Please enter Type of FormComponent"
+              value={this.props.newFormName}
+              id="formName"
+              placeholder="Skjemaer navn"
             />
             &nbsp;
-            <button className="btn btn-primary">Submit</button>
-            {/*&nbsp;*/}
-            <button className="btn btn-danger">Reset</button>
+            <button className="btn btn-primary">Sende in</button>
+            &nbsp;
+            <input type="button" value="Nullstille" className="btn btn-danger" onClick={this.resetForm}/>
           </form>
         </div>
         <FormListComponent forms={this.props.forms} />
         <br />
-        {/*TODO: fix passed 'props' to InputTextComponent */}
-        <InputTextComponent
-          label={this.props.forms.formElements.label}
-          name={this.props.forms.formElements.value}
-        />
       </main>
     );
   }
@@ -57,17 +62,21 @@ class MainContent extends Component {
 function mapStateToProps(state) {
   return {
     message: state.message,
+    newFormName: state.newFormName,
     forms: state.forms,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    onNewFormChanged(newForm) {
-      dispatch(actions.newFormChanged(newForm));
+    onNewFormChanged(newFormName) {
+      dispatch(actions.newFormChanged(newFormName));
     },
     onAddNewForm(newForm) {
       dispatch(actions.addNewForm(newForm));
+    },
+    onClearCurrentForm() {
+      dispatch(actions.clearCurrentForm());
     },
   };
 }
