@@ -38,7 +38,7 @@ class MainContent extends Component {
             />
             &nbsp;
             <button className="btn btn-primary">Submit</button>
-            &nbsp;
+            {/*&nbsp;*/}
             <button className="btn btn-danger">Reset</button>
           </form>
         </div>
