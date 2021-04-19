@@ -4,7 +4,7 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import App from "./App";
 import { createStore, applyMiddleware, compose } from "redux";
 import { Provider } from "react-redux";
-import { reducer } from "./reducers/index";
+import { reducer } from "./redux/store/reducers";
 import reportWebVitals from "./reportWebVitals";
 import { logger } from "redux-logger/src";
 

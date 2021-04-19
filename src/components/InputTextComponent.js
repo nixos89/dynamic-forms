@@ -1,13 +1,13 @@
-import React /*, { useState }*/ from "react";
+import React, { useState } from "react";
 
 const InputTextComponent = (props) => {
-  // const [elems, setElems] = useState(props.form);
+  const [elements] = useState(props);
 
   return (
     <React.Fragment>
-      {/*<label>{this.props.label}</label>*/}
-      <label>{this.props.label}</label>
-      <input type="text" name={props.value} />
+      <label>{elements.label}</label>
+      <input type="text" value={elements.value} onChange={(f) => f} />
+      <br />
     </React.Fragment>
   );
 };

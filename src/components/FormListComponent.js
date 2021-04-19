@@ -1,23 +1,27 @@
-import React /*, { useEffect, useState }*/ from "react";
-// import { Map } from "immutable";
-// import FormComponent from "./FormComponent";
+import React, { Component } from "react";
+import FormComponent from "./FormComponent";
 
-function FormListComponent(props) {
-  // const [formItems, setFormItem] = useState(props.forms);
-  // const mappedFormItems = Map(formItems);
+class FormListComponent extends Component {
+  render() {
+    console.log("this.props.forms:", this.props.forms);
 
-  /** TODO: use PropTypes for checking types of FormComponent fields */
-  /* useEffect((e) => {
-     e.target.type === "INPUT_TEXT_FIELD" ?
-   },[formItem]); */
-
-  return (
-    <React.Fragment>
-      {/*{mappedFormItems.forEach((item) => (*/}
-      {/*  <FormComponent> </FormComponent>*/}
-      {/*))}*/}
-    </React.Fragment>
-  );
+    return (
+      <React.Fragment>
+        {this.props.forms.map((formComponent, index) => {
+          console.log("formComponent:", formComponent);
+          return (
+            <FormComponent
+              key={index}
+              id={formComponent.id}
+              formName={formComponent.formName}
+              formElements={formComponent.formElements}
+            />
+          );
+        })}
+      </React.Fragment>
+    );
+  }
 }
+
 
 export default FormListComponent;

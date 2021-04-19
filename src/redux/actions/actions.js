@@ -31,6 +31,12 @@ export const actions = {
       inputTextField,
     };
   },
+  addTextAreaInputField(inputTextAreaField) {
+    return {
+      type: ADD_TEXT_INPUT_FIELD,
+      inputTextAreaField,
+    };
+  },
   clearCurrentForm() {
     return {
       type: CLEAR_CURRENT_FORM,

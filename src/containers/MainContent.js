@@ -1,22 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { actions } from "../actions/index";
+import { actions } from "../redux/actions/actions";
 import PropTypes from "prop-types";
 import FormListComponent from "../components/FormListComponent";
 
 class MainContent extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      formType: "",
-    };
-    // this.formSubmitted = this.formSubmitted.bind(this);
-    // this.resetForm = this.resetForm.bind(this);
-  }
 
   formSubmitted = (e) => {
     e.preventDefault();
-    console.log("User has submitted values");
+    console.log("========== User has submitted values! ==========");
     this.props.onAddNewForm({
       message: this.props.message,
       formElements: [],
@@ -33,7 +25,7 @@ class MainContent extends Component {
   render() {
     return (
       <main>
-        <hr/>
+        <hr />
         <h2>{this.props.message}</h2>
         <div className="form-control">
           <form onSubmit={this.formSubmitted} id="dynamicForm">
@@ -49,9 +41,12 @@ class MainContent extends Component {
             &nbsp;
             <button className="btn btn-primary">Sende in</button>
             &nbsp;
-            <input type="button" value="Nullstille" className="btn btn-danger" onClick={this.resetForm}/>
+            <button className="btn btn-danger" onClick={this.resetForm}>
+              Nullstille
+            </button>
           </form>
         </div>
+        <br />
         <FormListComponent forms={this.props.forms} />
         <br />
       </main>

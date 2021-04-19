@@ -1,15 +1,6 @@
 import {
-  ADD_NEW_FORM_CHANGED,
-  ADD_NEW_FORM,
   ADD_TEXT_INPUT_FIELD,
   ADD_TEXTAREA_INPUT_FIELD,
-  // ADD_NUMBER_INPUT_FIELD,
-  // SHOW_FORM_MODAL,
-  // HIDE_FORM_MODAL,
-  // FILL_FORM,
-  // EDIT_FORM,
-  // DELETE_FORM,
-  CLEAR_CURRENT_FORM,
 } from "../actions/actionTypes";
 
 /** TODO: review initialState for complex data maybe take a look here:
@@ -21,19 +12,23 @@ const initialState = {
   forms: [
     {
       //form-object-0
+      id: 1,
       formName: "Medarbeidere navn",
       formElements: [
         {
+          id: 1,
           formElementType: ADD_TEXT_INPUT_FIELD,
           label: "Navn",
           value: "Nikola",
         },
         {
+          id: 2,
           formElementType: ADD_TEXT_INPUT_FIELD,
           label: "Etternavn",
           value: "Stevanovic",
         },
         {
+          id: 3,
           formElementType: ADD_TEXTAREA_INPUT_FIELD,
           label: "Info",
           value: "Jeg heter Nikola. Hva heter du? ",
@@ -43,33 +38,4 @@ const initialState = {
   ],
 };
 
-export function reducer(state = initialState, action) {
-  switch (action.type) {
-    case ADD_NEW_FORM_CHANGED: {
-      return {
-        ...state,
-        newFormName: action.newFormName,
-      };
-    }
-    case ADD_NEW_FORM: {
-      return {
-        ...state,
-        forms: [...state.forms, action.newForm],
-      };
-    }
-    case ADD_TEXT_INPUT_FIELD: {
-      return {
-        ...state,
-        forms: [...state.forms, action.inputTextField],
-      };
-    }
-    case CLEAR_CURRENT_FORM: {
-      return {
-        ...state,
-        newFormName: "",
-      };
-    }
-    default:
-      return state;
-  }
-}
+export default initialState;

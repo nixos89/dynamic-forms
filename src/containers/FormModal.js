@@ -2,7 +2,7 @@ import React from "react";
 // import {connect} from "react-redux";
 
 const FormModal = (props) => {
-  // TODO: implement 'FormModal' functional-component
+  // use
 };
 
 export default FormModal;
