@@ -6,25 +6,30 @@ const InputTextAreaComponent = (props) => {
   const { id, value, label } = props;
 
   return (
-    <React.Fragment>
-      <label>{label}</label>
-      <textarea
-        type="textarea"
-        rows={4}
-        cols={30}
-        value={value}
-        onChange={(event) =>
-          props.onEditCurrentTextAreaField(event.target.value, id)
-        }
-      />
-      <br />
-    </React.Fragment>
+    <div className="form-group row">
+      <label htmlFor={id} className="col-sm-3 col-form-label">
+        {label}
+      </label>
+      <div className="col-sm-9">
+        <textarea
+          type="textarea"
+          className="form-control"
+          id={id}
+          rows={3}
+          cols={30}
+          value={value}
+          onChange={(event) =>
+            props.onEditCurrentTextAreaField(event.target.value, id)
+          }
+        />
+      </div>
+    </div>
   );
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // TODO: Step3 - fix this method to work properly with Immutable.js data!
+    // TODO: Step1 - fix this method to work properly with Immutable.js data!
     onEditCurrentTextAreaField(inputTextAreaFieldValue, id) {
       dispatch(actions.editCurrentTextAreaField(inputTextAreaFieldValue, id));
     },

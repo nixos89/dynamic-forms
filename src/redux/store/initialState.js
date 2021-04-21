@@ -5,7 +5,7 @@ import {
 } from "../actions/actionTypes";
 
 const im_initialState = fromJS({
-  message: "Var så snill opprett skjemaer",
+  message: "Vær så snill opprett skjemaer",
   // use List and Map from Immutable.js library
   newFormName: "",
   showModal: false,

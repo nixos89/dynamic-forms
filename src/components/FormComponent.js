@@ -22,8 +22,8 @@ function FormComponent(props) {
   const { formName, formElements, id } = props;
 
   return (
-    <div className="form-group">
-      <h3>{formName}</h3>
+    <div className="form-group form-row">
+      <legend style={{ padding: "20px" }}>{formName}</legend>
       <ul>
         {formElements.map((formElement, index) => {
           const id = formElement.get("id");
@@ -35,7 +35,7 @@ function FormComponent(props) {
             case "ADD_TEXT_INPUT_FIELD":
               return (
                 <InputTextComponent
-                  key={id}
+                  key={index}
                   id={id}
                   label={label}
                   value={value}
@@ -44,7 +44,7 @@ function FormComponent(props) {
             case "ADD_TEXTAREA_INPUT_FIELD":
               return (
                 <InputTextAreaComponent
-                  key={id}
+                  key={index}
                   id={id}
                   label={label}
                   value={value}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { List } from "immutable";
@@ -18,6 +18,9 @@ const customStyles = {
   },
 };
 
+// IMPORTANT: Must be set in order for react-modal.Modal to work!
+Modal.setAppElement("#root");
+
 const MainContent = (props) => {
   const {
     message,
@@ -29,8 +32,9 @@ const MainContent = (props) => {
   } = props;
 
   let subtitle = "Subtitle const";
-  /* TODO: Check should you use 'useSelector' method instead of 'useState'. More at:
-   *   https://react-redux.js.org/api/hooks#useselector*/
+  let messageForNewFieldForms =
+    "Newly created form fields will be placed HERE!";
+  /* TODO: Maybe 'useSelector': https://react-redux.js.org/api/hooks#useselector */
   const [modalIsOpen, setIsOpen] = useState(false);
 
   const openModal = () => {
@@ -40,7 +44,7 @@ const MainContent = (props) => {
 
   const afterOpenModal = () => {
     // references are now sync'd and can be accessed.
-    subtitle.style.color = "#f00";
+    subtitle.style.color = "blue";
   };
 
   const closeModal = () => {
@@ -69,13 +73,10 @@ const MainContent = (props) => {
 
   return (
     <main id="main">
-      {Modal.setAppElement("#root")}
       <hr />
-
       <button className="btn btn-success" onClick={() => openModal()}>
         Nytt Skjema
       </button>
-
       {/* react-modal::START*/}
       <Modal
         isOpen={modalIsOpen}
@@ -85,19 +86,43 @@ const MainContent = (props) => {
         style={customStyles}
         contentLabel="Example Modal"
       >
-        <h2 ref={(_subtitle) => (subtitle = _subtitle)}>{message}</h2>
-        <button onClick={closeModal}>close</button>
-        <div>
-          <h2>Second h2</h2>
+        <button
+          type="button"
+          className="close"
+          aria-label="Close"
+          onClick={closeModal}
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <div className="modal-header">
+          <h2 ref={(_subtitle) => (subtitle = _subtitle)}>{message}</h2>
         </div>
-        <form>
-          <input />
-          <select id="selectInputType">
-            <option value="textField">Text Field</option>
-            <option value="textAreaField">Textarea Field</option>
-          </select>
-          <button className="btn btn-primary">Tab navigation</button>
-        </form>
+        <div className="modal-body">
+          <form>
+            <div className="form-row align-items-center">
+              <div className="col-auto">
+                <input
+                  type="text"
+                  className="form-control mb-2"
+                  placeholder="Felt navn"
+                />
+              </div>
+              <div className="col-auto">
+                <select id="selectInputType" className="custom-select">
+                  <option value="textField">Text Field</option>
+                  <option value="textAreaField">TextArea Field</option>
+                </select>
+              </div>
+              <button className="btn btn-primary">Leg til felt</button>
+            </div>
+          </form>
+        </div>
+        <div className="modal-footer">
+          <p style={{ color: "red", fontWeight: "bold" }}>
+            {messageForNewFieldForms}
+          </p>
+        </div>
+        {/* TODO: Step3 - Place here NEWLY CREATED form fields */}
       </Modal>
       {/* react-modal::END*/}
 

@@ -6,11 +6,20 @@ const InputTextComponent = (props) => {
   const { value, label, id } = props;
 
   return (
-    <React.Fragment>
-      <label>{label}</label>
-      <input type="text" value={value} onChange={(f) => f} />
-      <br />
-    </React.Fragment>
+    <div className="form-group row">
+      <label htmlFor={id} className="col-sm-3 col-form-label">
+        {label}
+      </label>{" "}
+      <div className="col-sm-9">
+        <input
+          type="text"
+          id={id}
+          className="form-control"
+          value={value}
+          onChange={(f) => f}
+        />
+      </div>
+    </div>
   );
 };
 

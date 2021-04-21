@@ -6,10 +6,10 @@ import {
 import im_initialState from "./initialState";
 
 export function editingReducer(state = im_initialState, action) {
-  /* TODO: Refactor 'editingReducer' methods to be compatible to work with Immutable.js objects! */
-
-  // state.get("forms").flatMap(value => console.log("(in da flatMap) value.get('id'):", value.get("id")));
-  // console.log("(in da 'editingReducer') forms:", forms);
+  /* TODO: Refactor 'addingReducer' methods to be compatible to work with
+      Immutable.js objects -> 'state.forms' needs to be iterable!!!
+      1 Idea: access fields by passing IDs of each element (forms' ID,
+      formElements' ID) so it know EXACTLY which field to change!!! */
   switch (action.type) {
     case EDIT_INPUT_TEXT_FIELD:
       return {
@@ -20,7 +20,7 @@ export function editingReducer(state = im_initialState, action) {
       return {
         ...state,
         forms: [
-          ...state.get("forms"),
+          ...state.get("forms").get("formElements.0"),
           action.inputTextAreaFieldValue,
           action.id,
         ],
