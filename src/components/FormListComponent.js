@@ -1,14 +1,23 @@
 import React, { Component } from "react";
 import FormComponent from "./FormComponent";
 
+/* HELPER function for debugging purpose */
+function printToConsole(formComponent, formElements) {
+  console.log(
+    "(in da 1st return(..) of FormListComponent) formComponent:",
+    formComponent,
+    "\n(in da 1st return(..) of FormListComponent)" +
+      " formComponent.get('formElements'):",
+    formElements
+  );
+}
+
 class FormListComponent extends Component {
   render() {
-    console.log("this.props.forms:", this.props.forms);
-
     return (
       <React.Fragment>
         {this.props.forms.map((formComponent, index) => {
-          console.log("formComponent:", formComponent);
+          // printToConsole(formComponent, formComponent.get("formElements"));
           return (
             <FormComponent
               key={index}
@@ -22,6 +31,5 @@ class FormListComponent extends Component {
     );
   }
 }
-
 
 export default FormListComponent;

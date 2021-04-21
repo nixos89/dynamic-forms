@@ -1,14 +1,14 @@
+import { fromJS } from "immutable";
 import {
   ADD_TEXT_INPUT_FIELD,
   ADD_TEXTAREA_INPUT_FIELD,
 } from "../actions/actionTypes";
 
-/** TODO: review initialState for complex data maybe take a look here:
- *  https://stackoverflow.com/q/37980109/6805866 */
-const initialState = {
+const im_initialState = fromJS({
   message: "Var så snill opprett skjemaer",
   // use List and Map from Immutable.js library
   newFormName: "",
+  showModal: false,
   forms: [
     {
       //form-object-0
@@ -36,6 +36,6 @@ const initialState = {
       ],
     },
   ],
-};
+});
 
-export default initialState;
+export default im_initialState;

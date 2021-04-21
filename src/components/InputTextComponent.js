@@ -1,15 +1,25 @@
 import React, { useState } from "react";
+import { actions } from "../redux/actions/actions";
+import { connect } from "react-redux";
 
 const InputTextComponent = (props) => {
-  const [elements] = useState(props);
+  const { value, label, id } = props;
 
   return (
     <React.Fragment>
-      <label>{elements.label}</label>
-      <input type="text" value={elements.value} onChange={(f) => f} />
+      <label>{label}</label>
+      <input type="text" value={value} onChange={(f) => f} />
       <br />
     </React.Fragment>
   );
 };
 
-export default InputTextComponent;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onEditCurrentTextField(inputTextAreaFieldValue, id) {
+      dispatch(actions.editCurrentTextField(inputTextAreaFieldValue, id));
+    },
+  };
+};
+
+export default connect(null, mapDispatchToProps)(InputTextComponent);

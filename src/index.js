@@ -1,15 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import reportWebVitals from "./reportWebVitals";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import App from "./App";
-import { createStore, applyMiddleware, compose } from "redux";
+import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import { Provider } from "react-redux";
-import { reducer } from "./redux/store/reducers";
-import reportWebVitals from "./reportWebVitals";
+import { addingReducer } from "./redux/store/addingReducers";
+import { editingReducer } from "./redux/store/editingReducer";
 import { logger } from "redux-logger/src";
 
+const rootReducer = combineReducers({
+  addingReducer: addingReducer,
+  editingReducer: editingReducer,
+});
+
 const createdStore = createStore(
-  reducer,
+  rootReducer,
   compose(
     applyMiddleware(logger),
     window.__REDUX_DEVTOOLS_EXTENSION__

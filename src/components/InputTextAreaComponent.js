@@ -1,18 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { actions } from "../redux/actions/actions";
 
 const InputTextAreaComponent = (props) => {
+  const { id, value, label } = props;
+
   return (
     <React.Fragment>
-      <label>{props.label}</label>
+      <label>{label}</label>
       <textarea
         type="textarea"
         rows={4}
         cols={30}
-        value={props.value}
-        onChange={(event, id) =>
-          props.onChangeInputTextArea(event.target.value, props.id)
+        value={value}
+        onChange={(event) =>
+          props.onEditCurrentTextAreaField(event.target.value, id)
         }
       />
       <br />
@@ -20,19 +22,13 @@ const InputTextAreaComponent = (props) => {
   );
 };
 
-// const mapStateToProps = (state) => {
-//   return {
-//     value: state.value,
-//     label: state.label
-//   }
-// }
-
 const mapDispatchToProps = (dispatch) => {
   return {
-    onChangeInputTextArea(inputTextAreaFieldValue, id) {
-      dispatch(actions.addTextAreaInputField(inputTextAreaFieldValue, id));
+    // TODO: Step3 - fix this method to work properly with Immutable.js data!
+    onEditCurrentTextAreaField(inputTextAreaFieldValue, id) {
+      dispatch(actions.editCurrentTextAreaField(inputTextAreaFieldValue, id));
     },
   };
 };
 
-export default connect(mapDispatchToProps)(InputTextAreaComponent);
+export default connect(null, mapDispatchToProps)(InputTextAreaComponent);

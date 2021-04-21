@@ -6,42 +6,57 @@ import {
 } from "../redux/actions/actionTypes";
 import InputTextAreaComponent from "./InputTextAreaComponent";
 
-class FormComponent extends Component {
-  render() {
-    console.log("formElements:", this.props.formElements);
-    return (
-      <div className="form-group">
-        <h2>{this.props.formName}</h2>
-        <ul>
-          {this.props.formElements.map((formElement) => {
-            switch (formElement.formElementType) {
-              case ADD_TEXT_INPUT_FIELD:
-                return (
-                  <InputTextComponent
-                    key={formElement.id}
-                    // key={index}
-                    label={formElement.label}
-                    value={formElement.value}
-                  />
-                );
-              case ADD_TEXTAREA_INPUT_FIELD:
-                return (
-                  <InputTextAreaComponent
-                    key={formElement.id}
-                    id={formElement.id}
-                    // key={index}
-                    label={formElement.label}
-                    value={formElement.value}
-                  />
-                );
-              default:
-                break;
-            }
-          })}
-        </ul>
-      </div>
-    );
-  }
+/* HELPER function for debugging purpose */
+function printOnConsole(id, formElementType, label) {
+  console.log(
+    "(in da FormComponent-render) formElement.get('id'):",
+    id,
+    "\nformElement.get('formElementType'):",
+    formElementType,
+    "\n(in da FormComponent-render) formElement.get('label'):",
+    label
+  );
+}
+
+function FormComponent(props) {
+  const { formName, formElements, id } = props;
+
+  return (
+    <div className="form-group">
+      <h3>{formName}</h3>
+      <ul>
+        {formElements.map((formElement, index) => {
+          const id = formElement.get("id");
+          const label = formElement.get("label");
+          const value = formElement.get("value");
+          const formElementType = formElement.get("formElementType");
+          // printOnConsole(id, formElementType, label);
+          switch (formElementType) {
+            case "ADD_TEXT_INPUT_FIELD":
+              return (
+                <InputTextComponent
+                  key={id}
+                  id={id}
+                  label={label}
+                  value={value}
+                />
+              );
+            case "ADD_TEXTAREA_INPUT_FIELD":
+              return (
+                <InputTextAreaComponent
+                  key={id}
+                  id={id}
+                  label={label}
+                  value={value}
+                />
+              );
+            default:
+              break;
+          }
+        })}
+      </ul>
+    </div>
+  );
 }
 
 export default FormComponent;
