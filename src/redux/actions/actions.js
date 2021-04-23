@@ -15,54 +15,61 @@ import {
   SHOW_FORM_MODAL,
 } from "./actionTypes";
 
-export const actions = {
-  newFormChanged(newFormName) {
-    return {
-      type: ADD_NEW_FORM_CHANGED,
-      newFormName,
-    };
-  },
-  addNewForm(newForm) {
-    return {
-      type: ADD_NEW_FORM,
-      newForm,
-    };
-  },
-  addTextInputField(inputTextField) {
-    return {
-      type: ADD_TEXT_INPUT_FIELD,
-      inputTextField,
-    };
-  },
-  addTextAreaInputField(inputTextAreaField) {
-    return {
-      type: ADD_TEXTAREA_INPUT_FIELD,
-      inputTextAreaField,
-    };
-  },
-  editCurrentTextField(inputTextFieldValue, id) {
-    return {
-      type: EDIT_INPUT_TEXT_FIELD,
-      inputTextFieldValue,
-      id,
-    };
-  },
-  editCurrentTextAreaField(inputTextAreaFieldValue, id) {
-    return {
-      type: EDIT_INPUT_TEXTAREA_FIELD,
-      inputTextAreaFieldValue,
-      id,
-    };
-  },
-  showFormModal(clicked) {
-    return {
-      type: SHOW_FORM_MODAL,
-      clicked,
-    };
-  },
-  clearCurrentForm() {
-    return {
-      type: CLEAR_CURRENT_FORM,
-    };
-  },
+/* TODO: Step1 - Check Milos I. fieldAction.js payload examples in that file and
+ *   where those same arrow funcs are being used!!! */
+export const newFormChanged = (newFormName) => {
+  return {
+    type: ADD_NEW_FORM_CHANGED,
+    newFormName,
+  };
+};
+
+export const addNewForm = (newForm) => {
+  return {
+    type: ADD_NEW_FORM,
+    newForm,
+  };
+};
+
+export const addTextInputField = (inputTextField) => {
+  return {
+    type: ADD_TEXT_INPUT_FIELD,
+    inputTextField,
+  };
+};
+
+export const addTextAreaInputField = (inputTextAreaField) => {
+  return {
+    type: ADD_TEXTAREA_INPUT_FIELD,
+    inputTextAreaField,
+  };
+};
+
+export const editCurrentTextField = (inputTextFieldValue, id) => {
+  return {
+    type: EDIT_INPUT_TEXT_FIELD,
+    inputTextFieldValue,
+    id,
+  };
+};
+
+export const editCurrentTextAreaField = (id, inputTextAreaFieldValue) => {
+  return {
+    type: EDIT_INPUT_TEXTAREA_FIELD,
+    id,
+    inputTextAreaFieldValue,
+  };
+};
+
+export const showFormModal = (clicked) => {
+  return {
+    type: SHOW_FORM_MODAL,
+    clicked,
+  };
+};
+
+export const clearCurrentForm = () => {
+  return {
+    type: CLEAR_CURRENT_FORM,
+  };
 };

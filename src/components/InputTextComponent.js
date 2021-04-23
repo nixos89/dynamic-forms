@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { actions } from "../redux/actions/actions";
+import { editCurrentTextField } from "../redux/actions/actions";
 import { connect } from "react-redux";
 
 const InputTextComponent = (props) => {
@@ -26,7 +26,7 @@ const InputTextComponent = (props) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onEditCurrentTextField(inputTextAreaFieldValue, id) {
-      dispatch(actions.editCurrentTextField(inputTextAreaFieldValue, id));
+      dispatch(editCurrentTextField(inputTextAreaFieldValue, id));
     },
   };
 };

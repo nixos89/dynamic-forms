@@ -8,6 +8,8 @@ import {
 
 import im_initialState from "./initialState";
 
+function changeNewFormName(state, newFormName) {}
+
 export function addingReducer(state = im_initialState, action) {
   /* TODO: Refactor 'addingReducer' methods to be compatible to work with
       Immutable.js objects -> 'state.forms' needs to be iterable!!! */

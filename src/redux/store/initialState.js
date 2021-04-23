@@ -5,6 +5,7 @@ import {
 } from "../actions/actionTypes";
 
 const im_initialState = fromJS({
+  appName: "Nikolas søknad om dynamiske skjemaer",
   message: "Vær så snill opprett skjemaer",
   // use List and Map from Immutable.js library
   newFormName: "",
@@ -31,7 +32,7 @@ const im_initialState = fromJS({
           id: 3,
           formElementType: ADD_TEXTAREA_INPUT_FIELD,
           label: "Info",
-          value: "Jeg heter Nikola. Hva heter du? ",
+          value: "Jeg heter Nikola. H va heter du? ",
         },
       ],
     },

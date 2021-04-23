@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { actions } from "../redux/actions/actions";
+import { editCurrentTextAreaField } from "../redux/actions/actions";
 
 const InputTextAreaComponent = (props) => {
   const { id, value, label } = props;
@@ -19,7 +19,7 @@ const InputTextAreaComponent = (props) => {
           cols={30}
           value={value}
           onChange={(event) =>
-            props.onEditCurrentTextAreaField(event.target.value, id)
+            props.onEditCurrentTextAreaField(id, event.target.value)
           }
         />
       </div>
@@ -29,9 +29,9 @@ const InputTextAreaComponent = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // TODO: Step1 - fix this method to work properly with Immutable.js data!
-    onEditCurrentTextAreaField(inputTextAreaFieldValue, id) {
-      dispatch(actions.editCurrentTextAreaField(inputTextAreaFieldValue, id));
+    // TODO: Step2 - fix this method to work properly with Immutable.js data!
+    onEditCurrentTextAreaField(id, inputTextAreaFieldValue) {
+      dispatch(editCurrentTextAreaField(id, inputTextAreaFieldValue));
     },
   };
 };

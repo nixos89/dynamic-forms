@@ -3,7 +3,11 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { List } from "immutable";
 import PropTypes from "prop-types";
-import { actions } from "../redux/actions/actions";
+import {
+  newFormChanged,
+  addNewForm,
+  clearCurrentForm,
+} from "../redux/actions/actions";
 import FormListComponent from "../components/FormListComponent";
 import Modal from "react-modal";
 
@@ -51,10 +55,8 @@ const MainContent = (props) => {
     setIsOpen(false);
   };
 
-  // saving changes for NEWLY CREATED form!
-  // const [saveChanges, setSaveChanges] = useState(List[{}]);
-
-  // NOTE: Use Memoization to FIX 'formSubmitted' and 'resetForm' functions!
+  // NOTE: Use Memoization to FIX 'formSubmitted' and 'resetForm'
+  // functions!
   const formSubmitted = (e) => {
     e.preventDefault();
     console.log("========== User has submitted values! ==========");
@@ -156,21 +158,22 @@ const MainContent = (props) => {
 
 function mapStateToProps(state) {
   const { addingReducer, editingReducer } = state;
+  console.log("(in da mapStateToProps) editingReducer:", editingReducer);
   return {
     message: editingReducer.get("message"),
     newFormName: editingReducer.get("newFormName"),
     forms: editingReducer.get("forms"),
-    modalTitle: "Nytt Skjema - modalTitle",
     show: addingReducer.get("showModal"),
+    modalTitle: "Nytt Skjema - modalTitle",
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      newFormChanged: actions.newFormChanged,
-      addNewForm: actions.addNewForm,
-      clearCurrentForm: actions.clearCurrentForm,
+      newFormChanged: newFormChanged,
+      addNewForm: addNewForm,
+      clearCurrentForm: clearCurrentForm,
     },
     dispatch
   );
