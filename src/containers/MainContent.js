@@ -22,13 +22,13 @@ const customStyles = {
   },
 };
 
-// IMPORTANT: Must be set in order for react-modal.Modal to work!
+/* TODO: Step1b - IMPORTANT: Must be set in order for react-modal.Modal to work!
+    BTW, if necessary move it into CreateFormModalComponent.js file */
 Modal.setAppElement("#root");
 
 const MainContent = (props) => {
   const {
     message,
-    modalTitle,
     addNewForm,
     newFormChanged,
     clearCurrentForm,
@@ -38,7 +38,7 @@ const MainContent = (props) => {
   let subtitle = "Subtitle const";
   let messageForNewFieldForms =
     "Newly created form fields will be placed HERE!";
-  /* TODO: Maybe 'useSelector': https://react-redux.js.org/api/hooks#useselector */
+  /* Maybe 'useSelector': https://react-redux.js.org/api/hooks#useselector */
   const [modalIsOpen, setIsOpen] = useState(false);
 
   const openModal = () => {
@@ -124,7 +124,7 @@ const MainContent = (props) => {
             {messageForNewFieldForms}
           </p>
         </div>
-        {/* TODO: Step3 - Place here NEWLY CREATED form fields */}
+        {/* TODO: Step4 - Place here NEWLY CREATED form fields */}
       </Modal>
       {/* react-modal::END*/}
 
@@ -140,7 +140,7 @@ const MainContent = (props) => {
           &nbsp;
           <button className="btn btn-primary">Sende in</button>
           &nbsp;
-          <button className="btn btn-danger" onClick={() => resetForm}>
+          <button className="btn btn-danger" onClick={() => resetForm()}>
             Nullstille
           </button>
           &nbsp;
@@ -158,10 +158,9 @@ const MainContent = (props) => {
 
 function mapStateToProps(state) {
   const { addingReducer, editingReducer } = state;
-  console.log("(in da mapStateToProps) editingReducer:", editingReducer);
   return {
     message: editingReducer.get("message"),
-    newFormName: editingReducer.get("newFormName"),
+    newFormName: addingReducer.get("newFormName"),
     forms: editingReducer.get("forms"),
     show: addingReducer.get("showModal"),
     modalTitle: "Nytt Skjema - modalTitle",
@@ -179,8 +178,7 @@ function mapDispatchToProps(dispatch) {
   );
 }
 
-/** TODO: Read and implement properly by following article:
- * https://reactjs.org/docs/typechecking-with-proptypes.html */
+// More at: https://reactjs.org/docs/typechecking-with-proptypes.html
 MainContent.propTypes = {
   message: PropTypes.string,
   newFormName: PropTypes.string,

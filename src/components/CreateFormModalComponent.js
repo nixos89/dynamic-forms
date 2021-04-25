@@ -12,6 +12,8 @@ const customStyles = {
   },
 };
 
+/* TODO: Step1a - Extract react-modal from MainContent.js into this
+    file and make it work! */
 const CreateFormModalComponent = (props) => {
   const { message, openModal } = props;
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -78,6 +80,7 @@ const CreateFormModalComponent = (props) => {
           {messageForNewFieldForms}
         </p>
       </div>
+      {/* TODO: Step4 - Place here NEWLY CREATED form fields */}
     </Modal>
   );
 };

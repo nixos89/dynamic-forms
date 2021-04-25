@@ -15,8 +15,7 @@ import {
   SHOW_FORM_MODAL,
 } from "./actionTypes";
 
-/* TODO: Step1 - Check Milos I. fieldAction.js payload examples in that file and
- *   where those same arrow funcs are being used!!! */
+
 export const newFormChanged = (newFormName) => {
   return {
     type: ADD_NEW_FORM_CHANGED,
@@ -45,21 +44,24 @@ export const addTextAreaInputField = (inputTextAreaField) => {
   };
 };
 
-export const editCurrentTextField = (inputTextFieldValue, id) => {
-  return {
-    type: EDIT_INPUT_TEXT_FIELD,
-    inputTextFieldValue,
-    id,
-  };
-};
+export const editCurrentTextField = (id, formId, formElementTypeTIF, inputTextFieldValue) => ({
+  type: EDIT_INPUT_TEXT_FIELD,
+  payload: {
+    id: id,
+    formId: formId,
+    formElementTypeTIF: formElementTypeTIF,
+    inputTextFieldValue: inputTextFieldValue,
+  },
+});
 
-export const editCurrentTextAreaField = (id, inputTextAreaFieldValue) => {
-  return {
-    type: EDIT_INPUT_TEXTAREA_FIELD,
-    id,
-    inputTextAreaFieldValue,
-  };
-};
+export const editCurrentTextAreaField = (id, formId, formElementTypeTAIF,
+                                         inputTextAreaFieldValue) => ({
+  type: EDIT_INPUT_TEXTAREA_FIELD,
+  id,
+  formId,
+  formElementTypeTAIF,
+  inputTextAreaFieldValue,
+});
 
 export const showFormModal = (clicked) => {
   return {

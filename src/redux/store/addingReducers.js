@@ -8,18 +8,15 @@ import {
 
 import im_initialState from "./initialState";
 
-function changeNewFormName(state, newFormName) {}
-
 export function addingReducer(state = im_initialState, action) {
-  /* TODO: Refactor 'addingReducer' methods to be compatible to work with
+  /* TODO: Step2 - Refactor 'addingReducer' methods to be compatible to work with
       Immutable.js objects -> 'state.forms' needs to be iterable!!! */
 
   switch (action.type) {
     case ADD_NEW_FORM_CHANGED: {
-      return {
-        ...state,
-        state: action.newFormName,
-      };
+      const newState = state.set("newFormName", action.newForm);
+      console.log("(in da case-ADD_NEW_FORM_CHANGED) newState:", newState);
+      return newState;
     }
     case ADD_NEW_FORM: {
       return {
@@ -33,23 +30,18 @@ export function addingReducer(state = im_initialState, action) {
         forms: [...state.get("forms"), action.inputTextField],
       };
     }
-    case ADD_TEXTAREA_INPUT_FIELD:
-      {
-        return {
-          ...state,
-          forms: [...state.get("forms"), action.inputTextAreaField],
-        };
-      }
-      {
-        /* SHOW_FORM_MODAL is sufficient since LOCAL state is being used in MainComponent! */
-      }
+    case ADD_TEXTAREA_INPUT_FIELD: {
+      return {
+        ...state,
+        forms: [...state.get("forms"), action.inputTextAreaField],
+      };
+    }
     case SHOW_FORM_MODAL: {
       return {
         ...state,
         showModal: true,
       };
     }
-
     default:
       return state;
   }
