@@ -11,7 +11,6 @@ import im_initialState from "./initialState";
 export function addingReducer(state = im_initialState, action) {
   /* TODO: Step2 - Refactor 'addingReducer' methods to be compatible to work with
       Immutable.js objects -> 'state.forms' needs to be iterable!!! */
-
   switch (action.type) {
     case ADD_NEW_FORM_CHANGED: {
       const newState = state.set("newFormName", action.newForm);
@@ -19,22 +18,16 @@ export function addingReducer(state = im_initialState, action) {
       return newState;
     }
     case ADD_NEW_FORM: {
-      return {
-        ...state,
-        forms: [...state.get("forms"), action.newForm],
-      };
+      const newState = state;
+      return newState;
     }
     case ADD_TEXT_INPUT_FIELD: {
-      return {
-        ...state,
-        forms: [...state.get("forms"), action.inputTextField],
-      };
+      const newState = state;
+      return newState;
     }
     case ADD_TEXTAREA_INPUT_FIELD: {
-      return {
-        ...state,
-        forms: [...state.get("forms"), action.inputTextAreaField],
-      };
+      const newState = state;
+      return newState;
     }
     case SHOW_FORM_MODAL: {
       const res = state.setIn("showModal", true);

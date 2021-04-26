@@ -1,6 +1,5 @@
 import {
-  CLEAR_CURRENT_FORM,
-  EDIT_INPUT_TEXT_FIELD,
+  DELETE_FORM, EDIT_INPUT_TEXT_FIELD,
   EDIT_INPUT_TEXTAREA_FIELD,
 } from "../actions/actionTypes";
 import im_initialState from "./initialState";
@@ -44,11 +43,11 @@ export function editingReducer(state = im_initialState, action) {
         inputTextAreaFieldValue
       );
     }
-    case CLEAR_CURRENT_FORM: {
-      return {
-        ...state,
-        newFormName: "",
-      };
+    case DELETE_FORM: {
+      const {formId} = action;
+      const formIndex = getFormIndex(state, formId);
+      const updatedState = state.delete("forms", formIndex);
+      return updatedState;
     }
     default: {
       return state;

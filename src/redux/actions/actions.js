@@ -10,7 +10,7 @@ import {
   // FILL_FORM,
   // EDIT_FORM,
   // DELETE_FORM,
-  CLEAR_CURRENT_FORM,
+  CLEAR_CURRENT_FORM, DELETE_FORM,
 } from "./actionTypes";
 
 
@@ -82,3 +82,10 @@ export const clearCurrentForm = () => {
     type: CLEAR_CURRENT_FORM,
   };
 };
+
+export const deleteForm = (formId) => ({
+  type: DELETE_FORM,
+  payload: {
+    formId: formId
+  }
+});
