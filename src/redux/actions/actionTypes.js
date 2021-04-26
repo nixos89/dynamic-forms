@@ -1,10 +1,11 @@
+/* TIP: use https://www.npmjs.com/package/keymirror lib in order to
+simplify creation of same-named key-value pairs */
 const ADD_NEW_FORM_CHANGED = "ADD_NEW_FORM_CHANGED";
 const ADD_NEW_FORM = "ADD_NEW_FORM";
 const ADD_TEXT_INPUT_FIELD = "ADD_TEXT_INPUT_FIELD";
 const ADD_TEXTAREA_INPUT_FIELD = "ADD_TEXTAREA_INPUT_FIELD";
 const EDIT_INPUT_TEXT_FIELD = "EDIT_INPUT_TEXT_FIELD";
 const EDIT_INPUT_TEXTAREA_FIELD = "EDIT_INPUT_TEXTAREA_FIELD";
-// const ADD_NUMBER_INPUT_FIELD = "ADD_NUMBER_INPUT_FIELD";
 const SHOW_FORM_MODAL = "SHOW_FORM_MODAL";
 const HIDE_FORM_MODAL = "HIDE_FORM_MODAL";
 // const FILL_FORM = "FILL_FORM";

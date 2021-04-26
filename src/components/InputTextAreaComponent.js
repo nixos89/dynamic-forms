@@ -1,9 +1,9 @@
 import React from "react";
 import {connect} from "react-redux";
-import { editCurrentTextAreaField } from "../redux/actions/actions";
+import {editCurrentTextAreaField} from "../redux/actions/actions";
 
 const InputTextAreaComponent = (props) => {
-  const {id, value, formId, label, formElementTypeTAIF} = props;
+  const {key, id, value, formId, label, formElementTypeTAIF} = props;
 
   return (
     <React.Fragment>
@@ -21,7 +21,8 @@ const InputTextAreaComponent = (props) => {
             cols={30}
             value={value}
             onChange={(event) =>
-              props.onEditCurrentTextAreaField(id, formId, formElementTypeTAIF, event.target.value)
+              props.onEditCurrentTextAreaField(key, id, formId, formElementTypeTAIF,
+                event.target.value)
             }
           />
         </div>
@@ -32,8 +33,9 @@ const InputTextAreaComponent = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onEditCurrentTextAreaField(id, formId, formElementTypeTAIF, inputTextAreaFieldValue) {
-      dispatch(editCurrentTextAreaField(id, formId, formElementTypeTAIF, inputTextAreaFieldValue));
+    onEditCurrentTextAreaField(key, id, formId, formElementTypeTAIF, inputTextAreaFieldValue) {
+      dispatch(editCurrentTextAreaField(key, id, formId, formElementTypeTAIF,
+        inputTextAreaFieldValue));
     },
   };
 };

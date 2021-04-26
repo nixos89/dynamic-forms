@@ -5,6 +5,12 @@ import {
 } from "../actions/actionTypes";
 import im_initialState from "./initialState";
 
+function getFormIndex(state, formId) {
+  return state
+    .get("forms")
+    .findIndex((im_form) => im_form.get("id") === formId);
+}
+
 function indexOfFormElementFunction(state, formId, elementId) {
   console.log("(in da indexOfFormElementFunction): formId =", formId);
   console.log("(in da indexOfFormElementFunction): elementId =", elementId);
@@ -18,40 +24,21 @@ function indexOfFormElementFunction(state, formId, elementId) {
 }
 
 export function editingReducer(state = im_initialState, action) {
-  /* TODO: IMPORTANT - Fix editing issues with folowwing action.typeS:
-       EDIT_INPUT_TEXT_FIELD and EDIT_INPUT_TEXTAREA_FIELD */
   switch (action.type) {
     case EDIT_INPUT_TEXT_FIELD: {
-      const {id, formId, inputTextFieldValue, formElementTypeTIF} = action.payload;
-      console.log("======== in da case EDIT_INPUT_TEXT_FIELD::START =======");
-      console.log("action.type:", action.type, "\nid:", id, "\nformId:", formId,
-        "\ninputTextFieldValue:", inputTextFieldValue
-      );
-      console.log("state:", state);
-      const realFormId = formId - 1;
-      const indexOfFormEl = indexOfFormElementFunction(state, realFormId, id);
+      const {id: elementId, formId, inputTextFieldValue} = action.payload;
+      const formIndex = getFormIndex(state, formId);
+      const indexOfFormEl = indexOfFormElementFunction(state, formId, elementId);
 
-      console.log(
-        'state.getIn(["forms", realFormId, "formElements",indexOfFormEl, "formElementType"], formElementType):',
-        state.getIn(["forms", realFormId, "formElements", indexOfFormEl, "formElementType"],
-          formElementTypeTIF));
-      console.log("======== in da case EDIT_INPUT_TEXT_FIELD::END =======");
-
-      return state.setIn(["forms", realFormId, "formElements", indexOfFormEl, "value"],
+      return state.setIn(["forms", formIndex, "formElements", indexOfFormEl, "value"],
         inputTextFieldValue
       );
     }
     case EDIT_INPUT_TEXTAREA_FIELD: {
-      const {id, formId, inputTextAreaFieldValue, formElementTypeTAIF} = action;
-      const realFormId = formId - 1;
+      const {id: elementId, formId, inputTextAreaFieldValue} = action.payload;
+      const formIndex = getFormIndex(state, formId);
+      const indexOfFormEl = indexOfFormElementFunction(state, formId, elementId);
 
-      const indexOfITAF = indexOfFormElementFunction(state, realFormId, id);
-      console.log("======== in da case EDIT_INPUT_TEXTAREA_FIELD::START =======");
-      console.log(
-        'state.getIn(["forms", realFormId, "formElements",indexOfFormEl, "formElementType"], formElementType):',
-        state.getIn(["forms", realFormId, "formElements", indexOfITAF, "formElementType"],
-          formElementTypeTAIF));
-      console.log("======== in da case EDIT_INPUT_TEXTAREA_FIELD::END =======");
       return state.setIn(
         ["forms", realFormId, "formElements", indexOfITAF, "value"],
         inputTextAreaFieldValue

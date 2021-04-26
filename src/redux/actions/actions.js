@@ -5,14 +5,12 @@ import {
   ADD_TEXTAREA_INPUT_FIELD,
   EDIT_INPUT_TEXT_FIELD,
   EDIT_INPUT_TEXTAREA_FIELD,
-  // ADD_NUMBER_INPUT_FIELD,
-  // SHOW_FORM_MODAL,
-  // HIDE_FORM_MODAL,
+  SHOW_FORM_MODAL,
+  HIDE_FORM_MODAL,
   // FILL_FORM,
   // EDIT_FORM,
   // DELETE_FORM,
   CLEAR_CURRENT_FORM,
-  SHOW_FORM_MODAL,
 } from "./actionTypes";
 
 
@@ -44,31 +42,40 @@ export const addTextAreaInputField = (inputTextAreaField) => {
   };
 };
 
-export const editCurrentTextField = (id, formId, formElementTypeTIF, inputTextFieldValue) => ({
+export const editCurrentTextField = (key, id, formId, formElementTypeTIF, inputTextFieldValue) => ({
   type: EDIT_INPUT_TEXT_FIELD,
   payload: {
     id: id,
     formId: formId,
+    key: key,
     formElementTypeTIF: formElementTypeTIF,
     inputTextFieldValue: inputTextFieldValue,
   },
 });
 
-export const editCurrentTextAreaField = (id, formId, formElementTypeTAIF,
+export const editCurrentTextAreaField = (key, id, formId, formElementTypeTAIF,
                                          inputTextAreaFieldValue) => ({
   type: EDIT_INPUT_TEXTAREA_FIELD,
-  id,
-  formId,
-  formElementTypeTAIF,
-  inputTextAreaFieldValue,
+  payload: {
+    key: key,
+    id: id,
+    formId: formId,
+    formElementTypeTAIF: formElementTypeTAIF,
+    inputTextAreaFieldValue: inputTextAreaFieldValue,
+  }
 });
 
-export const showFormModal = (clicked) => {
-  return {
-    type: SHOW_FORM_MODAL,
-    clicked,
-  };
-};
+export const showFormModal = (modalProps, modalType) => ({
+  type: SHOW_FORM_MODAL,
+  payload: {
+    modalProps,
+    modalType
+  }
+});
+
+export const hideFormModal = () => ({
+  type: HIDE_FORM_MODAL
+});
 
 export const clearCurrentForm = () => {
   return {

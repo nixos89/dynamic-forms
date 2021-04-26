@@ -37,10 +37,9 @@ export function addingReducer(state = im_initialState, action) {
       };
     }
     case SHOW_FORM_MODAL: {
-      return {
-        ...state,
-        showModal: true,
-      };
+      const res = state.setIn("showModal", true);
+      console.log("(in da case SHOW_FORM_MODAL) res:", res);
+      return res;
     }
     default:
       return state;

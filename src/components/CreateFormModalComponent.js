@@ -12,19 +12,18 @@ const customStyles = {
   },
 };
 
-/* TODO: Step1a - Extract react-modal from MainContent.js into this
-    file and make it work! */
+/* TODO: Step1A - Extract react-modal from MainContent.js into this
+    file and make it work! Take a look on these links:
+    1) https://www.pluralsight.com/guides/passing-state-of-parent-to-child-component-as-props
+    2) https://medium.com/backticks-tildes/creating-a-modal-component-the-redux-way-cf9f4c5497dd
+    3) https://stackoverflow.com/a/35641680/6805866 */
 const CreateFormModalComponent = (props) => {
-  const { message, openModal } = props;
-  const [modalIsOpen, setIsOpen] = useState(false);
+  const {message, modalIsOpen} = props;
+
   let subtitle = "Subtitle const";
   let messageForNewFieldForms =
     "Newly created form fields will be placed HERE!";
 
-  const onOpenModal = () => {
-    console.log("==== openModal has been invoked! ====");
-    setIsOpen(true);
-  };
 
   const afterOpenModal = () => {
     // references are now sync'd and can be accessed.
@@ -32,7 +31,8 @@ const CreateFormModalComponent = (props) => {
   };
 
   const closeModal = () => {
-    setIsOpen(false);
+    // TODO: Step1B- Solve this problem with passing HOOKs from Parent to Child Component!
+    // setIsOpen(false);
   };
 
   return (
@@ -80,7 +80,7 @@ const CreateFormModalComponent = (props) => {
           {messageForNewFieldForms}
         </p>
       </div>
-      {/* TODO: Step4 - Place here NEWLY CREATED form fields */}
+      {/* TODO: Step3 - Place here NEWLY CREATED form fields */}
     </Modal>
   );
 };

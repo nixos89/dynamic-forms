@@ -22,8 +22,7 @@ const customStyles = {
   },
 };
 
-/* TODO: Step1b - IMPORTANT: Must be set in order for react-modal.Modal to work!
-    BTW, if necessary move it into CreateFormModalComponent.js file */
+
 Modal.setAppElement("#root");
 
 const MainContent = (props) => {
@@ -124,7 +123,6 @@ const MainContent = (props) => {
             {messageForNewFieldForms}
           </p>
         </div>
-        {/* TODO: Step4 - Place here NEWLY CREATED form fields */}
       </Modal>
       {/* react-modal::END*/}
 
@@ -163,7 +161,6 @@ function mapStateToProps(state) {
     newFormName: addingReducer.get("newFormName"),
     forms: editingReducer.get("forms"),
     show: addingReducer.get("showModal"),
-    modalTitle: "Nytt Skjema - modalTitle",
   };
 }
 

@@ -13,7 +13,7 @@ const im_initialState = fromJS({
   forms: [
     {
       //form-object-0
-      id: 1,
+      id: 555,
       formName: "Medarbeidere navn",
       formElements: [
         {
@@ -33,6 +33,31 @@ const im_initialState = fromJS({
           formElementType: ADD_TEXTAREA_INPUT_FIELD,
           label: "Info",
           value: "Jeg heter Nikola. H va heter du? ",
+        },
+      ],
+    },
+    {
+      //form-object-1
+      id: 578,
+      formName: "Ledernavn",
+      formElements: [
+        {
+          id: 1,
+          formElementType: ADD_TEXT_INPUT_FIELD,
+          label: "CEO",
+          value: "Marko Jevtovic",
+        },
+        {
+          id: 2,
+          formElementType: ADD_TEXT_INPUT_FIELD,
+          label: "CTO",
+          value: "Milos Ignjatovic",
+        },
+        {
+          id: 3,
+          formElementType: ADD_TEXT_INPUT_FIELD,
+          label: "CFO",
+          value: "Filip Gacevic",
         },
       ],
     },
