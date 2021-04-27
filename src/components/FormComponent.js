@@ -12,47 +12,49 @@ function FormComponent(props) {
   const {formName, formElements, formId, deleteForm} = props;
 
   return (
-    <div className="form-group form-row">
-      <legend style={{padding: "20px"}}>{formName}</legend>
-      <ul>
-        {formElements.map((formElement, index) => {
-          const id = formElement.get("id");
-          const label = formElement.get("label");
-          const value = formElement.get("value");
-          const formElementType = formElement.get("formElementType");
+    <div>
+      <div className="form-group form-row">
+        <legend style={{padding: "20px"}}>{formName}</legend>
+        <ul>
+          {formElements.map((formElement, index) => {
+            const id = formElement.get("id");
+            const label = formElement.get("label");
+            const value = formElement.get("value");
+            const formElementType = formElement.get("formElementType");
 
-          switch (formElementType) {
-            case ADD_TEXT_INPUT_FIELD: {
-              return (
-                <InputTextComponent
-                  key={index}
-                  id={id}
-                  formId={formId}
-                  formElementTypeTIF={EDIT_INPUT_TEXT_FIELD}
-                  label={label}
-                  value={value}
-                />
-              );
+            switch (formElementType) {
+              case ADD_TEXT_INPUT_FIELD: {
+                return (
+                  <InputTextComponent
+                    key={index}
+                    id={id}
+                    formId={formId}
+                    formElementTypeTIF={EDIT_INPUT_TEXT_FIELD}
+                    label={label}
+                    value={value}
+                  />
+                );
+              }
+              case ADD_TEXTAREA_INPUT_FIELD: {
+                return (
+                  <InputTextAreaComponent
+                    key={index}
+                    id={id}
+                    formId={formId}
+                    formElementTypeTAIF={EDIT_INPUT_TEXTAREA_FIELD}
+                    label={label}
+                    value={value}
+                  />
+                );
+              }
+              default: {
+                return (<p>No input fields added to current from yet!</p>);
+              }
             }
-            case ADD_TEXTAREA_INPUT_FIELD: {
-              return (
-                <InputTextAreaComponent
-                  key={index}
-                  id={id}
-                  formId={formId}
-                  formElementTypeTAIF={EDIT_INPUT_TEXTAREA_FIELD}
-                  label={label}
-                  value={value}
-                />
-              );
-            }
-            default: {
-              return (<p>No input fields added to current from yet!</p>);
-            }
-          }
-        })}
-      </ul>
-      {/*<button className="btn btn-danger" onClick={deleteForm(formId)}>Delete Form</button>*/}
+          })}
+        </ul>
+      </div>
+      <button className="btn btn-danger btn-sm" onClick={() => deleteForm(formId)}>Delete Form</button>
     </div>
   );
 }

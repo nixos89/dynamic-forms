@@ -3,20 +3,32 @@ import Modal from "react-modal";
 import {connect} from "react-redux";
 import customStyles from "./customStyles";
 import {bindActionCreators} from "redux";
-import {addNewForm, clearCurrentForm, newFormChanged} from "../../redux/actions/actions";
+import {addNewFieldToForm, addNewForm, clearCurrentForm, newFormChanged} from "../../redux/actions/actions";
 import PropTypes from "prop-types";
 import {List} from "immutable";
+import AddFieldComponent from "../fields/AddFieldComponent";
 
-/* TODO: Step1A - Extract react-modal from MainContent.js into this
-    file and make it work! Take a look on these links:
+/* Links with ideas:
     1) https://www.pluralsight.com/guides/passing-state-of-parent-to-child-component-as-props
     2) https://medium.com/backticks-tildes/creating-a-modal-component-the-redux-way-cf9f4c5497dd
-    3) https://stackoverflow.com/a/35641680/6805866 */
+    3) https://stackoverflow.com/a/35641680/6805866
+*/
 const CreateFormModalComponent = (props) => {
-  const {message, newFormChanged} = props;
+  const {message, newFormChanged, addNewField, newFormName} = props;
   const [modalIsOpen, setIsOpen] = useState(false);
+
   let subtitle = "Subtitle const";
-  let messageForNewFieldForms = "Newly created form fields will be placed HERE!";
+  let im_newFormElements = [];
+
+  // TODO: Step1C - Use this method for adding Field into Modal Footer section
+  const addFieldFunction = () => {
+    im_newFormElements.set({
+      id: (Math.random() + 100),
+      formElementType: "",
+      label: "",
+      value: ""
+    });
+  }
 
   /* NOTE: Use Memoization to FIX declared functions inside of CreateFormModalComponent */
   const openModal = () => {
@@ -58,47 +70,49 @@ const CreateFormModalComponent = (props) => {
         </div>
         <div className="modal-body">
           <form>
-            <div className="form-row align-items-center">
-              <div className="form-group">
-                <div className="col-auto">
-                  <input type="text"
-                         onChange={(event) => newFormChanged(event.target.value)}
-                         value={props.newFormName} id="formName" placeholder="Skjemaer navn"
-                  />
-                </div>
-                <div className="col-auto">
-                  <button className="btn btn-primary">Sende in</button>
-
-                  <button className="btn btn-danger" onClick={() => clearCurrentForm}>
-                    Nullstille
-                  </button>
-                </div>
-              </div>
-              <br/>
-              <br/>
-              <div className="col-auto">
-                <input
-                  type="text"
-                  className="form-control mb-2"
-                  placeholder="Felt navn"
+            <div className="form-inline">
+              <div className="form-group mb-2">
+                <input type="text"
+                       onChange={(event) => newFormChanged(event.target.value)}
+                       id="formName" placeholder="Skjemaer navn"
                 />
+
+                <button className="btn btn-primary">Sende in</button>
+                &nbsp;
+                <button className="btn btn-danger" onClick={() => clearCurrentForm}>
+                  Nullstille
+                </button>
               </div>
-              <div className="col-auto">
-                <select id="selectInputType" className="custom-select">
-                  <option value="textField">Text Field</option>
-                  <option value="textAreaField">TextArea Field</option>
-                </select>
+              <div className="form-group mb-2">
+                {/* TODO: Step1B - Implement action for ADDING NEW Input Text(Area) field! */}
+                <button className="btn btn-success" onClick={() => addNewField()}>Nytt felt</button>
               </div>
-              <button className="btn btn-primary">Leg til felt</button>
             </div>
           </form>
         </div>
         <div className="modal-footer">
-          <p style={{color: "red", fontWeight: "bold"}}>
-            {messageForNewFieldForms}
-          </p>
+          <div className="form-inline">
+            <div className="form-group mb-2">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Felt navn"
+              />
+            </div>
+            <div className="form-group mb-2">
+              <select id="selectInputType" className="custom-select">
+                <option value="textField">Tekstfelt</option>
+                <option value="textAreaField">Tekstområdet</option>
+              </select>
+            </div>
+          </div>
         </div>
-        {/* TODO: Step3 - Place here NEWLY CREATED form fields */}
+        {/* TODO: Step1D - Place here NEWLY CREATED form fields */}
+        <ul>
+
+          {/*<AddFieldComponent label={}/>*/}
+        </ul>
+
       </Modal>
     </React.Fragment>
   );
@@ -112,10 +126,12 @@ function mapStateToProps(state) {
   };
 }
 
+// TODO: Step1A - Use 'onAddNewFieldToForm' function for adding new Field into Modal-Footer area!
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       newFormChanged: newFormChanged,
+      onAddNewFieldToForm: addNewFieldToForm,
       addNewForm: addNewForm,
       onClearCurrentForm: clearCurrentForm,
     },

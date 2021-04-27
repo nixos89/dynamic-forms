@@ -1,6 +1,7 @@
 import {
   ADD_NEW_FORM_CHANGED,
   ADD_NEW_FORM,
+  ADD_NEW_FIELD,
   ADD_TEXT_INPUT_FIELD,
   ADD_TEXTAREA_INPUT_FIELD,
   EDIT_INPUT_TEXT_FIELD,
@@ -27,6 +28,15 @@ export const addNewForm = (newForm) => {
     newForm,
   };
 };
+
+export const addNewFieldToForm = (label, value, formElementType) => ({
+  type: ADD_NEW_FIELD,
+  payload: {
+    label: label,
+    value: value,
+    formElementType: formElementType
+  }
+});
 
 export const addTextInputField = (inputTextField) => {
   return {
@@ -65,6 +75,7 @@ export const editCurrentTextAreaField = (key, id, formId, formElementTypeTAIF,
   }
 });
 
+// by this:
 export const showFormModal = (modalProps, modalType) => ({
   type: SHOW_FORM_MODAL,
   payload: {

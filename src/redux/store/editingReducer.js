@@ -3,6 +3,7 @@ import {
   EDIT_INPUT_TEXTAREA_FIELD,
 } from "../actions/actionTypes";
 import im_initialState from "./initialState";
+import {fromJS, Map, List} from "immutable";
 
 function getFormIndex(state, formId) {
   return state
@@ -44,9 +45,9 @@ export function editingReducer(state = im_initialState, action) {
       );
     }
     case DELETE_FORM: {
-      const {formId} = action;
+      const {formId} = action.payload;
       const formIndex = getFormIndex(state, formId);
-      const updatedState = state.delete("forms", formIndex);
+      const updatedState = state.deleteIn(["forms", formIndex]);
       return updatedState;
     }
     default: {

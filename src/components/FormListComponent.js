@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {connect} from "react-redux";
 import FormComponent from "./FormComponent";
 import {deleteForm} from "../redux/actions/actions";
 
@@ -7,7 +8,6 @@ class FormListComponent extends Component {
     return (
       <React.Fragment>
         {this.props.forms.map((formComponent, index) => {
-          const formId = formComponent.get("id");
           return (
             <FormComponent
               key={index}
@@ -31,4 +31,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-export default FormListComponent;
+export default connect(null, mapDispatchToProps)(FormListComponent);
