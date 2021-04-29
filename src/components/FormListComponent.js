@@ -8,6 +8,7 @@ class FormListComponent extends Component {
     return (
       <React.Fragment>
         {this.props.forms.map((formComponent, index) => {
+
           return (
             <FormComponent
               key={index}

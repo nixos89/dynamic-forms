@@ -1,23 +1,23 @@
 import React from "react";
-import {connect} from "react-redux";
-import {addNewFieldToForm} from "../../redux/actions/actions";
-import {ADD_TEXT_INPUT_FIELD} from "../../redux/actions/actionTypes";
 
 
 const AddedFieldComponent = (props) => {
 
   const {label, formElementType} = props;
 
-  // TODO: Step2 - use Bootstrap CSS classes to nicely align elements!
   return (
     <React.Fragment>
-      <input placeholder="Some value"/>
-      <select id="formElementType" className="custom-select">
-        <option value="text" defaultValue={formElementType === ADD_TEXT_INPUT_FIELD}>
-          Tekstfelt
-        </option>
-        <option value="textarea">Tekstområdet</option>
-      </select>
+      <div className="input-group mb-2 mr-sm-2">
+        <input placeholder="Label name..."/>
+      </div>
+      <div className="input-group mb-2 mr-sm-2">
+        <select id="formElementType" className="custom-select">
+          <option value="text">
+            Tekstfelt
+          </option>
+          <option value="textarea">Tekstområdet</option>
+        </select>
+      </div>
     </React.Fragment>
   );
 }

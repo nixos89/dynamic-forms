@@ -22,12 +22,14 @@ export const newFormChanged = (newFormName) => {
   };
 };
 
-export const addNewForm = (newForm) => {
-  return {
-    type: ADD_NEW_FORM,
-    newForm,
-  };
-};
+export const addNewForm = (formId, formName, formElements) => ({
+  type: ADD_NEW_FORM,
+  payload: {
+    id: formId,
+    formName: formName,
+    formElements: formElements
+  }
+});
 
 export const addNewFieldToForm = (label, formElementType) => ({
   type: ADD_NEW_FIELD,

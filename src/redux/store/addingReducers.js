@@ -8,7 +8,7 @@ import {
 } from "../actions/actionTypes";
 
 import im_initialState from "./initialState";
-import {fromJS} from "immutable";
+import {fromJS, Map} from "immutable";
 
 export function addingReducer(state = im_initialState, action) {
   switch (action.type) {
@@ -18,8 +18,14 @@ export function addingReducer(state = im_initialState, action) {
       return newState;
     }
     case ADD_NEW_FORM: {
-      // append NEWLY-created form to existing one!
-      const newState = state;
+      console.log("*** in da case ADD_NEW_FORM::START ***");
+      const {formId, formName, formElements} = action.payload;
+      const newFormToAdd = Map({id: formId, formName: formName, formElements: formElements});
+      /* TODO: Step1 - Append NEWLY-created form to existing one by calculating NEWEST index of form
+          by retrieving LAST index of elements in "forms" field of initial state! */
+      console.log("newFormToAdd:", newFormToAdd);
+      const newState = state.mergeDeepIn(["forms"]);
+      console.log("*** in da case ADD_NEW_FORM::END ***");
       return newState;
     }
     case ADD_NEW_FIELD: {

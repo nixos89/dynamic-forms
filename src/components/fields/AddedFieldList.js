@@ -1,17 +1,33 @@
 import React from "react";
 import AddedFieldComponent from "./AddedFieldComponent";
 
-/* TODO - Use this component to place AddedFieldComponent in <ul> by
-    following this example:
-    https://scotch.io/tutorials/create-a-simple-to-do-app-with-react
-*/
+/* Sample: https://scotch.io/tutorials/create-a-simple-to-do-app-with-react */
 const AddedFieldList = (props) => {
-  const {addedField} = props;
+  const {newFormElements, onDeleteField} = props;
+
+  console.log(newFormElements);
 
   return (
-    <ul>
-      <AddedFieldComponent/>
-    </ul>
+    (newFormElements.length === 0) ?
+      <p><b>No elements</b> have been added yet!</p>
+      :
+      <ul>
+        {newFormElements.map((formElement, index) => {
+          return (
+            <div className="form-inline" key={index}>
+              <div className="input-group mb-2 mr-sm-2">
+                <AddedFieldComponent key={index}/>
+              </div>
+
+              <div className="input-group mb-2 mr-sm-2">
+                <button onClick={(event) => onDeleteField(event, index)}
+                        className="btn btn-danger">X
+                </button>
+              </div>
+            </div>
+          );
+        })}
+      </ul>
   );
 
 }

@@ -1,13 +1,12 @@
-import React, {useState} from "react";
+import React from "react";
 import Modal from "react-modal";
 import {connect} from "react-redux";
 import customStyles from "./customStyles";
 import {bindActionCreators} from "redux";
-import {addNewFieldToForm, addNewForm, clearCurrentForm, newFormChanged} from "../../redux/actions/actions";
-import PropTypes from "prop-types";
-import AddedFieldComponent from "../fields/AddedFieldComponent";
+import {addNewForm, clearCurrentForm, newFormChanged} from "../../redux/actions/actions";
 import {ADD_TEXT_INPUT_FIELD} from "../../redux/actions/actionTypes";
-import {logger} from "redux-logger/src";
+import AddedFieldList from "../fields/AddedFieldList";
+import {fromJS} from "immutable";
 
 /* TODO: read this about managing state:
      https://www.digitalocean.com/community/tutorials/how-to-manage-state-on-react-class-components
@@ -16,13 +15,16 @@ class CreateFormModalComponent extends React.Component {
 
   constructor(props) {
     super(props);
-    // const {message, newFormChanged, onAddNewFieldToForm, newFormName} = this.props;
     this.state = {
       message: props.message,
       im_newFormElements: [],
+      formName: "",
       subtitle: "Subtitle const",
       modalIsOpen: false,
     };
+    this.addFieldFunction = this.addFieldFunction.bind(this);
+    this.deleteAddedField = this.deleteAddedField.bind(this);
+    this.formSubmitted = this.formSubmitted.bind(this);
   }
 
   setIsOpen(value) {
@@ -31,20 +33,33 @@ class CreateFormModalComponent extends React.Component {
     })
   }
 
-  // TODO: Step1C - Use this method for adding Field into Modal Footer section
+  // TODO: Fix re-rendering to be instant when "Nytt felt" button is clicked!
   addFieldFunction(event) {
     event.preventDefault();
-    this.setState((prevState) => {
-      im_newFormElements: prevState.im_newFormElements.push({
-        id: Math.floor(Math.random() * 100) + 100,
-        label: "",
-        formElementType: ADD_TEXT_INPUT_FIELD
-      })
+    this.state.im_newFormElements.push({
+      id: Math.floor(Math.random() * 100) + 100,
+      label: "",
+      formElementType: ADD_TEXT_INPUT_FIELD
     });
-
-    console.log("(in da addFieldFunction): im_newFormElements: ",
-      this.state.im_newFormElements);
+    this.setState({im_newFormElements: this.state.im_newFormElements});
   }
+
+  deleteAddedField(event, index) {
+    event.preventDefault();
+    this.state.im_newFormElements.splice(index, 1)
+    this.setState({
+      im_newFormElements: this.state.im_newFormElements
+    });
+  }
+
+  formSubmitted = (event) => {
+    event.preventDefault();
+    // console.log("event.target.getElementById(\"formName\"):", event.target.getElementById("formName"));
+    const formNameElement = document.getElementById("formName");
+
+    let formId = Math.floor(Math.random() * 100) + 100;
+    this.props.onAddNewForm(formId, formNameElement.value, fromJS(this.state.im_newFormElements));
+  };
 
   /* NOTE: Use Memoization to FIX declared functions inside of CreateFormModalComponent */
   openModal = () => {
@@ -61,18 +76,11 @@ class CreateFormModalComponent extends React.Component {
     })
   };
 
-  formSubmitted = (e) => {
-    e.preventDefault();
-    console.log("========== User has submitted values! ==========");
-    addNewForm({
-      message: this.state.message,
-      formElements: [],
-    });
-  };
+
 
   render() {
 
-    console.log("STATE", this.state);
+    console.log("RENDER STATE", this.state);
 
     return (
       <div>
@@ -80,7 +88,7 @@ class CreateFormModalComponent extends React.Component {
           Nytt Skjema
         </button>
         <Modal isOpen={this.state.modalIsOpen} onAfterOpen={() => this.afterOpenModal()}
-               onRequestClose={this.closeModal} message={this.message}
+               onRequestClose={this.closeModal.bind(this)} message={this.message}
                style={customStyles} contentLabel="Example Modal">
           <button type="button" className="close" aria-label="Close"
                   onClick={() => this.closeModal()}>
@@ -92,12 +100,12 @@ class CreateFormModalComponent extends React.Component {
             </h2>
           </div>
           <div className="modal-body">
-            <form>
+            <form onSubmit={this.formSubmitted}>
               <div className="form-inline">
                 <div className="form-group mb-2">
                   <input type="text"
-                         onChange={(event) => newFormChanged(event.target.value)}
-                         id="formName" placeholder="Skjemaer navn"
+                    // onChange={(event) => newFormChanged(event.target.value)}
+                         id="formName" name="formName" placeholder="Skjemaer navn"
                   />
 
                   <input type="submit" className="btn btn-primary" value="Sende in"/>
@@ -107,23 +115,17 @@ class CreateFormModalComponent extends React.Component {
                   />
                 </div>
                 <div className="form-group mb-2">
-                  {/* TODO: Step1B - Implement action for ADDING NEW Input Text(Area) field! */}
                   <input type="button" value="Nytt felt" className="btn btn-success"
-                         onClick={this.addFieldFunction.bind(this)}/>
+                         onClick={this.addFieldFunction}/>
                 </div>
               </div>
+              <AddedFieldList newFormElements={this.state.im_newFormElements}
+                              onDeleteField={this.deleteAddedField}/>
             </form>
           </div>
           <div className="modal-footer">
-            {
-              this.state.im_newFormElements.length === 0 ? <p>No elements for new form yet!</p>
-                :
-                <ul>
-                  {this.state.im_newFormElements.map((formElement, index) => {
-                    return (<AddedFieldComponent/>);
-                  })}
-                </ul>
-            }
+
+
           </div>
         </Modal>
       </div>
@@ -131,31 +133,25 @@ class CreateFormModalComponent extends React.Component {
   }
 }; // CreateFormModalComponent::END
 
+// map function(S) for handling AddedFieldComponent
 function mapStateToProps(state) {
   const {addingReducer} = state;
   return {
-    newFormName: addingReducer.get("newFormName"),
-    clearCurrentForm: addingReducer.get("")
+    // newFormName: addingReducer.get("newFormName")
   };
 }
 
-/* TODO: Step1A - Use 'onAddNewFieldToForm' function for adding new Field into
-         Modal-Footer area! */
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       newFormChanged: newFormChanged,
-      // "onAddNewFieldToForm" is necessary for creating new field in modal for NEW form!
-      onAddNewFieldToForm: addNewFieldToForm,
-      addNewForm: addNewForm,
+      onAddNewForm: addNewForm,
       onClearCurrentForm: clearCurrentForm,
     },
     dispatch
   );
 }
 
-CreateFormModalComponent.propTypes = {
-  newFormName: PropTypes.string,
-};
+CreateFormModalComponent.propTypes = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateFormModalComponent);
