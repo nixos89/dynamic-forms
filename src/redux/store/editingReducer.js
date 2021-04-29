@@ -1,9 +1,5 @@
-import {
-  DELETE_FORM, EDIT_INPUT_TEXT_FIELD,
-  EDIT_INPUT_TEXTAREA_FIELD,
-} from "../actions/actionTypes";
+import {DELETE_FORM, EDIT_INPUT_TEXT_FIELD, EDIT_INPUT_TEXTAREA_FIELD,} from "../actions/actionTypes";
 import im_initialState from "./initialState";
-import {fromJS, Map, List} from "immutable";
 
 function getFormIndex(state, formId) {
   return state

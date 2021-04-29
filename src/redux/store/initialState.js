@@ -20,6 +20,7 @@ const im_initialState = fromJS({
           id: 1,
           formElementType: ADD_TEXT_INPUT_FIELD,
           label: "Navn",
+          placeholder: "",
           value: "Nikola",
         },
         {

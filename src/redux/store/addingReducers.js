@@ -18,17 +18,16 @@ export function addingReducer(state = im_initialState, action) {
       return newState;
     }
     case ADD_NEW_FORM: {
+      // append NEWLY-created form to existing one!
       const newState = state;
       return newState;
     }
     case ADD_NEW_FIELD: {
-      const {formElementType, label, value} = action.payload;
-      const randomId = Math.random() + 100;
+      const {formElementType, label} = action.payload;
       const toBeCreatedForm = fromJS({
-        id: randomId,
+        id: Math.random() + 100,
         formElementType: formElementType,
         label: label,
-        value: value
       });
       return toBeCreatedForm;
     }

@@ -29,11 +29,10 @@ export const addNewForm = (newForm) => {
   };
 };
 
-export const addNewFieldToForm = (label, value, formElementType) => ({
+export const addNewFieldToForm = (label, formElementType) => ({
   type: ADD_NEW_FIELD,
   payload: {
     label: label,
-    value: value,
     formElementType: formElementType
   }
 });
