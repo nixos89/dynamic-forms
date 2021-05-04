@@ -6,6 +6,7 @@ import {bindActionCreators} from "redux";
 import {addNewForm, clearCurrentForm, newFormChanged} from "../../redux/actions/actions";
 import AddedFieldList from "../fields/AddedFieldList";
 import {fromJS} from "immutable";
+import {ADD_TEXT_INPUT_FIELD} from "../../redux/actions/actionTypes";
 
 /* TODO: read this about managing state:
      https://www.digitalocean.com/community/tutorials/how-to-manage-state-on-react-class-components*/
@@ -22,7 +23,6 @@ class CreateFormModalComponent extends React.Component {
     };
     this.addFieldFunction = this.addFieldFunction.bind(this);
     this.deleteAddedField = this.deleteAddedField.bind(this);
-    this.userInputChange = this.userInputChange.bind(this);
     this.formSubmitted = this.formSubmitted.bind(this);
   }
 
@@ -42,12 +42,6 @@ class CreateFormModalComponent extends React.Component {
     this.setState({newFormElements: this.state.newFormElements});
   }
 
-  // TODO: Step1-  To implement next to functions
-  //  use this: https://stackoverflow.com/a/37579502/6805866
-  userInputChange(event, idx) {
-    let input;
-  }
-
 
   deleteAddedField(event, index) {
     event.preventDefault();
@@ -58,7 +52,7 @@ class CreateFormModalComponent extends React.Component {
   }
 
   formSubmitted = (event) => {
-    // event.preventDefault();
+    event.preventDefault();
 
     const formName = document.getElementById("formNameField").value;
     const labelFieldsByNameValues = Array.from(
@@ -73,6 +67,7 @@ class CreateFormModalComponent extends React.Component {
     for (let i = 0; i < labelFieldsByNameValues.length; i++) {
       this.state.newFormElements[i].label = labelFieldsByNameValues[i].value;
       this.state.newFormElements[i].formElementType = selectFieldsByNameValues[i].value;
+      this.state.newFormElements[i].value = "";
     }
     console.log("FINALLY - this.state.newFormElements:", this.state.newFormElements);
 
@@ -81,8 +76,8 @@ class CreateFormModalComponent extends React.Component {
     });
 
     let id = Math.floor(Math.random() * 100) + 100;
-    const im_newFormElements = fromJS(this.state.newFormElements)
-    this.props.onAddNewForm(id, formName, im_newFormElements);
+    const formElements = fromJS(this.state.newFormElements)
+    this.props.onAddNewForm(id, formName, formElements);
   };
 
   openModal = () => {
