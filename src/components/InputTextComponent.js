@@ -3,7 +3,7 @@ import {editCurrentTextField} from "../redux/actions/actions";
 import { connect } from "react-redux";
 
 const InputTextComponent = (props) => {
-  const {key, id, formId, value, label, formElementTypeTIF} = props;
+  const {key, id, formId, value, label, formElementTypeTIF, onEditCurrentTextField} = props;
 
   return (
     <React.Fragment>
@@ -17,7 +17,7 @@ const InputTextComponent = (props) => {
             className="form-control"
             value={value}
             onChange={(event) =>
-              props.onEditCurrentTextField(
+              onEditCurrentTextField(
                 key,
                 id,
                 formId,

@@ -11,6 +11,7 @@ import InputTextAreaComponent from "./InputTextAreaComponent";
 function FormComponent(props) {
   const {formName, formElements, formId, deleteForm} = props;
 
+  // TODO: Fix Bootstrap CSS styling for input field to be INLINE with buttonS
   return (
     <div>
       <div className="form-group form-row">
@@ -25,26 +26,32 @@ function FormComponent(props) {
             switch (formElementType) {
               case ADD_TEXT_INPUT_FIELD: {
                 return (
-                  <InputTextComponent
-                    key={index}
-                    id={id}
-                    formId={formId}
-                    formElementTypeTIF={EDIT_INPUT_TEXT_FIELD}
-                    label={label}
-                    value={value}
-                  />
+                  <div key={index}>
+                    <InputTextComponent
+                      key={index}
+                      id={id}
+                      formId={formId}
+                      formElementTypeTIF={EDIT_INPUT_TEXT_FIELD}
+                      label={label}
+                      value={value}
+                    />
+                    <button className="btn btn-danger btn-sm">X</button>
+                  </div>
                 );
               }
               case ADD_TEXTAREA_INPUT_FIELD: {
                 return (
-                  <InputTextAreaComponent
-                    key={index}
-                    id={id}
-                    formId={formId}
-                    formElementTypeTAIF={EDIT_INPUT_TEXTAREA_FIELD}
-                    label={label}
-                    value={value}
-                  />
+                  <div key={index}>
+                    <InputTextAreaComponent
+                      key={index}
+                      id={id}
+                      formId={formId}
+                      formElementTypeTAIF={EDIT_INPUT_TEXTAREA_FIELD}
+                      label={label}
+                      value={value}
+                    />
+                    <button className="btn btn-danger btn-sm">X</button>
+                  </div>
                 );
               }
               default: {
@@ -54,7 +61,9 @@ function FormComponent(props) {
           })}
         </ul>
       </div>
-      <button className="btn btn-danger btn-sm" onClick={() => deleteForm(formId)}>Delete Form</button>
+      <button className="btn btn-danger btn-sm"
+              onClick={() => deleteForm(formId)}>Delete Form
+      </button>
     </div>
   );
 }

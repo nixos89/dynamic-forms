@@ -16,7 +16,12 @@ const AddedFieldList = (props) => {
           return (
             <div className="form-inline" key={index}>
               <div className="input-group mb-2 mr-sm-2">
-                <AddedFieldComponent key={index}/>
+                <AddedFieldComponent
+                  key={index}
+                  id={formElement.id}
+                  label={formElement.label}
+                  formElementType={formElement.formElementType}
+                />
               </div>
 
               <div className="input-group mb-2 mr-sm-2">

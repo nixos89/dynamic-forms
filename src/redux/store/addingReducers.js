@@ -19,12 +19,14 @@ export function addingReducer(state = im_initialState, action) {
     }
     case ADD_NEW_FORM: {
       console.log("*** in da case ADD_NEW_FORM::START ***");
-      const {formId, formName, formElements} = action.payload;
-      const newFormToAdd = Map({id: formId, formName: formName, formElements: formElements});
-      /* TODO: Step1 - Append NEWLY-created form to existing one by calculating NEWEST index of form
-          by retrieving LAST index of elements in "forms" field of initial state! */
-      console.log("newFormToAdd:", newFormToAdd);
-      const newState = state.mergeDeepIn(["forms"]);
+      const {id, formName, formElements} = action.payload;
+      const newFormToAdd = Map({id: id, formName: formName, formElements: formElements});
+
+      // console.log("newFormToAdd:", newFormToAdd);
+      // const formsSize = state.get("forms").size; // eq to .length
+
+      const newState = state.update("forms", forms => forms.push(newFormToAdd));
+      console.log("newState:", newState);
       console.log("*** in da case ADD_NEW_FORM::END ***");
       return newState;
     }

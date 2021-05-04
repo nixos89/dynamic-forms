@@ -22,10 +22,10 @@ export const newFormChanged = (newFormName) => {
   };
 };
 
-export const addNewForm = (formId, formName, formElements) => ({
+export const addNewForm = (id, formName, formElements) => ({
   type: ADD_NEW_FORM,
   payload: {
-    id: formId,
+    id: id,
     formName: formName,
     formElements: formElements
   }
