@@ -7,7 +7,6 @@ import {
 const im_initialState = fromJS({
   appName: "Nikolas søknad om dynamiske skjemaer",
   message: "Vær så snill opprett skjemaer",
-  // use List and Map from Immutable.js library
   newFormName: "",
   showModal: false,
   forms: [

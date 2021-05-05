@@ -5,12 +5,16 @@ import {
   ADD_TEXT_INPUT_FIELD,
   ADD_TEXTAREA_INPUT_FIELD,
   SHOW_FORM_MODAL,
-} from "../actions/actionTypes";
-
+  DELETE_FORM,
+  EDIT_INPUT_TEXT_FIELD,
+  EDIT_INPUT_TEXTAREA_FIELD,
+}
+  from "../actions/actionTypes";
 import im_initialState from "./initialState";
+import {getFormIndex, indexOfFormElementFunction} from "./reducerUtils";
 import {fromJS, Map} from "immutable";
 
-export function addingReducer(state = im_initialState, action) {
+export function mainReducer(state = im_initialState, action) {
   switch (action.type) {
     case ADD_NEW_FORM_CHANGED: {
       const newState = state.set("newFormName", action.newForm);
@@ -52,7 +56,33 @@ export function addingReducer(state = im_initialState, action) {
       console.log("(in da case SHOW_FORM_MODAL) res:", res);
       return res;
     }
-    default:
+    case EDIT_INPUT_TEXT_FIELD: {
+      const {id: elementId, formId, inputTextFieldValue} = action.payload;
+      const formIndex = getFormIndex(state, formId);
+      const indexOfFormEl = indexOfFormElementFunction(state, formId, elementId);
+
+      return state.setIn(["forms", formIndex, "formElements", indexOfFormEl, "value"],
+        inputTextFieldValue
+      );
+    }
+    case EDIT_INPUT_TEXTAREA_FIELD: {
+      const {id: elementId, formId, inputTextAreaFieldValue} = action.payload;
+      const formIndex = getFormIndex(state, formId);
+      const indexOfFormEl = indexOfFormElementFunction(state, formId, elementId);
+
+      return state.setIn(
+        ["forms", formIndex, "formElements", indexOfFormEl, "value"],
+        inputTextAreaFieldValue
+      );
+    }
+    case DELETE_FORM: {
+      const {formId} = action.payload;
+      const formIndex = getFormIndex(state, formId);
+      const updatedState = state.deleteIn(["forms", formIndex]);
+      return updatedState;
+    }
+    default: {
       return state;
+    }
   }
 }

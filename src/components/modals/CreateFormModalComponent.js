@@ -6,7 +6,6 @@ import {bindActionCreators} from "redux";
 import {addNewForm, clearCurrentForm, newFormChanged} from "../../redux/actions/actions";
 import AddedFieldList from "../fields/AddedFieldList";
 import {fromJS} from "immutable";
-import {ADD_TEXT_INPUT_FIELD} from "../../redux/actions/actionTypes";
 
 /* TODO: read this about managing state:
      https://www.digitalocean.com/community/tutorials/how-to-manage-state-on-react-class-components*/
@@ -14,6 +13,8 @@ class CreateFormModalComponent extends React.Component {
 
   constructor(props) {
     super(props);
+    /* TODO: Step1 - just leave "modalIsOpen" variable for LOCAL state and handle
+        other stuff via Redux state -> get rid off ALL other variables! */
     this.state = {
       message: props.message,
       newFormElements: [],
@@ -53,8 +54,7 @@ class CreateFormModalComponent extends React.Component {
 
   formSubmitted = (event) => {
     event.preventDefault();
-
-    const formName = document.getElementById("formNameField").value;
+    const newFormName = document.getElementById("formNameField").value;
     const labelFieldsByNameValues = Array.from(
       document
         .getElementsByName("labelField")
@@ -64,20 +64,22 @@ class CreateFormModalComponent extends React.Component {
         .getElementsByName("formElementTypeField")
         .values());
 
+    const updatedNewFormElements = this.state.newFormElements;
     for (let i = 0; i < labelFieldsByNameValues.length; i++) {
-      this.state.newFormElements[i].label = labelFieldsByNameValues[i].value;
-      this.state.newFormElements[i].formElementType = selectFieldsByNameValues[i].value;
-      this.state.newFormElements[i].value = "";
+      updatedNewFormElements[i].label = labelFieldsByNameValues[i].value;
+      updatedNewFormElements[i].formElementType = selectFieldsByNameValues[i].value;
+      updatedNewFormElements[i].value = "";
     }
-    console.log("FINALLY - this.state.newFormElements:", this.state.newFormElements);
-
-    this.setState({
-      newFormElements: this.state.newFormElements
-    });
 
     let id = Math.floor(Math.random() * 100) + 100;
     const formElements = fromJS(this.state.newFormElements)
-    this.props.onAddNewForm(id, formName, formElements);
+    this.props.onAddNewForm(id, newFormName, formElements);
+
+    this.setState({
+      formName: newFormName,
+      newFormElements: updatedNewFormElements,
+      modalIsOpen: false
+    });
   };
 
   openModal = () => {
@@ -110,7 +112,7 @@ class CreateFormModalComponent extends React.Component {
             <span aria-hidden="true">&times;</span>
           </button>
           <div className="modal-header">
-            <h2 ref={(_subtitle) => (this.state.subtitle = _subtitle)}>
+            <h2>
               {this.state.message}
             </h2>
           </div>
@@ -139,11 +141,11 @@ class CreateFormModalComponent extends React.Component {
   }
 }; // CreateFormModalComponent::END
 
-// TODO: map function(S) for handling AddedFieldComponent
+
 function mapStateToProps(state) {
-  const {addingReducer} = state;
+  const {mainReducer} = state;
   return {
-    // newFormName: addingReducer.get("newFormName")
+    forms: mainReducer.get("forms")
   };
 }
 

@@ -12,9 +12,10 @@ class FormListComponent extends Component {
           return (
             <FormComponent
               key={index}
-              id={formComponent.id}
-              formName={formComponent.formName}
-              formElements={formComponent.formElements}
+              formId={formComponent.get("id")}
+              formName={formComponent.get("formName")}
+              formElements={formComponent.get("formElements")}
+              deleteForm={this.props.onDeleteForm}
             />
           );
         })}

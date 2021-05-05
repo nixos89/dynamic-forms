@@ -5,13 +5,11 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import App from "./App";
 import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import { Provider } from "react-redux";
-import { addingReducer } from "./redux/store/addingReducers";
-import { editingReducer } from "./redux/store/editingReducer";
+import { mainReducer } from "./redux/store/mainReducer";
 import { logger } from "redux-logger/src";
 
 const rootReducer = combineReducers({
-  addingReducer: addingReducer,
-  editingReducer: editingReducer,
+  mainReducer: mainReducer
 });
 
 const createdStore = createStore(

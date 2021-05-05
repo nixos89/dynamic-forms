@@ -25,14 +25,13 @@ const MainContent = (props) => {
 }; //MainContent::END
 
 function mapStateToProps(state) {
-  const {addingReducer, editingReducer} = state;
+  const {mainReducer} = state;
   return {
-    message: editingReducer.get("message"),
-    forms: editingReducer.get("forms"),
-    show: addingReducer.get("showModal"),
+    message: mainReducer.get("message"),
+    forms: mainReducer.get("forms"),
+    show: mainReducer.get("showModal"),
   };
 }
-
 
 // More at: https://reactjs.org/docs/typechecking-with-proptypes.html
 MainContent.propTypes = {

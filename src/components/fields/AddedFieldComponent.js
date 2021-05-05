@@ -2,9 +2,6 @@ import React from "react";
 
 const AddedFieldComponent = (props) => {
 
-  // TODO: should add key from parent component!
-  const {label, formElementType} = props;
-
   // TODO: Assign a 'ref' element to each INPUT and SELECT field!
   return (
 
