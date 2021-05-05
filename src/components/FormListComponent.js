@@ -4,6 +4,7 @@ import FormComponent from "./FormComponent";
 import {deleteForm} from "../redux/actions/actions";
 
 class FormListComponent extends Component {
+
   render() {
     return (
       <React.Fragment>
@@ -24,6 +25,7 @@ class FormListComponent extends Component {
   }
 }
 
+
 function mapDispatchToProps(dispatch) {
   return {
     onDeleteForm(formId) {
@@ -31,6 +33,5 @@ function mapDispatchToProps(dispatch) {
     }
   }
 }
-
 
 export default connect(null, mapDispatchToProps)(FormListComponent);

@@ -7,14 +7,10 @@ import {addNewForm, clearCurrentForm, newFormChanged} from "../../redux/actions/
 import AddedFieldList from "../fields/AddedFieldList";
 import {fromJS} from "immutable";
 
-/* TODO: read this about managing state:
-     https://www.digitalocean.com/community/tutorials/how-to-manage-state-on-react-class-components*/
 class CreateFormModalComponent extends React.Component {
 
   constructor(props) {
     super(props);
-    /* TODO: Step1 - just leave "modalIsOpen" variable for LOCAL state and handle
-        other stuff via Redux state -> get rid off ALL other variables! */
     this.state = {
       message: props.message,
       newFormElements: [],
@@ -76,8 +72,8 @@ class CreateFormModalComponent extends React.Component {
     this.props.onAddNewForm(id, newFormName, formElements);
 
     this.setState({
-      formName: newFormName,
-      newFormElements: updatedNewFormElements,
+      formName: "",
+      newFormElements: [],
       modalIsOpen: false
     });
   };

@@ -2,9 +2,7 @@ import React from "react";
 
 const AddedFieldComponent = (props) => {
 
-  // TODO: Assign a 'ref' element to each INPUT and SELECT field!
   return (
-
     <React.Fragment>
       <div className="input-group mb-2 mr-sm-2">
         <input placeholder="Etikettnavn..."

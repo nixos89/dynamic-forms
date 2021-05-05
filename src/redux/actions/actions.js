@@ -1,17 +1,16 @@
 import {
-  ADD_NEW_FORM_CHANGED,
-  ADD_NEW_FORM,
   ADD_NEW_FIELD,
+  ADD_NEW_FORM,
+  ADD_NEW_FORM_CHANGED,
   ADD_TEXT_INPUT_FIELD,
   ADD_TEXTAREA_INPUT_FIELD,
+  CLEAR_CURRENT_FORM,
+  DELETE_FIELD,
+  DELETE_FORM,
   EDIT_INPUT_TEXT_FIELD,
   EDIT_INPUT_TEXTAREA_FIELD,
-  SHOW_FORM_MODAL,
   HIDE_FORM_MODAL,
-  // FILL_FORM,
-  // EDIT_FORM,
-  // DELETE_FORM,
-  CLEAR_CURRENT_FORM, DELETE_FORM,
+  SHOW_FORM_MODAL,
 } from "./actionTypes";
 
 
@@ -94,6 +93,14 @@ export const clearCurrentForm = () => {
     type: CLEAR_CURRENT_FORM,
   };
 };
+
+export const deleteField = (formId, id) => ({
+  type: DELETE_FIELD,
+  payload: {
+    formId: formId,
+    id: id
+  }
+})
 
 export const deleteForm = (formId) => ({
   type: DELETE_FORM,
