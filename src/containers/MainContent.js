@@ -1,89 +1,44 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { actions } from "../actions/index";
+import React from "react";
+import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import FormListComponent from "../components/FormListComponent";
+import Modal from "react-modal";
+import CreateFormModalComponent from "../components/modals/CreateFormModalComponent";
 
-class MainContent extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      formType: "",
-    };
-    // this.formSubmitted = this.formSubmitted.bind(this);
-    // this.resetForm = this.resetForm.bind(this);
-  }
+Modal.setAppElement("#root");
 
-  formSubmitted = (e) => {
-    e.preventDefault();
-    console.log("User has submitted values");
-    this.props.onAddNewForm({
-      message: this.props.message,
-      formElements: [],
-    });
-  };
+const MainContent = (props) => {
+  const {message, forms} = props;
 
-  resetForm = (e) => {
-    e.preventDefault();
-    this.props.onClearCurrentForm({
-      newFormName: ""
-    });
-  }
+  // TODO: Step2 - Create hook for displaying message when NEW form has been CREATED/SAVED!!!
 
-  render() {
-    return (
-      <main>
-        <hr/>
-        <h2>{this.props.message}</h2>
-        <div className="form-control">
-          <form onSubmit={this.formSubmitted} id="dynamicForm">
-            <input
-              type="text"
-              onChange={(event) =>
-                this.props.onNewFormChanged(event.target.value)
-              }
-              value={this.props.newFormName}
-              id="formName"
-              placeholder="Skjemaer navn"
-            />
-            &nbsp;
-            <button className="btn btn-primary">Sende in</button>
-            &nbsp;
-            <input type="button" value="Nullstille" className="btn btn-danger" onClick={this.resetForm}/>
-          </form>
-        </div>
-        <FormListComponent forms={this.props.forms} />
-        <br />
-      </main>
-    );
-  }
-}
+  return (
+    <main id="main">
+      <hr/>
+      <CreateFormModalComponent message={message}/>
+      <hr/>
+      <h1>
+        <b style={{backgroundColor: "lightblue"}}>Eksisterende Skjemaer</b>
+      </h1>
+      <FormListComponent forms={forms}/>
+      <br/>
+    </main>
+  );
+}; //MainContent::END
 
 function mapStateToProps(state) {
+  const {mainReducer} = state;
   return {
-    message: state.message,
-    newFormName: state.newFormName,
-    forms: state.forms,
+    message: mainReducer.get("message"),
+    forms: mainReducer.get("forms"),
+    show: mainReducer.get("showModal"),
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    onNewFormChanged(newFormName) {
-      dispatch(actions.newFormChanged(newFormName));
-    },
-    onAddNewForm(newForm) {
-      dispatch(actions.addNewForm(newForm));
-    },
-    onClearCurrentForm() {
-      dispatch(actions.clearCurrentForm());
-    },
-  };
-}
-
-/** Read this https://reactjs.org/docs/typechecking-with-proptypes.html */
+// More at: https://reactjs.org/docs/typechecking-with-proptypes.html
 MainContent.propTypes = {
-  formType: PropTypes.string,
+  message: PropTypes.string,
+  show: PropTypes.bool,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainContent);
+export default connect(mapStateToProps)(MainContent);

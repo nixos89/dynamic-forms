@@ -1,23 +1,37 @@
-import React /*, { useEffect, useState }*/ from "react";
-// import { Map } from "immutable";
-// import FormComponent from "./FormComponent";
+import React, {Component} from "react";
+import {connect} from "react-redux";
+import FormComponent from "./FormComponent";
+import {deleteForm} from "../redux/actions/actions";
 
-function FormListComponent(props) {
-  // const [formItems, setFormItem] = useState(props.forms);
-  // const mappedFormItems = Map(formItems);
+class FormListComponent extends Component {
 
-  /** TODO: use PropTypes for checking types of FormComponent fields */
-  /* useEffect((e) => {
-     e.target.type === "INPUT_TEXT_FIELD" ?
-   },[formItem]); */
+  render() {
+    return (
+      <React.Fragment>
+        {this.props.forms.map((formComponent, index) => {
 
-  return (
-    <React.Fragment>
-      {/*{mappedFormItems.forEach((item) => (*/}
-      {/*  <FormComponent> </FormComponent>*/}
-      {/*))}*/}
-    </React.Fragment>
-  );
+          return (
+            <FormComponent
+              key={index}
+              formId={formComponent.get("id")}
+              formName={formComponent.get("formName")}
+              formElements={formComponent.get("formElements")}
+              deleteForm={this.props.onDeleteForm}
+            />
+          );
+        })}
+      </React.Fragment>
+    );
+  }
 }
 
-export default FormListComponent;
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onDeleteForm(formId) {
+      dispatch(deleteForm(formId));
+    }
+  }
+}
+
+export default connect(null, mapDispatchToProps)(FormListComponent);
