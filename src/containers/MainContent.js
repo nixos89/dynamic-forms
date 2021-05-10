@@ -10,8 +10,6 @@ Modal.setAppElement("#root");
 const MainContent = (props) => {
   const {message, forms} = props;
 
-  // TODO: Step2 - Create hook for displaying message when NEW form has been CREATED/SAVED!!!
-
   return (
     <main id="main">
       <hr/>

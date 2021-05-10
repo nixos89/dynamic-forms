@@ -7,7 +7,6 @@ import {
 const im_initialState = fromJS({
   appName: "Nikolas søknad om dynamiske skjemaer",
   message: "Vær så snill opprett skjemaer",
-  newFormName: "",
   showModal: false,
   forms: [
     {

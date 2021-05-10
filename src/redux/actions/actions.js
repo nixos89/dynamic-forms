@@ -1,16 +1,13 @@
 import {
-  ADD_NEW_FIELD,
   ADD_NEW_FORM,
   ADD_NEW_FORM_CHANGED,
-  ADD_TEXT_INPUT_FIELD,
   ADD_TEXTAREA_INPUT_FIELD,
   CLEAR_CURRENT_FORM,
   DELETE_FIELD,
   DELETE_FORM,
   EDIT_INPUT_TEXT_FIELD,
   EDIT_INPUT_TEXTAREA_FIELD,
-  HIDE_FORM_MODAL,
-  SHOW_FORM_MODAL,
+  SET_LINKED_FORM,
 } from "./actionTypes";
 
 
@@ -29,21 +26,6 @@ export const addNewForm = (id, formName, formElements) => ({
     formElements: formElements
   }
 });
-
-export const addNewFieldToForm = (label, formElementType) => ({
-  type: ADD_NEW_FIELD,
-  payload: {
-    label: label,
-    formElementType: formElementType
-  }
-});
-
-export const addTextInputField = (inputTextField) => {
-  return {
-    type: ADD_TEXT_INPUT_FIELD,
-    inputTextField,
-  };
-};
 
 export const addTextAreaInputField = (inputTextAreaField) => {
   return {
@@ -75,17 +57,11 @@ export const editCurrentTextAreaField = (key, id, formId, formElementTypeTAIF,
   }
 });
 
-// by this:
-export const showFormModal = (modalProps, modalType) => ({
-  type: SHOW_FORM_MODAL,
+export const setDisplayedForm = (encodedForm) => ({
+  type: SET_LINKED_FORM,
   payload: {
-    modalProps,
-    modalType
+    encodedForm: encodedForm
   }
-});
-
-export const hideFormModal = () => ({
-  type: HIDE_FORM_MODAL
 });
 
 export const clearCurrentForm = () => {

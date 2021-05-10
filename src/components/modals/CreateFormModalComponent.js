@@ -68,7 +68,8 @@ class CreateFormModalComponent extends React.Component {
     }
 
     let id = Math.floor(Math.random() * 100) + 100;
-    const formElements = fromJS(this.state.newFormElements)
+    // const formElements = fromJS(this.state.newFormElements);
+    const formElements = fromJS(updatedNewFormElements);
     this.props.onAddNewForm(id, newFormName, formElements);
 
     this.setState({
@@ -94,6 +95,7 @@ class CreateFormModalComponent extends React.Component {
 
   render() {
     console.log("RENDER STATE", this.state);
+    console.log("RENDER Redux STATE", this.props.reduxState);
 
     return (
       <div>
@@ -141,6 +143,7 @@ class CreateFormModalComponent extends React.Component {
 function mapStateToProps(state) {
   const {mainReducer} = state;
   return {
+    reduxState: mainReducer,
     forms: mainReducer.get("forms")
   };
 }

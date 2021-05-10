@@ -3,10 +3,11 @@ import ReactDOM from "react-dom";
 import reportWebVitals from "./reportWebVitals";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import App from "./App";
-import { createStore, applyMiddleware, compose, combineReducers } from "redux";
-import { Provider } from "react-redux";
-import { mainReducer } from "./redux/store/mainReducer";
-import { logger } from "redux-logger/src";
+import {createStore, applyMiddleware, compose, combineReducers} from "redux";
+import {Provider} from "react-redux";
+import {mainReducer} from "./redux/store/mainReducer";
+import {logger} from "redux-logger/src";
+import {BrowserRouter} from "react-router-dom";
 
 const rootReducer = combineReducers({
   mainReducer: mainReducer
@@ -23,9 +24,11 @@ const createdStore = createStore(
 );
 
 ReactDOM.render(
-  <Provider store={createdStore}>
-    <App />
-  </Provider>,
+  <BrowserRouter>
+    <Provider store={createdStore}>
+      <App/>
+    </Provider>
+  </BrowserRouter>,
   document.getElementById("root")
 );
 

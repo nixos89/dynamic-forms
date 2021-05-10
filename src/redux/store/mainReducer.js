@@ -4,7 +4,7 @@ import {
   DELETE_FIELD,
   DELETE_FORM,
   EDIT_INPUT_TEXT_FIELD,
-  EDIT_INPUT_TEXTAREA_FIELD,
+  EDIT_INPUT_TEXTAREA_FIELD, SET_LINKED_FORM,
 } from "../actions/actionTypes";
 import im_initialState from "./initialState";
 import {getFormIndex, indexOfFormElementFunction} from "./reducerUtils";
@@ -61,10 +61,19 @@ export function mainReducer(state = im_initialState, action) {
 
       let updatedState = state.deleteIn(["forms", formIndex, "formElements", indexOfFormEl]);
       let currentFormElements = state.getIn(["forms", formIndex, "formElements"]);
-      if ((currentFormElements.size-1) === 0) {
+      if ((currentFormElements.size - 1) === 0) {
         updatedState = state.deleteIn(["forms", formIndex]);
       }
       return updatedState;
+    }
+    case SET_LINKED_FORM: {
+      const {encodedForm} = action.payload;
+      console.log("encodedForm:", encodedForm);
+      const jsonFormString = decodeURIComponent(escape(atob(encodedForm)));
+      console.log("jsonFormString:", jsonFormString);
+      const linkedForm = Map(JSON.parse(jsonFormString));
+      console.log("linkedForm:", linkedForm);
+      return linkedForm;
     }
     default: {
       return state;
