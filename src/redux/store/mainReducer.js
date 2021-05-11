@@ -1,10 +1,10 @@
 import {
   ADD_NEW_FIELD,
-  ADD_NEW_FORM,
+  ADD_NEW_FORM, ADD_SHARED_FORM_TO_STATE,
   DELETE_FIELD,
   DELETE_FORM,
   EDIT_INPUT_TEXT_FIELD,
-  EDIT_INPUT_TEXTAREA_FIELD, SET_LINKED_FORM,
+  EDIT_INPUT_TEXTAREA_FIELD,
 } from "../actions/actionTypes";
 import im_initialState from "./initialState";
 import {getFormIndex, indexOfFormElementFunction} from "./reducerUtils";
@@ -66,14 +66,12 @@ export function mainReducer(state = im_initialState, action) {
       }
       return updatedState;
     }
-    case SET_LINKED_FORM: {
-      const {encodedForm} = action.payload;
-      console.log("encodedForm:", encodedForm);
-      const jsonFormString = decodeURIComponent(escape(atob(encodedForm)));
-      console.log("jsonFormString:", jsonFormString);
-      const linkedForm = Map(JSON.parse(jsonFormString));
-      console.log("linkedForm:", linkedForm);
-      return linkedForm;
+    case ADD_SHARED_FORM_TO_STATE: {
+      // TODO: implement ADD_SHARED_FORM_TO_STATE case!
+      const {im_linkedForm} = action.payload;
+      const updatedState = state.update("forms", forms => forms.push(im_linkedForm));
+      console.log("(in da ADD_SHARED_FORM_TO_STATE) updatedState:", updatedState);
+      return updatedState;
     }
     default: {
       return state;

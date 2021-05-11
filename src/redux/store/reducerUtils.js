@@ -18,8 +18,6 @@ export function indexOfFormElementFunction(state, formId, elementId) {
 }
 
 export function indexOfFormElementFunctionByForms(forms, formId, elementId) {
-  /* NOTE: Try this https://stackoverflow.com/a/40627682/6805866 out or
-      this one: https://cutt.ly/5v7kJnB */
   const formIndex = getFormIndexByForms(forms, formId);
 
   const finalRes = forms

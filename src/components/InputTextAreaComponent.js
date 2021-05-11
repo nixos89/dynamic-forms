@@ -4,10 +4,10 @@ import {editCurrentTextAreaField} from "../redux/actions/actions";
 
 const InputTextAreaComponent = (props) => {
   const {key, id, value, formId, label, formElementTypeTAIF} = props;
-
+  // console.log("reduxState:", props.reduxState);
   return (
     <React.Fragment>
-      <div className="form-group row">
+      <div className="form-group row" key={key}>
         <label htmlFor={id} className="col-sm-3 col-form-label">
           {label}
         </label>
@@ -15,8 +15,6 @@ const InputTextAreaComponent = (props) => {
           <textarea
             type="textarea"
             className="form-control"
-            // id={id}
-            // formId={formId}
             rows={3}
             cols={30}
             value={value}
@@ -31,6 +29,13 @@ const InputTextAreaComponent = (props) => {
   );
 };
 
+function mapStateToProps(state) {
+  const {mainReducer} = state;
+  return {
+    reduxState: mainReducer
+  }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
     onEditCurrentTextAreaField(key, id, formId, formElementTypeTAIF, inputTextAreaFieldValue) {
@@ -40,4 +45,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(InputTextAreaComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(InputTextAreaComponent);

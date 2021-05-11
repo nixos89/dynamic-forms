@@ -68,7 +68,6 @@ class CreateFormModalComponent extends React.Component {
     }
 
     let id = Math.floor(Math.random() * 100) + 100;
-    // const formElements = fromJS(this.state.newFormElements);
     const formElements = fromJS(updatedNewFormElements);
     this.props.onAddNewForm(id, newFormName, formElements);
 

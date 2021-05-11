@@ -1,36 +1,35 @@
 import React from "react";
 import InputTextComponent from "./InputTextComponent";
-import {ADD_TEXT_INPUT_FIELD, ADD_TEXTAREA_INPUT_FIELD} from "../redux/actions/actionTypes";
+import {
+  ADD_TEXT_INPUT_FIELD,
+  ADD_TEXTAREA_INPUT_FIELD,
+  EDIT_INPUT_TEXT_FIELD,
+  EDIT_INPUT_TEXTAREA_FIELD
+} from "../redux/actions/actionTypes";
 import {deleteField} from "../redux/actions/actions";
 import InputTextAreaComponent from "./InputTextAreaComponent";
 import {connect} from "react-redux";
 import {getFormIndex} from "../redux/store/reducerUtils";
 
 function FormComponent(props) {
-  const {formName, formElements, formId, deleteForm, key, reduxState} = props;
+  const {formName, formElements, formId, deleteForm, key, reduxState, forms} = props;
   console.log("reduxState:", reduxState);
 
   const shareForm = () => {
     const formIndex = getFormIndex(reduxState, formId);
+    console.log("forms:", forms);
     const updatedFormElements = reduxState.getIn(
       ["forms", formIndex, "formElements"]);
 
-    // TODO: Change left-side elements to be from REDUX state and NOT from 'props'
     let formToBeSaved = {
       id: formId,
       formName: formName,
       formElements: updatedFormElements
     };
-    console.log("formToBeSaved:", formToBeSaved);
     const formDataString = JSON.stringify(formToBeSaved);
-    console.log("formDataString:", formDataString);
     let encodedData = btoa(unescape(encodeURIComponent(formDataString)));
-    console.log("encodedData:", encodedData);
     const link = document.createElement("a");
-    // const blob = new Blob([encodedData], {type: "text/plain"});
-    // TODO: Step1 - Use  https://www.pluralsight.com/guides/using-react-router-with-redux
     link.href = encodedData;
-    console.log("link.href:", link.href);
     link.target = "_blank";
     document.body.appendChild(link);
     link.click();
@@ -39,7 +38,7 @@ function FormComponent(props) {
   }
 
 
-  // TODO: Step4 - Fix Bootstrap CSS styling for input field to be INLINE with buttonS
+  // TODO: Step3A - Fix Bootstrap CSS styling for input field to be INLINE with buttonS
   return (
     <div key={key}>
       <div className="form-group form-row">
@@ -59,7 +58,7 @@ function FormComponent(props) {
                       key={index}
                       id={id}
                       formId={formId}
-                      // formElementTypeTIF={EDIT_INPUT_TEXT_FIELD}
+                      formElementTypeTIF={EDIT_INPUT_TEXT_FIELD}
                       label={label}
                       value={value}
                     />
@@ -78,7 +77,7 @@ function FormComponent(props) {
                       key={index}
                       id={id}
                       formId={formId}
-                      // formElementTypeTAIF={EDIT_INPUT_TEXTAREA_FIELD}
+                      formElementTypeTAIF={EDIT_INPUT_TEXTAREA_FIELD}
                       label={label}
                       value={value}
                     />
@@ -102,9 +101,6 @@ function FormComponent(props) {
         className="btn btn-outline-success btn-sm">
         Share form
       </button>
-      {/*<Link to={"/"+formId} key={formId}>*/}
-      {/*  <UserPOV formId={formId} formName={formName} formElements={formElements} />*/}
-      {/*</Link>*/}
       &nbsp;
       <button className="btn btn-danger btn-sm"
               onClick={() => deleteForm(formId)}>Delete Form
@@ -116,7 +112,8 @@ function FormComponent(props) {
 function mapStateToProps(state) {
   const {mainReducer} = state;
   return {
-    reduxState: mainReducer
+    reduxState: mainReducer,
+    forms: mainReducer.get("forms")
   }
 }
 

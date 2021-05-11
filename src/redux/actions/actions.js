@@ -1,13 +1,12 @@
 import {
   ADD_NEW_FORM,
-  ADD_NEW_FORM_CHANGED,
+  ADD_NEW_FORM_CHANGED, ADD_SHARED_FORM_TO_STATE,
   ADD_TEXTAREA_INPUT_FIELD,
   CLEAR_CURRENT_FORM,
   DELETE_FIELD,
   DELETE_FORM,
   EDIT_INPUT_TEXT_FIELD,
-  EDIT_INPUT_TEXTAREA_FIELD,
-  SET_LINKED_FORM,
+  EDIT_INPUT_TEXTAREA_FIELD
 } from "./actionTypes";
 
 
@@ -57,13 +56,6 @@ export const editCurrentTextAreaField = (key, id, formId, formElementTypeTAIF,
   }
 });
 
-export const setDisplayedForm = (encodedForm) => ({
-  type: SET_LINKED_FORM,
-  payload: {
-    encodedForm: encodedForm
-  }
-});
-
 export const clearCurrentForm = () => {
   return {
     type: CLEAR_CURRENT_FORM,
@@ -76,11 +68,19 @@ export const deleteField = (formId, id) => ({
     formId: formId,
     id: id
   }
-})
+});
 
 export const deleteForm = (formId) => ({
   type: DELETE_FORM,
   payload: {
     formId: formId
+  }
+});
+
+
+export const addSharedFormToState = (im_linkedForm) => ({
+  type: ADD_SHARED_FORM_TO_STATE,
+  payload: {
+    im_linkedForm
   }
 });

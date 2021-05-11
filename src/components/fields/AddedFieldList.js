@@ -5,8 +5,7 @@ import AddedFieldComponent from "./AddedFieldComponent";
 const AddedFieldList = (props) => {
   const {newFormElements, onDeleteField} = props;
 
-  console.log(newFormElements);
-
+  console.log("newFormElements:", newFormElements);
   return (
     (newFormElements.length === 0) ?
       <p><b>No elements</b> have been added yet!</p>
