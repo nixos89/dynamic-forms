@@ -12,12 +12,10 @@ import {connect} from "react-redux";
 import {getFormIndex} from "../redux/store/reducerUtils";
 
 function FormComponent(props) {
-  const {formName, formElements, formId, deleteForm, key, reduxState, forms} = props;
-  console.log("reduxState:", reduxState);
+  const {formName, formElements, formId, deleteForm, key, reduxState} = props;
 
   const shareForm = () => {
     const formIndex = getFormIndex(reduxState, formId);
-    console.log("forms:", forms);
     const updatedFormElements = reduxState.getIn(
       ["forms", formIndex, "formElements"]);
 
@@ -65,7 +63,7 @@ function FormComponent(props) {
                     <button
                       onClick={() => props.onDeleteField(formId, id)}
                       className="btn btn-danger btn-sm">
-                      X
+                      x
                     </button>
                   </div>
                 );
@@ -84,7 +82,7 @@ function FormComponent(props) {
                     <button
                       onClick={() => props.onDeleteField(formId, id)}
                       className="btn btn-danger btn-sm">
-                      X
+                      x
                     </button>
                   </div>
                 );
@@ -113,7 +111,6 @@ function mapStateToProps(state) {
   const {mainReducer} = state;
   return {
     reduxState: mainReducer,
-    forms: mainReducer.get("forms")
   }
 }
 

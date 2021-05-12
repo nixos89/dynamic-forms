@@ -33,22 +33,20 @@ export const addTextAreaInputField = (inputTextAreaField) => {
   };
 };
 
-export const editCurrentTextField = (key, id, formId, formElementTypeTIF, inputTextFieldValue) => ({
+export const editCurrentTextField = (id, formId, formElementTypeTIF, inputTextFieldValue) => ({
   type: EDIT_INPUT_TEXT_FIELD,
   payload: {
     id: id,
     formId: formId,
-    key: key,
     formElementTypeTIF: formElementTypeTIF,
     inputTextFieldValue: inputTextFieldValue,
   },
 });
 
-export const editCurrentTextAreaField = (key, id, formId, formElementTypeTAIF,
+export const editCurrentTextAreaField = (id, formId, formElementTypeTAIF,
                                          inputTextAreaFieldValue) => ({
   type: EDIT_INPUT_TEXTAREA_FIELD,
   payload: {
-    key: key,
     id: id,
     formId: formId,
     formElementTypeTAIF: formElementTypeTAIF,

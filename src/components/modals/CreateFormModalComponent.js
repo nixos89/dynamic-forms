@@ -3,7 +3,7 @@ import Modal from "react-modal";
 import {connect} from "react-redux";
 import customStyles from "./customStyles";
 import {bindActionCreators} from "redux";
-import {addNewForm, clearCurrentForm, newFormChanged} from "../../redux/actions/actions";
+import {addNewForm} from "../../redux/actions/actions";
 import AddedFieldList from "../fields/AddedFieldList";
 import {fromJS} from "immutable";
 
@@ -82,9 +82,7 @@ class CreateFormModalComponent extends React.Component {
     this.setIsOpen(true);
   };
 
-  afterOpenModal() {
-    // console.log("afterOpenModal clicked!!!")
-  };
+  // afterOpenModal() {};
 
   closeModal() {
     this.setState({
@@ -93,16 +91,16 @@ class CreateFormModalComponent extends React.Component {
   };
 
   render() {
-    // console.log("RENDER STATE", this.state);
-    // console.log("RENDER Redux STATE", this.props.reduxState);
     return (
       <div>
-        <button className="btn btn-success" onClick={() => this.openModal()}>
-          Nytt Skjema
-        </button>
-        <Modal isOpen={this.state.modalIsOpen} onAfterOpen={() => this.afterOpenModal()}
-               onRequestClose={this.closeModal.bind(this)} message={this.message}
-               style={customStyles} contentLabel="Example Modal">
+        <div>
+          <button className="btn btn-success" onClick={() => this.openModal()}>
+            Nytt Skjema
+          </button>
+          <p style={{fontStyle: "italic"}}>Vær så snill klikk "Nytt Skjema" for å opprett skjemaer</p>
+        </div>
+        <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal.bind(this)}
+               message={this.message} style={customStyles} contentLabel="Example Modal">
           <button type="button" className="close" aria-label="Close"
                   onClick={() => this.closeModal()}>
             <span aria-hidden="true">&times;</span>
@@ -135,7 +133,7 @@ class CreateFormModalComponent extends React.Component {
       </div>
     );
   }
-}; // CreateFormModalComponent::END
+};
 
 
 function mapStateToProps(state) {
@@ -149,9 +147,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      newFormChanged: newFormChanged,
       onAddNewForm: addNewForm,
-      onClearCurrentForm: clearCurrentForm,
     },
     dispatch
   );

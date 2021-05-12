@@ -1,3 +1,5 @@
+import {fromJS} from "immutable";
+
 export function getFormIndex(state, formId) {
   return state.get("forms").findIndex((im_form) => im_form.get("id") === formId);
 }
@@ -17,11 +19,8 @@ export function indexOfFormElementFunction(state, formId, elementId) {
   return finalRes;
 }
 
-export function indexOfFormElementFunctionByForms(forms, formId, elementId) {
-  const formIndex = getFormIndexByForms(forms, formId);
-
-  const finalRes = forms
-    .getIn([formIndex, "formElements"])
-    .findIndex((im_formElement) => im_formElement.get("id") === elementId);
-  return finalRes;
+export function getSharedForm(pathName){
+  let encodedData = pathName.slice(1);
+  const jsonFormString = decodeURIComponent(escape(atob(encodedData)));
+  return fromJS(JSON.parse(jsonFormString));
 }

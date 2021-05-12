@@ -25,7 +25,7 @@ const AddedFieldList = (props) => {
 
               <div className="input-group mb-2 mr-sm-2">
                 <button onClick={(event) => onDeleteField(event, index)}
-                        className="btn btn-danger">X
+                        className="btn btn-danger">x
                 </button>
               </div>
             </div>

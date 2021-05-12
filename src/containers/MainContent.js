@@ -16,7 +16,9 @@ const MainContent = (props) => {
       <CreateFormModalComponent message={message}/>
       <hr/>
       <h1>
-        <b style={{backgroundColor: "lightblue"}}>Eksisterende Skjemaer</b>
+        <b style={{textDecorationStyle: "underline",
+            fontStyle: "italic"}}>
+          Eksisterende Skjemaer</b>
       </h1>
       <FormListComponent forms={forms}/>
       <br/>

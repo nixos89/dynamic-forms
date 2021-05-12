@@ -13,13 +13,9 @@ import {fromJS, Map} from "immutable";
 export function mainReducer(state = im_initialState, action) {
   switch (action.type) {
     case ADD_NEW_FORM: {
-      console.log("*** in da case ADD_NEW_FORM::START ***");
       const {id, formName, formElements} = action.payload;
       const newFormToAdd = Map({id: id, formName: formName, formElements: formElements});
-
       const newState = state.update("forms", forms => forms.push(newFormToAdd));
-      console.log("newState:", newState);
-      console.log("*** in da case ADD_NEW_FORM::END ***");
       return newState;
     }
     case ADD_NEW_FIELD: {
@@ -69,7 +65,6 @@ export function mainReducer(state = im_initialState, action) {
     case ADD_SHARED_FORM_TO_STATE: {
       const {im_linkedForm} = action.payload;
       const updatedState = state.update("forms", forms => forms.push(im_linkedForm));
-      console.log("(in da ADD_SHARED_FORM_TO_STATE) updatedState:", updatedState);
       return updatedState;
     }
     default: {

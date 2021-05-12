@@ -8,88 +8,30 @@ import {
 } from "../redux/actions/actionTypes";
 import InputTextAreaComponent from "./InputTextAreaComponent";
 import {connect} from "react-redux";
-import {fromJS} from "immutable";
-import {getFormIndex, indexOfFormElementFunction} from "../redux/store/reducerUtils";
 import {addSharedFormToState} from "../redux/actions/actions";
+import {getSharedForm} from "../redux/store/reducerUtils";
 
 class UserPOV extends React.Component {
 
-  /* NOTE: IFF class-based component use `componentDidMount` (invoke e.g.
-      `addFormToGlobalState` action) or some Hook IFF functional component!
-      P.S. Hooks that follow should be on TOP of the UserPOV body!  */
   constructor(props) {
     super(props);
-    const {location, reduxState} = props;
+    const im_linkedForm = getSharedForm(props.location.pathname);
+
+    props.onAddSharedFormToState(im_linkedForm);
+
+    const {reduxState} = props;
     console.log("reduxState:", reduxState);
-    let pathName = location.pathname;
-    let encodedData = pathName.slice(1);
-    const jsonFormString = decodeURIComponent(escape(atob(encodedData)));
-    const im_linkedForm = fromJS(JSON.parse(jsonFormString));
-    const id = im_linkedForm.get("id");
-    const formName = im_linkedForm.get("formName");
-    this.state = {
-      id: id,
-      formName: formName,
-      im_linkedForm: im_linkedForm,
-      formElements: [],
-      currentReduxState: reduxState
-    }
     this.downloadForm = this.downloadForm.bind(this);
   }
 
-
-  static getDerivedStateFromProps(props, state) {
-    // props.onAddSharedFormToState(state.im_linkedForm);// behaves as setState({..}) -> throws an error
-    console.log("reduxState:", props.reduxState);
-    const formIndex = getFormIndex(state.currentReduxState, state.id);
-    const updatedFormElements = state.currentReduxState.getIn(["forms", formIndex, "formElements"]);
-
-    // if (props.reduxState !== state.currentReduxState) {
-    //   return {
-    //     currentReduxState: props.reduxState,
-    //     formElements: updatedFormElements
-    //   }
-    // }
-    return {
-      currentReduxState: props.reduxState,
-      formElements: updatedFormElements
-    }
-    // return null;
-  }
-
-  // NOTE: can not use "componentWillMount()" as it does NOT work in React 17+
-  componentDidMount() {
-    console.log("this.state.im_linkedForm:", this.state.im_linkedForm);
-    this.props.onAddSharedFormToState(this.state.im_linkedForm);
-    // TODO: Step1 - Retrieve result into `updatedState`
-    /*
-    const updatedState = this.props.onAddSharedFormToState(this.state.im_linkedForm);
-    console.log("updatedState:", updatedState);
-    console.log("reduxState:", this.props.reduxState);
-
-    const formIndex = getFormIndex(this.state.currentReduxState, this.state.id);
-    const updatedFormElements = this.state.currentReduxState.getIn(
-      ["forms", formIndex, "formElements"]);
-
-    this.setState({
-      formElements: updatedFormElements
-    });*/
-  }
-
-
-  // Form to be downloaded!
   downloadForm() {
-    console.log("in da downloadForm(..)::START");
-    const formIndex = getFormIndex(this.props.reduxState, this.state.id);
-    const updatedFormElements = this.state.currentReduxState.getIn(
-      ["forms", formIndex, "formElements"]);
+    const formId = this.props.form.get("id");
+    const formName = this.props.form.get("formName");
+    const formElements = this.props.form.get("formElements");
     let formToBeSaved = {
-      id: this.state.id,
-      formName: this.state.formName,
-      /* TODO: Step2-  'formElements' value MUST be changed (use the one from Redux and NOT
-          the one extracted from DECODED form -> because values can be changed VIA Redux)!
-       */
-      formElements: updatedFormElements
+      id: formId,
+      formName: formName,
+      formElements: formElements
     };
     const formData = JSON.stringify(formToBeSaved);
     const blob = new Blob([formData], {type: "application/json"});
@@ -98,33 +40,31 @@ class UserPOV extends React.Component {
     const date = new Date();
     const dateDetails = date.getHours() + "h" + date.getMinutes() + "m" + date.getSeconds()
       + "s_" + date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
-    const fileName = this.state.formName + "-" + this.state.id + "-" + dateDetails;
+    const fileName = formName + "-" + formId + "-" + dateDetails;
     link.download = `${fileName}.json`;
     link.href = url;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     console.log("in da downloadForm(..)::END");
-  }//downloadForm::END
+  }
 
 
   // TODO: Step3B - Fix Bootstrap CSS styling for input field to be INLINE with buttonS
   render() {
+    console.log("props.form:", this.props.form);
+    if (!this.props.form) {
+      return <p>Loading...</p>
+    }
     return (
       <div>
         <div className="form-group form-row">
-          <legend style={{padding: "20px"}}>{this.state.formName}</legend>
+          <legend style={{padding: "20px"}}>{this.props.form.get("formName")}</legend>
           <ul>
-            {this.state.formElements.map((formElement, index) => {
+            {this.props.form.get("formElements").map((formElement, index) => {
               const elementId = formElement.get("id");
               const label = formElement.get("label");
-              const formIndex = getFormIndex(this.state.currentReduxState, this.state.id);
-              const indexOfFormEl = indexOfFormElementFunction(this.state.currentReduxState,
-                this.state.id, elementId);
-              // let value = formElement.get("value");
-              let value = this.state.currentReduxState.getIn(
-                ["forms", formIndex, "formElements", indexOfFormEl, "value"]);
-
+              const formId = this.props.form.get("id");
               const formElementType = formElement.get("formElementType");
 
               switch (formElementType) {
@@ -134,10 +74,10 @@ class UserPOV extends React.Component {
                       <InputTextComponent
                         key={index}
                         id={elementId}
-                        formId={this.state.id}
+                        formId={formId}
                         formElementTypeTIF={EDIT_INPUT_TEXT_FIELD}
                         label={label}
-                        value={value}
+                        value={formElement.get("value")}
                       />
                     </div>
                   );
@@ -148,10 +88,10 @@ class UserPOV extends React.Component {
                       <InputTextAreaComponent
                         key={index}
                         id={elementId}
-                        formId={this.state.id}
+                        formId={formId}
                         formElementTypeTAIF={EDIT_INPUT_TEXTAREA_FIELD}
                         label={label}
-                        value={value}
+                        value={formElement.get("value")}
                       />
                     </div>
                   );
@@ -160,7 +100,6 @@ class UserPOV extends React.Component {
                   return (<p>No input fields added to current from yet!</p>);
                 }
               }
-
             })}
           </ul>
         </div>
@@ -174,14 +113,14 @@ class UserPOV extends React.Component {
   };
 }
 
-/* NOTE: IFF UserPOV is functional-based component might want to replace
- * mapXXXToProps functions with useSelector + useDispatch Hooks ! */
-function mapStateToProps(state) {
-  const {mainReducer, rootReducer} = state;
-  console.log("rootReducer:", rootReducer);
+function mapStateToProps(state, ownProps) {
+  const {mainReducer} = state;
+  const formId = getSharedForm(ownProps.location.pathname).get("id");
+
   return {
     reduxState: mainReducer,
-    formsRedux: mainReducer.get("forms")
+    formsRedux: mainReducer.get("forms"),
+    form: mainReducer.get("forms").filter(form => form.get("id") === formId).first(),
   }
 }
 
@@ -193,5 +132,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-// UserPOV = React.memo(UserPOV);
 export default connect(mapStateToProps, mapDispatchToProps)(UserPOV);
