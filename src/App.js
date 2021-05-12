@@ -20,8 +20,5 @@ function App() {
   );
 }
 
-// let memoizedApp = React.memo(App);
-// export default memoizedApp;
-
 export default App;
 

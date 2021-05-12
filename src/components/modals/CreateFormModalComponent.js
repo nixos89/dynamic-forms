@@ -83,7 +83,7 @@ class CreateFormModalComponent extends React.Component {
   };
 
   afterOpenModal() {
-    console.log("afterOpenModal clicked!!!")
+    // console.log("afterOpenModal clicked!!!")
   };
 
   closeModal() {
@@ -93,9 +93,8 @@ class CreateFormModalComponent extends React.Component {
   };
 
   render() {
-    console.log("RENDER STATE", this.state);
-    console.log("RENDER Redux STATE", this.props.reduxState);
-
+    // console.log("RENDER STATE", this.state);
+    // console.log("RENDER Redux STATE", this.props.reduxState);
     return (
       <div>
         <button className="btn btn-success" onClick={() => this.openModal()}>

@@ -4,7 +4,7 @@ import {editCurrentTextAreaField} from "../redux/actions/actions";
 
 const InputTextAreaComponent = (props) => {
   const {key, id, value, formId, label, formElementTypeTAIF} = props;
-  // console.log("reduxState:", props.reduxState);
+
   return (
     <React.Fragment>
       <div className="form-group row" key={key}>

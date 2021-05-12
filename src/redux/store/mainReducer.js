@@ -67,7 +67,6 @@ export function mainReducer(state = im_initialState, action) {
       return updatedState;
     }
     case ADD_SHARED_FORM_TO_STATE: {
-      // TODO: implement ADD_SHARED_FORM_TO_STATE case!
       const {im_linkedForm} = action.payload;
       const updatedState = state.update("forms", forms => forms.push(im_linkedForm));
       console.log("(in da ADD_SHARED_FORM_TO_STATE) updatedState:", updatedState);

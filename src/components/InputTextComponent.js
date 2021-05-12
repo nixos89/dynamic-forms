@@ -1,15 +1,14 @@
 import React from "react";
 import {editCurrentTextField} from "../redux/actions/actions";
-import {connect, useDispatch} from "react-redux";
+import {connect} from "react-redux";
 
 const InputTextComponent = (props) => {
+  // const dispatch =  useDispatch();
   const {key, id, formId, value, label, formElementTypeTIF, onEditCurrentTextField} = props;
-
-  const dispatch =  useDispatch();
 
   return (
     <React.Fragment>
-      <div className="form-group row">
+      <div className="form-group row" key={key}>
         <label htmlFor={id} className="col-sm-3 col-form-label">
           {label}
         </label>{" "}
@@ -19,13 +18,13 @@ const InputTextComponent = (props) => {
             className="form-control"
             value={value}
             onChange={(event) =>
-              dispatch(editCurrentTextField(
+              onEditCurrentTextField(
                 key,
                 id,
                 formId,
                 formElementTypeTIF,
                 event.target.value
-              ))
+              )
             }
           />
         </div>
@@ -34,17 +33,14 @@ const InputTextComponent = (props) => {
   );
 };
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onEditCurrentTextField(key, id, formId, formElementTypeTAIF, inputTextAreaFieldValue) {
+      dispatch(editCurrentTextField(key, id, formId, formElementTypeTAIF,
+        inputTextAreaFieldValue));
+    },
+  };
+};
 
-
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     onEditCurrentTextField(key, id, formId, formElementTypeTIF, inputTextFieldValue) {
-//       dispatch(
-//         editCurrentTextField(key, id, formId, formElementTypeTIF, inputTextFieldValue)
-//       );
-//     },
-//   };
-// };
-
-// export default connect(null, mapDispatchToProps)(InputTextComponent);
-export default InputTextComponent;
+// export default InputTextComponent;
+export default connect(null, mapDispatchToProps)(InputTextComponent);
