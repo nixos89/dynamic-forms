@@ -7,7 +7,6 @@ import {
 const im_initialState = fromJS({
   appName: "Nikolas søknad om dynamiske skjemaer",
   message: "Vær så snill opprett skjemaer",
-  newFormName: "",
   showModal: false,
   forms: [
     {
@@ -19,7 +18,6 @@ const im_initialState = fromJS({
           id: 1,
           formElementType: ADD_TEXT_INPUT_FIELD,
           label: "Navn",
-          placeholder: "",
           value: "Nikola",
         },
         {

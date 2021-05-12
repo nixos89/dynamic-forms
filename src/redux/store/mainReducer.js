@@ -1,6 +1,6 @@
 import {
   ADD_NEW_FIELD,
-  ADD_NEW_FORM,
+  ADD_NEW_FORM, ADD_SHARED_FORM_TO_STATE,
   DELETE_FIELD,
   DELETE_FORM,
   EDIT_INPUT_TEXT_FIELD,
@@ -13,13 +13,9 @@ import {fromJS, Map} from "immutable";
 export function mainReducer(state = im_initialState, action) {
   switch (action.type) {
     case ADD_NEW_FORM: {
-      console.log("*** in da case ADD_NEW_FORM::START ***");
       const {id, formName, formElements} = action.payload;
       const newFormToAdd = Map({id: id, formName: formName, formElements: formElements});
-
       const newState = state.update("forms", forms => forms.push(newFormToAdd));
-      console.log("newState:", newState);
-      console.log("*** in da case ADD_NEW_FORM::END ***");
       return newState;
     }
     case ADD_NEW_FIELD: {
@@ -61,9 +57,14 @@ export function mainReducer(state = im_initialState, action) {
 
       let updatedState = state.deleteIn(["forms", formIndex, "formElements", indexOfFormEl]);
       let currentFormElements = state.getIn(["forms", formIndex, "formElements"]);
-      if ((currentFormElements.size-1) === 0) {
+      if ((currentFormElements.size - 1) === 0) {
         updatedState = state.deleteIn(["forms", formIndex]);
       }
+      return updatedState;
+    }
+    case ADD_SHARED_FORM_TO_STATE: {
+      const {im_linkedForm} = action.payload;
+      const updatedState = state.update("forms", forms => forms.push(im_linkedForm));
       return updatedState;
     }
     default: {

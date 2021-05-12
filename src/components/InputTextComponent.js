@@ -1,9 +1,10 @@
 import React from "react";
 import {editCurrentTextField} from "../redux/actions/actions";
-import { connect } from "react-redux";
+import {useDispatch} from "react-redux";
 
 const InputTextComponent = (props) => {
-  const {key, id, formId, value, label, formElementTypeTIF, onEditCurrentTextField} = props;
+  const dispatch = useDispatch();
+  const {id, formId, value, label, formElementTypeTIF} = props;
 
   return (
     <React.Fragment>
@@ -16,14 +17,13 @@ const InputTextComponent = (props) => {
             type="text"
             className="form-control"
             value={value}
-            onChange={(event) =>
-              onEditCurrentTextField(
-                key,
+            onChange={(event) => dispatch(
+              editCurrentTextField(
                 id,
                 formId,
                 formElementTypeTIF,
                 event.target.value
-              )
+              ))
             }
           />
         </div>
@@ -32,14 +32,4 @@ const InputTextComponent = (props) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onEditCurrentTextField(key, id, formId, formElementTypeTIF, inputTextFieldValue) {
-      dispatch(
-        editCurrentTextField(key, id, formId, formElementTypeTIF, inputTextFieldValue)
-      );
-    },
-  };
-};
-
-export default connect(null, mapDispatchToProps)(InputTextComponent);
+export default InputTextComponent;

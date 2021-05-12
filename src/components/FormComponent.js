@@ -9,31 +9,26 @@ import {
 import {deleteField} from "../redux/actions/actions";
 import InputTextAreaComponent from "./InputTextAreaComponent";
 import {connect} from "react-redux";
+import {getFormIndex} from "../redux/store/reducerUtils";
 
 function FormComponent(props) {
-  const {formName, formElements, formId, deleteForm/*, downloadForm*/} = props;
+  const {formName, formElements, formId, deleteForm, key, reduxState} = props;
 
-  /* TODO: Step1 - Implement button link for opening NEW tab (via ReactRouter) which contains SELECTED form
-       with empty fields and when you populate them you click on `Download form` and download it with populated fields!  */
-  const downloadForm = () => {
-    console.log("in da downloadForm(..)::START");
+  const shareForm = () => {
+    const formIndex = getFormIndex(reduxState, formId);
+    const updatedFormElements = reduxState.getIn(
+      ["forms", formIndex, "formElements"]);
+
     let formToBeSaved = {
       id: formId,
       formName: formName,
-      formElements: formElements
+      formElements: updatedFormElements
     };
-    console.log("IN da IF-statement:", JSON.stringify(formToBeSaved));
-    const formData = JSON.stringify(formToBeSaved);
-    console.log("formData:", formData);
-    const blob = new Blob([formData], {type: "application/json"});
-    const url = URL.createObjectURL(blob);
+    const formDataString = JSON.stringify(formToBeSaved);
+    let encodedData = btoa(unescape(encodeURIComponent(formDataString)));
     const link = document.createElement("a");
-    const date = new Date();
-    const dateDetails = date.getHours() + "h" + date.getMinutes() + "m" + date.getSeconds()
-      + "s_" + date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
-    const fileName = formName + "-" + formId + "-" + dateDetails;
-    link.download = `${fileName}.json`;
-    link.href = url;
+    link.href = encodedData;
+    link.target = "_blank";
     document.body.appendChild(link);
     link.click();
     console.log("link clicked!!!");
@@ -41,9 +36,9 @@ function FormComponent(props) {
   }
 
 
-  // TODO: Step3 - Fix Bootstrap CSS styling for input field to be INLINE with buttonS
+  // TODO: Step3A - Fix Bootstrap CSS styling for input field to be INLINE with buttonS
   return (
-    <div>
+    <div key={key}>
       <div className="form-group form-row">
         <legend style={{padding: "20px"}}>{formName}</legend>
         <ul>
@@ -68,7 +63,7 @@ function FormComponent(props) {
                     <button
                       onClick={() => props.onDeleteField(formId, id)}
                       className="btn btn-danger btn-sm">
-                      X
+                      x
                     </button>
                   </div>
                 );
@@ -87,7 +82,7 @@ function FormComponent(props) {
                     <button
                       onClick={() => props.onDeleteField(formId, id)}
                       className="btn btn-danger btn-sm">
-                      X
+                      x
                     </button>
                   </div>
                 );
@@ -100,9 +95,9 @@ function FormComponent(props) {
         </ul>
       </div>
       <button
-        onClick={downloadForm}
+        onClick={shareForm}
         className="btn btn-outline-success btn-sm">
-        Download form
+        Share form
       </button>
       &nbsp;
       <button className="btn btn-danger btn-sm"
@@ -110,6 +105,13 @@ function FormComponent(props) {
       </button>
     </div>
   );
+}
+
+function mapStateToProps(state) {
+  const {mainReducer} = state;
+  return {
+    reduxState: mainReducer,
+  }
 }
 
 
@@ -121,4 +123,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(null, mapDispatchToProps)(FormComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(FormComponent);
