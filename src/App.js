@@ -10,10 +10,9 @@ function App() {
   return (
     <div className="d-flex flex-column sticky-footer-wrapper min-vh-100">
       <Header/>
-      {/* {formId !== null ? <MainContent /> : <FormComponent formId={formId}/>} */}
       <Switch>
         <Route path="/" component={MainContent} exact/>
-        <Route path="/:formId" component={UserPOV}/>
+        <Route path="/:encodedForm" component={UserPOV}/>
       </Switch>
       <Footer/>
     </div>

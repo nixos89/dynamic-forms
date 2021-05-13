@@ -11,20 +11,21 @@ const MainContent = (props) => {
   const {message, forms} = props;
 
   return (
-    <main id="main">
-      <hr/>
-      <CreateFormModalComponent message={message}/>
-      <hr/>
-      <h1>
-        <b style={{textDecorationStyle: "underline",
-            fontStyle: "italic"}}>
-          Eksisterende Skjemaer</b>
-      </h1>
-      <FormListComponent forms={forms}/>
-      <br/>
-    </main>
+    <div className="justify-content-center">
+      <main id="main" role="main" className="flex-shrink-0">
+        <div id="container" className="container h-100">
+          <hr/>
+          <div className="form-row justify-content-center">
+            <CreateFormModalComponent message={message}/>
+          </div>
+          <hr/>
+          <FormListComponent forms={forms}/>
+          <br/>
+        </div>
+      </main>
+    </div>
   );
-}; //MainContent::END
+};
 
 function mapStateToProps(state) {
   const {mainReducer} = state;
@@ -35,7 +36,6 @@ function mapStateToProps(state) {
   };
 }
 
-// More at: https://reactjs.org/docs/typechecking-with-proptypes.html
 MainContent.propTypes = {
   message: PropTypes.string,
   show: PropTypes.bool,

@@ -1,8 +1,8 @@
 import {
   ADD_NEW_FORM,
-  ADD_NEW_FORM_CHANGED, ADD_SHARED_FORM_TO_STATE,
+  ADD_NEW_FORM_CHANGED,
+  ADD_SHARED_FORM_TO_STATE,
   ADD_TEXTAREA_INPUT_FIELD,
-  CLEAR_CURRENT_FORM,
   DELETE_FIELD,
   DELETE_FORM,
   EDIT_INPUT_TEXT_FIELD,
@@ -54,11 +54,6 @@ export const editCurrentTextAreaField = (id, formId, formElementTypeTAIF,
   }
 });
 
-export const clearCurrentForm = () => {
-  return {
-    type: CLEAR_CURRENT_FORM,
-  };
-};
 
 export const deleteField = (formId, id) => ({
   type: DELETE_FIELD,

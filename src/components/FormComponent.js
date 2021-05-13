@@ -18,7 +18,6 @@ function FormComponent(props) {
     const formIndex = getFormIndex(reduxState, formId);
     const updatedFormElements = reduxState.getIn(
       ["forms", formIndex, "formElements"]);
-
     let formToBeSaved = {
       id: formId,
       formName: formName,
@@ -31,16 +30,19 @@ function FormComponent(props) {
     link.target = "_blank";
     document.body.appendChild(link);
     link.click();
-    console.log("link clicked!!!");
     document.body.removeChild(link);
   }
 
 
-  // TODO: Step3A - Fix Bootstrap CSS styling for input field to be INLINE with buttonS
   return (
-    <div key={key}>
-      <div className="form-group form-row">
-        <legend style={{padding: "20px"}}>{formName}</legend>
+    <div key={key} className="justify-content-center">
+      <div className="form-row ">
+        <legend style={{padding: "20px"}}><b style={{
+          textDecorationStyle: "underline",
+          fontStyle: "italic"
+        }}>{formName}</b></legend>
+      </div>
+      <div className="form-group justify-content-center">
         <ul>
           {formElements.map((formElement, index) => {
             const id = formElement.get("id");
@@ -51,40 +53,50 @@ function FormComponent(props) {
             switch (formElementType) {
               case ADD_TEXT_INPUT_FIELD: {
                 return (
-                  <div key={index}>
-                    <InputTextComponent
-                      key={index}
-                      id={id}
-                      formId={formId}
-                      formElementTypeTIF={EDIT_INPUT_TEXT_FIELD}
-                      label={label}
-                      value={value}
-                    />
-                    <button
-                      onClick={() => props.onDeleteField(formId, id)}
-                      className="btn btn-danger btn-sm">
-                      x
-                    </button>
+                  <div key={index} className="form-row align-items-center">
+                      <div className="col-9">
+                        <InputTextComponent
+                          key={index}
+                          id={id}
+                          formId={formId}
+                          formElementTypeTIF={EDIT_INPUT_TEXT_FIELD}
+                          label={label}
+                          value={value}
+                        />
+                      </div>
+                      <div className="col-3">
+                        <button
+                          onClick={() => props.onDeleteField(formId, id)}
+                          className="btn btn-outline-danger btn-sm">
+                          <span style={{color: "white"}}>❌</span>
+                        </button>
+                      </div>
                   </div>
                 );
               }
               case ADD_TEXTAREA_INPUT_FIELD: {
                 return (
                   <div key={index}>
-                    <InputTextAreaComponent
-                      key={index}
-                      id={id}
-                      formId={formId}
-                      formElementTypeTAIF={EDIT_INPUT_TEXTAREA_FIELD}
-                      label={label}
-                      value={value}
-                    />
-                    <button
-                      onClick={() => props.onDeleteField(formId, id)}
-                      className="btn btn-danger btn-sm">
-                      x
-                    </button>
-                  </div>
+                    <div className="form-row">
+                      <div className="col-9">
+                        <InputTextAreaComponent
+                          key={index}
+                          id={id}
+                          formId={formId}
+                          formElementTypeTAIF={EDIT_INPUT_TEXTAREA_FIELD}
+                          label={label}
+                          value={value}
+                        />
+                      </div>
+                      <div className="col-2">
+                        <button
+                          onClick={() => props.onDeleteField(formId, id)}
+                          className="btn btn-outline-danger btn-sm">
+                          ❌
+                        </button>
+                      </div>
+                    </div>
+                  </div>//END::<div key={index} className="form-row align-items-center">
                 );
               }
               default: {
@@ -94,15 +106,16 @@ function FormComponent(props) {
           })}
         </ul>
       </div>
-      <button
-        onClick={shareForm}
-        className="btn btn-outline-success btn-sm">
-        Share form
-      </button>
-      &nbsp;
-      <button className="btn btn-danger btn-sm"
-              onClick={() => deleteForm(formId)}>Delete Form
-      </button>
+      {/*END::<div className="form-group form-row">*/}
+      <div className="form-group row justify-content-center">
+        <button onClick={shareForm}
+                className="btn btn-outline-success btn-sm">Del skjema
+        </button>
+        &nbsp;
+        <button onClick={() => deleteForm(formId)}
+                className="btn btn-danger btn-sm">Slett Form
+        </button>
+      </div>
     </div>
   );
 }

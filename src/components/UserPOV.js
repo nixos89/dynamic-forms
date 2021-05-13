@@ -16,11 +16,7 @@ class UserPOV extends React.Component {
   constructor(props) {
     super(props);
     const im_linkedForm = getSharedForm(props.location.pathname);
-
     props.onAddSharedFormToState(im_linkedForm);
-
-    const {reduxState} = props;
-    console.log("reduxState:", reduxState);
     this.downloadForm = this.downloadForm.bind(this);
   }
 
@@ -46,20 +42,24 @@ class UserPOV extends React.Component {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    console.log("in da downloadForm(..)::END");
   }
 
 
-  // TODO: Step3B - Fix Bootstrap CSS styling for input field to be INLINE with buttonS
   render() {
-    console.log("props.form:", this.props.form);
+    // console.log("props.form:", this.props.form);
     if (!this.props.form) {
       return <p>Loading...</p>
     }
     return (
-      <div>
-        <div className="form-group form-row">
-          <legend style={{padding: "20px"}}>{this.props.form.get("formName")}</legend>
+      <div className="justify-content-center">
+        <div className="form-group row offset-4">
+          <legend style={{padding: "20px"}}>
+            <b style={{textDecorationStyle: "underline", fontStyle: "italic"}}>
+              {this.props.form.get("formName")}
+            </b>
+          </legend>
+        </div>
+        <div className="form-group row justify-content-center">
           <ul>
             {this.props.form.get("formElements").map((formElement, index) => {
               const elementId = formElement.get("id");
@@ -71,12 +71,8 @@ class UserPOV extends React.Component {
                 case ADD_TEXT_INPUT_FIELD: {
                   return (
                     <div key={index}>
-                      <InputTextComponent
-                        key={index}
-                        id={elementId}
-                        formId={formId}
-                        formElementTypeTIF={EDIT_INPUT_TEXT_FIELD}
-                        label={label}
+                      <InputTextComponent key={index} id={elementId} formId={formId}
+                        formElementTypeTIF={EDIT_INPUT_TEXT_FIELD} label={label}
                         value={formElement.get("value")}
                       />
                     </div>
@@ -85,13 +81,9 @@ class UserPOV extends React.Component {
                 case ADD_TEXTAREA_INPUT_FIELD: {
                   return (
                     <div key={index}>
-                      <InputTextAreaComponent
-                        key={index}
-                        id={elementId}
-                        formId={formId}
+                      <InputTextAreaComponent key={index} id={elementId} formId={formId}
                         formElementTypeTAIF={EDIT_INPUT_TEXTAREA_FIELD}
-                        label={label}
-                        value={formElement.get("value")}
+                        label={label}  value={formElement.get("value")}
                       />
                     </div>
                   );
@@ -103,11 +95,13 @@ class UserPOV extends React.Component {
             })}
           </ul>
         </div>
-        <button
-          onClick={this.downloadForm}
-          className="btn btn-success btn-sm">
-          Save form
-        </button>
+        <div className="form-group row justify-content-center">
+          <button
+            onClick={this.downloadForm}
+            className="btn btn-success btn-sm">
+            Save form
+          </button>
+        </div>
       </div>
     )
   };
