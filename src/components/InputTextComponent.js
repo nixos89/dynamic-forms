@@ -7,28 +7,26 @@ const InputTextComponent = (props) => {
   const {id, formId, value, label, formElementTypeTIF} = props;
 
   return (
-    <React.Fragment>
-      <div className="form-group row">
-        <label htmlFor={id} className="col-sm-3 col-form-label">
+    <div className="form-group row">
+        <label className="col-md-3 col-form-label" htmlFor={id}>
           {label}
-        </label>{" "}
-        <div className="col-sm-9">
-          <input
-            type="text"
-            className="form-control"
-            value={value}
-            onChange={(event) => dispatch(
-              editCurrentTextField(
-                id,
-                formId,
-                formElementTypeTIF,
-                event.target.value
-              ))
-            }
-          />
-        </div>
+        </label>
+      <div className="col-md-9">
+        <input
+          type="text"
+          className="form-control"
+          value={value}
+          onChange={(event) => dispatch(
+            editCurrentTextField(
+              id,
+              formId,
+              formElementTypeTIF,
+              event.target.value
+            ))
+          }
+        />
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 

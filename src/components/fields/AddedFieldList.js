@@ -1,11 +1,9 @@
 import React from "react";
 import AddedFieldComponent from "./AddedFieldComponent";
 
-/* Sample: https://scotch.io/tutorials/create-a-simple-to-do-app-with-react */
 const AddedFieldList = (props) => {
   const {newFormElements, onDeleteField} = props;
 
-  // console.log("newFormElements:", newFormElements);
   return (
     (newFormElements.length === 0) ?
       <p><b>No elements</b> have been added yet!</p>

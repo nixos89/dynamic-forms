@@ -4,12 +4,10 @@ import FormComponent from "./FormComponent";
 import {deleteForm} from "../redux/actions/actions";
 
 class FormListComponent extends Component {
-
   render() {
     return (
       <React.Fragment>
         {this.props.forms.map((formComponent, index) => {
-
           return (
             <FormComponent
               key={index}
@@ -24,7 +22,6 @@ class FormListComponent extends Component {
     );
   }
 }
-
 
 function mapDispatchToProps(dispatch) {
   return {

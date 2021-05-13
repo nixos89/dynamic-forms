@@ -93,11 +93,15 @@ class CreateFormModalComponent extends React.Component {
   render() {
     return (
       <div>
-        <div>
-          <button className="btn btn-success" onClick={() => this.openModal()}>
-            Nytt Skjema
-          </button>
-          <p style={{fontStyle: "italic"}}>Vær så snill klikk "Nytt Skjema" for å opprett skjemaer</p>
+        <div className="form-inline">
+          <div className="form-group mb-2">
+            <button className="btn btn-success" onClick={() => this.openModal()}>
+              <span role="img">➕</span> Nytt Skjema
+            </button>
+          </div>
+          <div className="form-group mx-sm-3 mb-2">
+            <p style={{fontStyle: "italic"}}>Vær så snill klikk "Nytt Skjema" for å opprett skjemaer</p>
+          </div>
         </div>
         <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal.bind(this)}
                message={this.message} style={customStyles} contentLabel="Example Modal">
@@ -118,7 +122,7 @@ class CreateFormModalComponent extends React.Component {
                   &nbsp;
                   <input type="submit" value="Sende in" className="btn btn-success"/>
                   &nbsp;
-                  <input type="reset" value="Nullstille" className="btn btn-danger"/>
+                  <input type="reset" value="Nullstille" className="btn btn-outline-warning"/>
                   &nbsp;
                   <input type="button" value="Nytt felt" className="btn btn-primary"
                          onClick={this.addFieldFunction}/>
@@ -133,7 +137,7 @@ class CreateFormModalComponent extends React.Component {
       </div>
     );
   }
-};
+}
 
 
 function mapStateToProps(state) {

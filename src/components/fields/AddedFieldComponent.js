@@ -2,7 +2,6 @@ import React from "react";
 
 const AddedFieldComponent = (props) => {
 
-  // console.log("props:", props);
   const labelId = `label${props.id}`;
   const formElementTypeFieldId = `formElementTypeField${props.id}`;
   return (
