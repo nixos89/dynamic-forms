@@ -1,10 +1,10 @@
 import React from "react";
-import {editCurrentTextField} from "../redux/actions/actions";
+import {editCurrentInputField,} from "../redux/actions/actions";
 import {useDispatch} from "react-redux";
 
 const InputTextComponent = (props) => {
   const dispatch = useDispatch();
-  const {id, formId, value, label, formElementTypeTIF} = props;
+  const {id, formId, value, label} = props;
 
   return (
     <div className="form-group row">
@@ -17,13 +17,8 @@ const InputTextComponent = (props) => {
           className="form-control"
           value={value}
           onChange={(event) => dispatch(
-            editCurrentTextField(
-              id,
-              formId,
-              formElementTypeTIF,
-              event.target.value
-            ))
-          }
+            editCurrentInputField(id, formId, event.target.value)
+          )}
         />
       </div>
     </div>

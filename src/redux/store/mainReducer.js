@@ -1,10 +1,10 @@
 import {
   ADD_NEW_FIELD,
-  ADD_NEW_FORM, ADD_SHARED_FORM_TO_STATE,
+  ADD_NEW_FORM,
+  ADD_SHARED_FORM_TO_STATE,
   DELETE_FIELD,
   DELETE_FORM,
-  EDIT_INPUT_TEXT_FIELD,
-  EDIT_INPUT_TEXTAREA_FIELD,
+  EDIT_INPUT_FIELD,
 } from "../actions/actionTypes";
 import im_initialState from "./initialState";
 import {getFormIndex, indexOfFormElementFunction} from "./reducerUtils";
@@ -15,7 +15,8 @@ export function mainReducer(state = im_initialState, action) {
     case ADD_NEW_FORM: {
       const {id, formName, formElements} = action.payload;
       const newFormToAdd = Map({id: id, formName: formName, formElements: formElements});
-      const newState = state.update("forms", forms => forms.push(newFormToAdd));
+      const newState = state.update("forms", forms => forms.push(newFormToAdd))
+      console.log("newState:", newState);
       return newState;
     }
     case ADD_NEW_FIELD: {
@@ -26,23 +27,14 @@ export function mainReducer(state = im_initialState, action) {
         label: label,
       });
     }
-    case EDIT_INPUT_TEXT_FIELD: {
-      const {id: elementId, formId, inputTextFieldValue} = action.payload;
+    case EDIT_INPUT_FIELD: {
+      // TODO: merge this EDIT_XXXX and other one into single one which checks which input type is passed!
+      const {id: elementId, formId, inputFieldValue} = action.payload;
       const formIndex = getFormIndex(state, formId);
       const indexOfFormEl = indexOfFormElementFunction(state, formId, elementId);
 
       return state.setIn(["forms", formIndex, "formElements", indexOfFormEl, "value"],
-        inputTextFieldValue
-      );
-    }
-    case EDIT_INPUT_TEXTAREA_FIELD: {
-      const {id: elementId, formId, inputTextAreaFieldValue} = action.payload;
-      const formIndex = getFormIndex(state, formId);
-      const indexOfFormEl = indexOfFormElementFunction(state, formId, elementId);
-
-      return state.setIn(
-        ["forms", formIndex, "formElements", indexOfFormEl, "value"],
-        inputTextAreaFieldValue
+        inputFieldValue
       );
     }
     case DELETE_FORM: {
@@ -64,8 +56,7 @@ export function mainReducer(state = im_initialState, action) {
     }
     case ADD_SHARED_FORM_TO_STATE: {
       const {im_linkedForm} = action.payload;
-      const updatedState = state.update("forms", forms => forms.push(im_linkedForm));
-      return updatedState;
+      return state.update("forms", forms => forms.push(im_linkedForm));
     }
     default: {
       return state;

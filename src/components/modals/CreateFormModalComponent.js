@@ -11,11 +11,13 @@ class CreateFormModalComponent extends React.Component {
 
   constructor(props) {
     super(props);
+    // TODO: ** Only 'message' and 'modalIsOpen' should be in component inner state -> check HOW
+    //  and with Tanja WHY exactly!
     this.state = {
       message: props.message,
       newFormElements: [],
       formName: "",
-      subtitle: "Subtitle const",
+      // subtitle: "Subtitle const",
       modalIsOpen: false,
     };
     this.addFieldFunction = this.addFieldFunction.bind(this);
@@ -139,15 +141,6 @@ class CreateFormModalComponent extends React.Component {
   }
 }
 
-
-function mapStateToProps(state) {
-  const {mainReducer} = state;
-  return {
-    reduxState: mainReducer,
-    forms: mainReducer.get("forms")
-  };
-}
-
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
@@ -157,4 +150,4 @@ function mapDispatchToProps(dispatch) {
   );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateFormModalComponent);
+export default connect(null, mapDispatchToProps)(CreateFormModalComponent);

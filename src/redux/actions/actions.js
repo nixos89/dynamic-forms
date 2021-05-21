@@ -2,11 +2,9 @@ import {
   ADD_NEW_FORM,
   ADD_NEW_FORM_CHANGED,
   ADD_SHARED_FORM_TO_STATE,
-  ADD_TEXTAREA_INPUT_FIELD,
   DELETE_FIELD,
   DELETE_FORM,
-  EDIT_INPUT_TEXT_FIELD,
-  EDIT_INPUT_TEXTAREA_FIELD
+  EDIT_INPUT_FIELD
 } from "./actionTypes";
 
 
@@ -26,32 +24,13 @@ export const addNewForm = (id, formName, formElements) => ({
   }
 });
 
-export const addTextAreaInputField = (inputTextAreaField) => {
-  return {
-    type: ADD_TEXTAREA_INPUT_FIELD,
-    inputTextAreaField,
-  };
-};
-
-export const editCurrentTextField = (id, formId, formElementTypeTIF, inputTextFieldValue) => ({
-  type: EDIT_INPUT_TEXT_FIELD,
+export const editCurrentInputField = (id, formId, inputFieldValue) => ({
+  type: EDIT_INPUT_FIELD,
   payload: {
     id: id,
     formId: formId,
-    formElementTypeTIF: formElementTypeTIF,
-    inputTextFieldValue: inputTextFieldValue,
+    inputFieldValue: inputFieldValue,
   },
-});
-
-export const editCurrentTextAreaField = (id, formId, formElementTypeTAIF,
-                                         inputTextAreaFieldValue) => ({
-  type: EDIT_INPUT_TEXTAREA_FIELD,
-  payload: {
-    id: id,
-    formId: formId,
-    formElementTypeTAIF: formElementTypeTAIF,
-    inputTextAreaFieldValue: inputTextAreaFieldValue,
-  }
 });
 
 

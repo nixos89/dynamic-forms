@@ -1,8 +1,5 @@
-import { fromJS } from "immutable";
-import {
-  ADD_TEXT_INPUT_FIELD,
-  ADD_TEXTAREA_INPUT_FIELD,
-} from "../actions/actionTypes";
+import {fromJS} from "immutable";
+import {INPUT_TEXT_FIELD, INPUT_TEXTAREA_FIELD} from "./formElementTypes";
 
 const im_initialState = fromJS({
   appName: "Nikolas søknad om dynamiske skjemaer",
@@ -16,19 +13,19 @@ const im_initialState = fromJS({
       formElements: [
         {
           id: 1,
-          formElementType: ADD_TEXT_INPUT_FIELD,
+          formElementType: INPUT_TEXT_FIELD,
           label: "Navn",
           value: "Nikola",
         },
         {
           id: 2,
-          formElementType: ADD_TEXT_INPUT_FIELD,
+          formElementType: INPUT_TEXT_FIELD,
           label: "Etternavn",
           value: "Stevanovic",
         },
         {
           id: 3,
-          formElementType: ADD_TEXTAREA_INPUT_FIELD,
+          formElementType: INPUT_TEXTAREA_FIELD,
           label: "Info",
           value: "Jeg heter Nikola. H va heter du? ",
         },
@@ -41,19 +38,19 @@ const im_initialState = fromJS({
       formElements: [
         {
           id: 1,
-          formElementType: ADD_TEXT_INPUT_FIELD,
+          formElementType: INPUT_TEXT_FIELD,
           label: "CEO",
           value: "Marko Jevtovic",
         },
         {
           id: 2,
-          formElementType: ADD_TEXT_INPUT_FIELD,
+          formElementType: INPUT_TEXT_FIELD,
           label: "CTO",
           value: "Milos Ignjatovic",
         },
         {
           id: 3,
-          formElementType: ADD_TEXT_INPUT_FIELD,
+          formElementType: INPUT_TEXT_FIELD,
           label: "CFO",
           value: "Filip Gacevic",
         },

@@ -1,23 +1,16 @@
 import React from "react";
-import InputTextComponent from "./InputTextComponent";
-import {
-  ADD_TEXT_INPUT_FIELD,
-  ADD_TEXTAREA_INPUT_FIELD,
-  EDIT_INPUT_TEXT_FIELD,
-  EDIT_INPUT_TEXTAREA_FIELD
-} from "../redux/actions/actionTypes";
-import {deleteField} from "../redux/actions/actions";
-import InputTextAreaComponent from "./InputTextAreaComponent";
-import {connect} from "react-redux";
 import {getFormIndex} from "../redux/store/reducerUtils";
+import InputTextComponent from "./InputTextComponent";
+import InputTextAreaComponent from "./InputTextAreaComponent";
+import {deleteField} from "../redux/actions/actions";
+import {INPUT_TEXT_FIELD, INPUT_TEXTAREA_FIELD} from "../redux/store/formElementTypes";
+import {connect} from "react-redux";
 
 function FormComponent(props) {
-  const {formName, formElements, formId, deleteForm, key, reduxState} = props;
+  const {formName, formElements, formId, deleteForm, key, updatedFormElements} = props;
 
   const shareForm = () => {
-    const formIndex = getFormIndex(reduxState, formId);
-    const updatedFormElements = reduxState.getIn(
-      ["forms", formIndex, "formElements"]);
+    console.log("id=", formId, ", formName:", formName, ", formElements:", formElements);
     let formToBeSaved = {
       id: formId,
       formName: formName,
@@ -51,30 +44,29 @@ function FormComponent(props) {
             const formElementType = formElement.get("formElementType");
 
             switch (formElementType) {
-              case ADD_TEXT_INPUT_FIELD: {
+              case INPUT_TEXT_FIELD: {
                 return (
-                  <div key={index} className="form-row align-items-center">
-                      <div className="col-9">
-                        <InputTextComponent
-                          key={index}
-                          id={id}
-                          formId={formId}
-                          formElementTypeTIF={EDIT_INPUT_TEXT_FIELD}
-                          label={label}
-                          value={value}
-                        />
-                      </div>
-                      <div className="col-3">
-                        <button
-                          onClick={() => props.onDeleteField(formId, id)}
-                          className="btn btn-outline-danger btn-sm">
-                          <span style={{color: "white"}}>❌</span>
-                        </button>
-                      </div>
+                  <div key={index} className="form-row ">
+                    <div className="col-9">
+                      <InputTextComponent
+                        key={index}
+                        id={id}
+                        formId={formId}
+                        label={label}
+                        value={value}
+                      />
+                    </div>
+                    <div className="col-3">
+                      <button
+                        onClick={() => props.onDeleteField(formId, id)}
+                        className="btn btn-outline-danger btn-sm">
+                        <span style={{color: "white"}}>❌</span>
+                      </button>
+                    </div>
                   </div>
                 );
               }
-              case ADD_TEXTAREA_INPUT_FIELD: {
+              case INPUT_TEXTAREA_FIELD: {
                 return (
                   <div key={index}>
                     <div className="form-row">
@@ -83,7 +75,6 @@ function FormComponent(props) {
                           key={index}
                           id={id}
                           formId={formId}
-                          formElementTypeTAIF={EDIT_INPUT_TEXTAREA_FIELD}
                           label={label}
                           value={value}
                         />
@@ -100,7 +91,7 @@ function FormComponent(props) {
                 );
               }
               default: {
-                return (<p>No input fields added to current from yet!</p>);
+                return (<p>Ingen inntastingsfelt lagt til i gjeldende skjemaer ennå!</p>);
               }
             }
           })}
@@ -121,9 +112,11 @@ function FormComponent(props) {
 }
 
 function mapStateToProps(state) {
-  const {mainReducer} = state;
+  const {mainReducer, formId} = state;
+  const formIndex = getFormIndex(mainReducer, formId);
   return {
     reduxState: mainReducer,
+    updatedFormElements: mainReducer.getIn(["forms", formIndex, "formElements"])
   }
 }
 

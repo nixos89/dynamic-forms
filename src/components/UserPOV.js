@@ -1,33 +1,54 @@
 import React from "react";
 import InputTextComponent from "./InputTextComponent";
-import {
-  ADD_TEXT_INPUT_FIELD,
-  ADD_TEXTAREA_INPUT_FIELD,
-  EDIT_INPUT_TEXT_FIELD,
-  EDIT_INPUT_TEXTAREA_FIELD,
-} from "../redux/actions/actionTypes";
 import InputTextAreaComponent from "./InputTextAreaComponent";
 import {connect} from "react-redux";
 import {addSharedFormToState} from "../redux/actions/actions";
 import {getSharedForm} from "../redux/store/reducerUtils";
+import {bindActionCreators} from "redux";
+import {INPUT_TEXT_FIELD, INPUT_TEXTAREA_FIELD} from "../redux/store/formElementTypes";
+import {ImmutablePropTypes} from "redux-form";
 
 class UserPOV extends React.Component {
 
   constructor(props) {
     super(props);
-    const im_linkedForm = getSharedForm(props.location.pathname);
-    props.onAddSharedFormToState(im_linkedForm);
+    const {
+      location: {
+        pathname
+      },
+      // form: {
+      //   id,
+      //   formName,
+      //   formElements
+      // },
+      addSharedFormToState
+    } = props;
+
+    const im_linkedForm = getSharedForm(pathname);
+    addSharedFormToState(im_linkedForm);
     this.downloadForm = this.downloadForm.bind(this);
   }
 
   downloadForm() {
-    const formId = this.props.form.get("id");
-    const formName = this.props.form.get("formName");
-    const formElements = this.props.form.get("formElements");
+    /* TODO: fix reading of Immutable Map obj by https://stackoverflow.com/q/34762608/6805866 and
+        https://esdiscuss.org/topic/extensible-destructuring-proposal
+        or by passing form's properties into mapStateToProps */
+    const {
+      form: im_form,
+      form: {
+        id,
+        formName,
+        formElements
+      }
+    } = this.props;
+    // const id = form.get("id");
+    console.log("form:", im_form, "typeof im_form:", typeof im_form);
+    console.log("id=", id, ", formName:", formName,  ", formElements:", formElements);
+
     let formToBeSaved = {
-      id: formId,
-      formName: formName,
-      formElements: formElements
+      id: this.props.id,
+      formName: this.props.formName,
+      formElements: this.props.formElements
     };
     const formData = JSON.stringify(formToBeSaved);
     const blob = new Blob([formData], {type: "application/json"});
@@ -36,7 +57,7 @@ class UserPOV extends React.Component {
     const date = new Date();
     const dateDetails = date.getHours() + "h" + date.getMinutes() + "m" + date.getSeconds()
       + "s_" + date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
-    const fileName = formName + "-" + formId + "-" + dateDetails;
+    const fileName = this.props.formName + "-" + this.props.id + "-" + dateDetails;
     link.download = `${fileName}.json`;
     link.href = url;
     document.body.appendChild(link);
@@ -46,7 +67,6 @@ class UserPOV extends React.Component {
 
 
   render() {
-    // console.log("props.form:", this.props.form);
     if (!this.props.form) {
       return <p>Loading...</p>
     }
@@ -68,22 +88,24 @@ class UserPOV extends React.Component {
               const formElementType = formElement.get("formElementType");
 
               switch (formElementType) {
-                case ADD_TEXT_INPUT_FIELD: {
+                case INPUT_TEXT_FIELD: {
                   return (
                     <div key={index}>
                       <InputTextComponent key={index} id={elementId} formId={formId}
-                        formElementTypeTIF={EDIT_INPUT_TEXT_FIELD} label={label}
-                        value={formElement.get("value")}
+                                          // formElementTypeTIF={EDIT_INPUT_TEXT_FIELD}
+                                          label={label}
+                                          value={formElement.get("value")}
                       />
                     </div>
                   );
                 }
-                case ADD_TEXTAREA_INPUT_FIELD: {
+                case INPUT_TEXTAREA_FIELD: {
                   return (
                     <div key={index}>
                       <InputTextAreaComponent key={index} id={elementId} formId={formId}
-                        formElementTypeTAIF={EDIT_INPUT_TEXTAREA_FIELD}
-                        label={label}  value={formElement.get("value")}
+                                              // formElementTypeTAIF={EDIT_INPUT_TEXTAREA_FIELD}
+                                              label={label}
+                                              value={formElement.get("value")}
                       />
                     </div>
                   );
@@ -107,23 +129,26 @@ class UserPOV extends React.Component {
   };
 }
 
+// TODO: implement PropTypes in all Components!!!
 function mapStateToProps(state, ownProps) {
   const {mainReducer} = state;
   const formId = getSharedForm(ownProps.location.pathname).get("id");
-
+  console.log("(in da mapping) formId=", formId);
+  const retrievedForm = mainReducer.get("forms").filter(form => form.get("id") === formId).first();
+  console.log("(in da mapping) retrievedForm=", retrievedForm);
   return {
-    reduxState: mainReducer,
-    formsRedux: mainReducer.get("forms"),
-    form: mainReducer.get("forms").filter(form => form.get("id") === formId).first(),
+    form: retrievedForm
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    onAddSharedFormToState(im_linkedForm) {
-      dispatch(addSharedFormToState(im_linkedForm));
-    }
-  }
+  return bindActionCreators({
+    addSharedFormToState
+  }, dispatch);
 }
+
+// UserPOV.propTypes = {
+//   form: ImmutablePropTypes.map.isRequired
+// }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPOV);
