@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const AddedFieldComponent = (props) => {
 
@@ -25,6 +26,11 @@ const AddedFieldComponent = (props) => {
     </React.Fragment>
 
   );
+}
+
+AddedFieldComponent.propTypes = {
+  labelId: PropTypes.string,
+  formElementTypeFieldId: PropTypes.string,
 }
 
 export default AddedFieldComponent;

@@ -4,12 +4,17 @@ import InputTextComponent from "./InputTextComponent";
 import InputTextAreaComponent from "./InputTextAreaComponent";
 import {deleteField} from "../redux/actions/actions";
 import {INPUT_TEXT_FIELD, INPUT_TEXTAREA_FIELD} from "../redux/store/formElementTypes";
+import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
+import PropTypes from "prop-types";
+import * as ImmutablePropTypes from "react-immutable-proptypes";
 
 function FormComponent(props) {
   const {formName, formElements, formId, deleteForm, key, updatedFormElements} = props;
 
   const shareForm = () => {
+    /* TODO: fix properly sharing UPDATED pre-created forms from `initialState`
+        (i.e. after deleting field, changing its value, etc.) */
     console.log("id=", formId, ", formName:", formName, ", formElements:", formElements);
     let formToBeSaved = {
       id: formId,
@@ -60,7 +65,9 @@ function FormComponent(props) {
                       <button
                         onClick={() => props.onDeleteField(formId, id)}
                         className="btn btn-outline-danger btn-sm">
-                        <span style={{color: "white"}}>❌</span>
+                        <span style={{color: "white"}}
+                              role="img"
+                              aria-label="x-sign">❌</span>
                       </button>
                     </div>
                   </div>
@@ -83,7 +90,9 @@ function FormComponent(props) {
                         <button
                           onClick={() => props.onDeleteField(formId, id)}
                           className="btn btn-outline-danger btn-sm">
-                          ❌
+                          <span style={{color: "white"}}
+                                role="img"
+                                aria-label="x-sign">❌</span>
                         </button>
                       </div>
                     </div>
@@ -115,18 +124,24 @@ function mapStateToProps(state) {
   const {mainReducer, formId} = state;
   const formIndex = getFormIndex(mainReducer, formId);
   return {
-    reduxState: mainReducer,
     updatedFormElements: mainReducer.getIn(["forms", formIndex, "formElements"])
   }
 }
 
 
 function mapDispatchToProps(dispatch) {
-  return {
-    onDeleteField(formId, id) {
-      dispatch(deleteField(formId, id));
-    }
-  }
+  return bindActionCreators({
+      onDeleteField: deleteField
+    }, dispatch)
+}
+
+FormComponent.propTypes = {
+  formId: PropTypes.number,
+  formName: PropTypes.string,
+  formElements: ImmutablePropTypes.list.isRequired,
+  updatedFormElements: ImmutablePropTypes.list.isRequired,
+  deleteForm: PropTypes.func,
+  shareForm: PropTypes.func
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormComponent);

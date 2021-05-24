@@ -28,14 +28,16 @@ export function mainReducer(state = im_initialState, action) {
       });
     }
     case EDIT_INPUT_FIELD: {
-      // TODO: merge this EDIT_XXXX and other one into single one which checks which input type is passed!
       const {id: elementId, formId, inputFieldValue} = action.payload;
       const formIndex = getFormIndex(state, formId);
       const indexOfFormEl = indexOfFormElementFunction(state, formId, elementId);
 
-      return state.setIn(["forms", formIndex, "formElements", indexOfFormEl, "value"],
+      const updatedState = state.setIn(
+        ["forms", formIndex, "formElements", indexOfFormEl, "value"],
         inputFieldValue
       );
+      console.log("updatedState:", updatedState);
+      return updatedState;
     }
     case DELETE_FORM: {
       const {formId} = action.payload;
@@ -52,6 +54,7 @@ export function mainReducer(state = im_initialState, action) {
       if ((currentFormElements.size - 1) === 0) {
         updatedState = state.deleteIn(["forms", formIndex]);
       }
+      console.log("updatedState:", updatedState);
       return updatedState;
     }
     case ADD_SHARED_FORM_TO_STATE: {

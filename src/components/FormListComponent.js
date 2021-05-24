@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import FormComponent from "./FormComponent";
 import {deleteForm} from "../redux/actions/actions";
+import {bindActionCreators} from "redux";
+import PropTypes from "prop-types";
 
 class FormListComponent extends Component {
   render() {
@@ -24,11 +26,13 @@ class FormListComponent extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    onDeleteForm(formId) {
-      dispatch(deleteForm(formId));
-    }
-  }
+  return bindActionCreators({
+    onDeleteForm: deleteForm
+  }, dispatch)
+}
+
+FormListComponent.propTypes = {
+  onDeleteForm: PropTypes.func
 }
 
 export default connect(null, mapDispatchToProps)(FormListComponent);

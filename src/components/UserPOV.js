@@ -6,7 +6,8 @@ import {addSharedFormToState} from "../redux/actions/actions";
 import {getSharedForm} from "../redux/store/reducerUtils";
 import {bindActionCreators} from "redux";
 import {INPUT_TEXT_FIELD, INPUT_TEXTAREA_FIELD} from "../redux/store/formElementTypes";
-import {ImmutablePropTypes} from "redux-form";
+import ImmutablePropTypes from "react-immutable-proptypes/src/ImmutablePropTypes"
+import PropTypes from "prop-types";
 
 class UserPOV extends React.Component {
 
@@ -16,11 +17,6 @@ class UserPOV extends React.Component {
       location: {
         pathname
       },
-      // form: {
-      //   id,
-      //   formName,
-      //   formElements
-      // },
       addSharedFormToState
     } = props;
 
@@ -30,25 +26,16 @@ class UserPOV extends React.Component {
   }
 
   downloadForm() {
-    /* TODO: fix reading of Immutable Map obj by https://stackoverflow.com/q/34762608/6805866 and
-        https://esdiscuss.org/topic/extensible-destructuring-proposal
-        or by passing form's properties into mapStateToProps */
     const {
       form: im_form,
-      form: {
-        id,
-        formName,
-        formElements
-      }
     } = this.props;
-    // const id = form.get("id");
-    console.log("form:", im_form, "typeof im_form:", typeof im_form);
-    console.log("id=", id, ", formName:", formName,  ", formElements:", formElements);
-
+    const id = im_form.get("id");
+    const formName = im_form.get("formName");
+    const formElements = im_form.get("formElements");
     let formToBeSaved = {
-      id: this.props.id,
-      formName: this.props.formName,
-      formElements: this.props.formElements
+      id: id,
+      formName: formName,
+      formElements: formElements
     };
     const formData = JSON.stringify(formToBeSaved);
     const blob = new Blob([formData], {type: "application/json"});
@@ -57,7 +44,7 @@ class UserPOV extends React.Component {
     const date = new Date();
     const dateDetails = date.getHours() + "h" + date.getMinutes() + "m" + date.getSeconds()
       + "s_" + date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
-    const fileName = this.props.formName + "-" + this.props.id + "-" + dateDetails;
+    const fileName = formName + "-" + id + "-" + dateDetails;
     link.download = `${fileName}.json`;
     link.href = url;
     document.body.appendChild(link);
@@ -86,15 +73,18 @@ class UserPOV extends React.Component {
               const label = formElement.get("label");
               const formId = this.props.form.get("id");
               const formElementType = formElement.get("formElementType");
+              const value = formElement.get("value");
 
               switch (formElementType) {
                 case INPUT_TEXT_FIELD: {
                   return (
                     <div key={index}>
-                      <InputTextComponent key={index} id={elementId} formId={formId}
-                                          // formElementTypeTIF={EDIT_INPUT_TEXT_FIELD}
-                                          label={label}
-                                          value={formElement.get("value")}
+                      <InputTextComponent
+                        key={index}
+                        id={elementId}
+                        formId={formId}
+                        label={label}
+                        value={value}
                       />
                     </div>
                   );
@@ -102,10 +92,12 @@ class UserPOV extends React.Component {
                 case INPUT_TEXTAREA_FIELD: {
                   return (
                     <div key={index}>
-                      <InputTextAreaComponent key={index} id={elementId} formId={formId}
-                                              // formElementTypeTAIF={EDIT_INPUT_TEXTAREA_FIELD}
-                                              label={label}
-                                              value={formElement.get("value")}
+                      <InputTextAreaComponent
+                        key={index}
+                        id={elementId}
+                        formId={formId}
+                        label={label}
+                        value={value}
                       />
                     </div>
                   );
@@ -129,13 +121,10 @@ class UserPOV extends React.Component {
   };
 }
 
-// TODO: implement PropTypes in all Components!!!
 function mapStateToProps(state, ownProps) {
   const {mainReducer} = state;
   const formId = getSharedForm(ownProps.location.pathname).get("id");
-  console.log("(in da mapping) formId=", formId);
   const retrievedForm = mainReducer.get("forms").filter(form => form.get("id") === formId).first();
-  console.log("(in da mapping) retrievedForm=", retrievedForm);
   return {
     form: retrievedForm
   }
@@ -147,8 +136,11 @@ function mapDispatchToProps(dispatch) {
   }, dispatch);
 }
 
-// UserPOV.propTypes = {
-//   form: ImmutablePropTypes.map.isRequired
-// }
+UserPOV.propTypes = {
+  formId: PropTypes.number,
+  form: ImmutablePropTypes.map.isRequired,
+  downloadForm: PropTypes.func,
+  addSharedFormToState: PropTypes.func
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPOV);

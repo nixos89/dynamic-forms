@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import FormListComponent from "../components/FormListComponent";
 import Modal from "react-modal";
 import CreateFormModalComponent from "../components/modals/CreateFormModalComponent";
+import * as ImmutablePropTypes from "react-immutable-proptypes";
 
 Modal.setAppElement("#root");
 
@@ -31,14 +32,13 @@ function mapStateToProps(state) {
   const {mainReducer} = state;
   return {
     message: mainReducer.get("message"),
-    forms: mainReducer.get("forms"),
-    show: mainReducer.get("showModal"),
+    forms: mainReducer.get("forms")
   };
 }
 
 MainContent.propTypes = {
   message: PropTypes.string,
-  show: PropTypes.bool,
+  forms: ImmutablePropTypes.list.isRequired,
 };
 
 export default connect(mapStateToProps)(MainContent);

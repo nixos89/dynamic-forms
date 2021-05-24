@@ -1,5 +1,6 @@
 import React from "react";
 import AddedFieldComponent from "./AddedFieldComponent";
+import PropTypes from "prop-types";
 
 const AddedFieldList = (props) => {
   const {newFormElements, onDeleteField} = props;
@@ -31,7 +32,11 @@ const AddedFieldList = (props) => {
         })}
       </ul>
   );
+}
 
+AddedFieldList.propTypes = {
+  newFormElements: PropTypes.array.isRequired,
+  onDeleteField: PropTypes.func
 }
 
 export default AddedFieldList;

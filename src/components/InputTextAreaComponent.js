@@ -1,6 +1,7 @@
 import React from "react";
 import {useDispatch} from "react-redux";
 import {editCurrentInputField} from "../redux/actions/actions";
+import PropTypes from "prop-types";
 
 const InputTextAreaComponent = (props) => {
   const dispatch = useDispatch();
@@ -25,5 +26,13 @@ const InputTextAreaComponent = (props) => {
     </div>
   );
 };
+
+InputTextAreaComponent.propTypes = {
+  id: PropTypes.number,
+  formId: PropTypes.number,
+  value: PropTypes.string,
+  label: PropTypes.string,
+  editCurrentInputField: PropTypes.func
+}
 
 export default InputTextAreaComponent;

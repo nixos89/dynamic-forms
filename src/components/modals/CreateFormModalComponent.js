@@ -6,18 +6,16 @@ import {bindActionCreators} from "redux";
 import {addNewForm} from "../../redux/actions/actions";
 import AddedFieldList from "../fields/AddedFieldList";
 import {fromJS} from "immutable";
+import PropTypes from "prop-types";
 
 class CreateFormModalComponent extends React.Component {
 
   constructor(props) {
     super(props);
-    // TODO: ** Only 'message' and 'modalIsOpen' should be in component inner state -> check HOW
-    //  and with Tanja WHY exactly!
     this.state = {
       message: props.message,
       newFormElements: [],
       formName: "",
-      // subtitle: "Subtitle const",
       modalIsOpen: false,
     };
     this.addFieldFunction = this.addFieldFunction.bind(this);
@@ -98,7 +96,7 @@ class CreateFormModalComponent extends React.Component {
         <div className="form-inline">
           <div className="form-group mb-2">
             <button className="btn btn-success" onClick={() => this.openModal()}>
-              <span role="img">➕</span> Nytt Skjema
+              <span role="img" aria-label="plus-sign">➕</span> Nytt Skjema
             </button>
           </div>
           <div className="form-group mx-sm-3 mb-2">
@@ -148,6 +146,16 @@ function mapDispatchToProps(dispatch) {
     },
     dispatch
   );
+}
+
+CreateFormModalComponent.propTypes = {
+  addNewForm: PropTypes.func,
+  setIsOpen: PropTypes.func,
+  addFieldFunction: PropTypes.func,
+  deleteAddedField: PropTypes.func,
+  formSubmitted: PropTypes.func,
+  openModal: PropTypes.func,
+  closeModal: PropTypes.func
 }
 
 export default connect(null, mapDispatchToProps)(CreateFormModalComponent);
