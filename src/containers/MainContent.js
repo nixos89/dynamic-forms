@@ -28,8 +28,10 @@ const MainContent = (props) => {
   );
 };
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   const {mainReducer} = state;
+  console.log("mainReducer:", mainReducer);
+  console.log("ownProps:", ownProps);
   return {
     message: mainReducer.get("message"),
     forms: mainReducer.get("forms")

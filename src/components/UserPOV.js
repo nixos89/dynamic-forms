@@ -54,6 +54,7 @@ class UserPOV extends React.Component {
 
 
   render() {
+    console.log("this.props.form:", this.props.form);
     if (!this.props.form) {
       return <p>Loading...</p>
     }
@@ -137,7 +138,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 UserPOV.propTypes = {
-  formId: PropTypes.number,
   form: ImmutablePropTypes.map.isRequired,
   downloadForm: PropTypes.func,
   addSharedFormToState: PropTypes.func

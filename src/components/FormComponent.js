@@ -13,13 +13,11 @@ function FormComponent(props) {
   const {formName, formElements, formId, deleteForm, key, updatedFormElements} = props;
 
   const shareForm = () => {
-    /* TODO: fix properly sharing UPDATED pre-created forms from `initialState`
-        (i.e. after deleting field, changing its value, etc.) */
-    console.log("id=", formId, ", formName:", formName, ", formElements:", formElements);
+    const updatedFormElementsJS = updatedFormElements.toJS();
     let formToBeSaved = {
       id: formId,
       formName: formName,
-      formElements: updatedFormElements
+      formElements: updatedFormElementsJS
     };
     const formDataString = JSON.stringify(formToBeSaved);
     let encodedData = btoa(unescape(encodeURIComponent(formDataString)));
@@ -120,19 +118,21 @@ function FormComponent(props) {
   );
 }
 
-function mapStateToProps(state) {
-  const {mainReducer, formId} = state;
-  const formIndex = getFormIndex(mainReducer, formId);
+function mapStateToProps(state, ownProps) {
+  const {mainReducer} = state;
+  const formIndex = getFormIndex(mainReducer, ownProps.formId);
+  const updatedFormElements = mainReducer.getIn(["forms", formIndex, "formElements"]);
   return {
-    updatedFormElements: mainReducer.getIn(["forms", formIndex, "formElements"])
+    updatedFormElements: updatedFormElements,
+    updatedFormElementsOwnProps: ownProps.formElements
   }
 }
 
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-      onDeleteField: deleteField
-    }, dispatch)
+    onDeleteField: deleteField
+  }, dispatch)
 }
 
 FormComponent.propTypes = {
@@ -140,6 +140,7 @@ FormComponent.propTypes = {
   formName: PropTypes.string,
   formElements: ImmutablePropTypes.list.isRequired,
   updatedFormElements: ImmutablePropTypes.list.isRequired,
+  updatedFormElementsOwnProps: ImmutablePropTypes.list.isRequired,
   deleteForm: PropTypes.func,
   shareForm: PropTypes.func
 }
