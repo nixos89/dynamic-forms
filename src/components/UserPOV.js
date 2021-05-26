@@ -29,13 +29,13 @@ class UserPOV extends React.Component {
     const {
       form: im_form,
     } = this.props;
-    const id = im_form.get("id");
-    const formName = im_form.get("formName");
-    const formElements = im_form.get("formElements");
+    const im_id = im_form.get("id");
+    const im_formName = im_form.get("formName");
+    const im_formElements = im_form.get("formElements");
     let formToBeSaved = {
-      id: id,
-      formName: formName,
-      formElements: formElements
+      id: im_id,
+      formName: im_formName,
+      formElements: im_formElements
     };
     const formData = JSON.stringify(formToBeSaved);
     const blob = new Blob([formData], {type: "application/json"});
@@ -44,7 +44,7 @@ class UserPOV extends React.Component {
     const date = new Date();
     const dateDetails = date.getHours() + "h" + date.getMinutes() + "m" + date.getSeconds()
       + "s_" + date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
-    const fileName = formName + "-" + id + "-" + dateDetails;
+    const fileName = im_formName + "-" + im_id + "-" + dateDetails;
     link.download = `${fileName}.json`;
     link.href = url;
     document.body.appendChild(link);
@@ -69,23 +69,23 @@ class UserPOV extends React.Component {
         </div>
         <div className="form-group row justify-content-center">
           <ul>
-            {this.props.form.get("formElements").map((formElement, index) => {
-              const elementId = formElement.get("id");
-              const label = formElement.get("label");
-              const formId = this.props.form.get("id");
-              const formElementType = formElement.get("formElementType");
-              const value = formElement.get("value");
+            {this.props.form.get("formElements").map((im_formElement, index) => {
+              const im_elementId = im_formElement.get("id");
+              const im_label = im_formElement.get("label");
+              const im_formId = this.props.form.get("id");
+              const im_formElementType = im_formElement.get("formElementType");
+              const im_value = im_formElement.get("value");
 
-              switch (formElementType) {
+              switch (im_formElementType) {
                 case INPUT_TEXT_FIELD: {
                   return (
                     <div key={index}>
                       <InputTextComponent
                         key={index}
-                        id={elementId}
-                        formId={formId}
-                        label={label}
-                        value={value}
+                        id={im_elementId}
+                        formId={im_formId}
+                        label={im_label}
+                        value={im_value}
                       />
                     </div>
                   );
@@ -95,10 +95,10 @@ class UserPOV extends React.Component {
                     <div key={index}>
                       <InputTextAreaComponent
                         key={index}
-                        id={elementId}
-                        formId={formId}
-                        label={label}
-                        value={value}
+                        id={im_elementId}
+                        formId={im_formId}
+                        label={im_label}
+                        value={im_value}
                       />
                     </div>
                   );
@@ -124,10 +124,10 @@ class UserPOV extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   const {mainReducer} = state;
-  const formId = getSharedForm(ownProps.location.pathname).get("id");
-  const retrievedForm = mainReducer.get("forms").filter(form => form.get("id") === formId).first();
+  const im_formId = getSharedForm(ownProps.location.pathname).get("id");
+  const im_retrievedForm = mainReducer.get("forms").filter(form => form.get("id") === im_formId).first();
   return {
-    form: retrievedForm
+    form: im_retrievedForm
   }
 }
 
@@ -139,8 +139,7 @@ function mapDispatchToProps(dispatch) {
 
 UserPOV.propTypes = {
   form: ImmutablePropTypes.map.isRequired,
-  downloadForm: PropTypes.func,
-  addSharedFormToState: PropTypes.func
+  downloadForm: PropTypes.func
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPOV);

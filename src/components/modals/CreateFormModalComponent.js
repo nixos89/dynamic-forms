@@ -6,21 +6,19 @@ import {bindActionCreators} from "redux";
 import {addNewForm} from "../../redux/actions/actions";
 import AddedFieldList from "../fields/AddedFieldList";
 import {fromJS} from "immutable";
-import PropTypes from "prop-types";
 
 class CreateFormModalComponent extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      message: props.message,
       newFormElements: [],
       formName: "",
       modalIsOpen: false,
     };
-    this.addFieldFunction = this.addFieldFunction.bind(this);
-    this.deleteAddedField = this.deleteAddedField.bind(this);
-    this.formSubmitted = this.formSubmitted.bind(this);
+    this.handleOnAddNewFieldClick = this.handleOnAddNewFieldClick.bind(this);
+    this.handleOnDeleteFieldClick = this.handleOnDeleteFieldClick.bind(this);
+    this.handleOnFormSubmit = this.handleOnFormSubmit.bind(this);
   }
 
   setIsOpen(value) {
@@ -29,7 +27,7 @@ class CreateFormModalComponent extends React.Component {
     })
   }
 
-  addFieldFunction(event) {
+  handleOnAddNewFieldClick(event) {
     event.preventDefault();
     this.state.newFormElements.push({
       id: Math.floor(Math.random() * 100) + 100,
@@ -40,7 +38,7 @@ class CreateFormModalComponent extends React.Component {
   }
 
 
-  deleteAddedField(event, index) {
+  handleOnDeleteFieldClick(event, index) {
     event.preventDefault();
     this.state.newFormElements.splice(index, 1)
     this.setState({
@@ -48,7 +46,7 @@ class CreateFormModalComponent extends React.Component {
     });
   }
 
-  formSubmitted = (event) => {
+  handleOnFormSubmit = (event) => {
     event.preventDefault();
     const newFormName = document.getElementById("formNameField").value;
     const labelFieldsByNameValues = Array.from(
@@ -69,7 +67,7 @@ class CreateFormModalComponent extends React.Component {
 
     let id = Math.floor(Math.random() * 100) + 100;
     const formElements = fromJS(updatedNewFormElements);
-    this.props.onAddNewForm(id, newFormName, formElements);
+    this.props.addNewForm(id, newFormName, formElements);
 
     this.setState({
       formName: "",
@@ -78,16 +76,14 @@ class CreateFormModalComponent extends React.Component {
     });
   };
 
-  openModal = () => {
+  // handleOnNewFormButtonClick
+  handleOnNewFormButtonClick = () => {
     this.setIsOpen(true);
   };
 
-  // afterOpenModal() {};
-
-  closeModal() {
-    this.setState({
-      modalIsOpen: false
-    })
+  // handleOnModalCloseButtonClick
+  handleOnModalCloseButtonClick() {
+    this.setIsOpen(false);
   };
 
   render() {
@@ -95,7 +91,7 @@ class CreateFormModalComponent extends React.Component {
       <div>
         <div className="form-inline">
           <div className="form-group mb-2">
-            <button className="btn btn-success" onClick={() => this.openModal()}>
+            <button className="btn btn-success" onClick={() => this.handleOnNewFormButtonClick()}>
               <span role="img" aria-label="plus-sign">➕</span> Nytt Skjema
             </button>
           </div>
@@ -103,19 +99,19 @@ class CreateFormModalComponent extends React.Component {
             <p style={{fontStyle: "italic"}}>Vær så snill klikk "Nytt Skjema" for å opprett skjemaer</p>
           </div>
         </div>
-        <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal.bind(this)}
+        <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.handleOnModalCloseButtonClick.bind(this)}
                message={this.message} style={customStyles} contentLabel="Example Modal">
           <button type="button" className="close" aria-label="Close"
-                  onClick={() => this.closeModal()}>
+                  onClick={() => this.handleOnModalCloseButtonClick()}>
             <span aria-hidden="true">&times;</span>
           </button>
           <div className="modal-header">
             <h2>
-              {this.state.message}
+              {this.props.message}
             </h2>
           </div>
           <div className="modal-body">
-            <form onSubmit={this.formSubmitted} id="formNameElement">
+            <form onSubmit={this.handleOnFormSubmit} id="formNameElement">
               <div className="form-inline">
                 <div className="form-group mb-2">
                   <input type="text" id="formNameField" placeholder="Skjemaer navn..."/>
@@ -125,11 +121,11 @@ class CreateFormModalComponent extends React.Component {
                   <input type="reset" value="Nullstille" className="btn btn-outline-warning"/>
                   &nbsp;
                   <input type="button" value="Nytt felt" className="btn btn-primary"
-                         onClick={this.addFieldFunction}/>
+                         onClick={this.handleOnAddNewFieldClick}/>
                 </div>
               </div>
               <AddedFieldList newFormElements={this.state.newFormElements}
-                              onDeleteField={this.deleteAddedField}
+                              onDeleteFieldClick={this.handleOnDeleteFieldClick}
               />
             </form>
           </div>
@@ -142,20 +138,10 @@ class CreateFormModalComponent extends React.Component {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      onAddNewForm: addNewForm,
+      addNewForm
     },
     dispatch
   );
-}
-
-CreateFormModalComponent.propTypes = {
-  addNewForm: PropTypes.func,
-  setIsOpen: PropTypes.func,
-  addFieldFunction: PropTypes.func,
-  deleteAddedField: PropTypes.func,
-  formSubmitted: PropTypes.func,
-  openModal: PropTypes.func,
-  closeModal: PropTypes.func
 }
 
 export default connect(null, mapDispatchToProps)(CreateFormModalComponent);

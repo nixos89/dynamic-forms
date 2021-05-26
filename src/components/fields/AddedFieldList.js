@@ -1,13 +1,12 @@
 import React from "react";
 import AddedFieldComponent from "./AddedFieldComponent";
-import PropTypes from "prop-types";
 
 const AddedFieldList = (props) => {
-  const {newFormElements, onDeleteField} = props;
+  const {newFormElements, onDeleteFieldClick} = props;
 
   return (
     (newFormElements.length === 0) ?
-      <p><b>No elements</b> have been added yet!</p>
+      <p><b>Ingen elementer</b> er lagt til ennå!</p>
       :
       <ul>
         {newFormElements.map((formElement, index) => {
@@ -23,7 +22,7 @@ const AddedFieldList = (props) => {
               </div>
 
               <div className="input-group mb-2 mr-sm-2">
-                <button onClick={(event) => onDeleteField(event, index)}
+                <button onClick={(event) => onDeleteFieldClick(event, index)}
                         className="btn btn-danger">x
                 </button>
               </div>
@@ -34,9 +33,5 @@ const AddedFieldList = (props) => {
   );
 }
 
-AddedFieldList.propTypes = {
-  newFormElements: PropTypes.array.isRequired,
-  onDeleteField: PropTypes.func
-}
 
 export default AddedFieldList;
