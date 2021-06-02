@@ -1,10 +1,10 @@
 import {
   ADD_NEW_FIELD,
-  ADD_NEW_FORM, ADD_SHARED_FORM_TO_STATE,
+  ADD_NEW_FORM,
+  ADD_SHARED_FORM_TO_STATE,
   DELETE_FIELD,
   DELETE_FORM,
-  EDIT_INPUT_TEXT_FIELD,
-  EDIT_INPUT_TEXTAREA_FIELD,
+  EDIT_INPUT_FIELD,
 } from "../actions/actionTypes";
 import im_initialState from "./initialState";
 import {getFormIndex, indexOfFormElementFunction} from "./reducerUtils";
@@ -15,8 +15,7 @@ export function mainReducer(state = im_initialState, action) {
     case ADD_NEW_FORM: {
       const {id, formName, formElements} = action.payload;
       const newFormToAdd = Map({id: id, formName: formName, formElements: formElements});
-      const newState = state.update("forms", forms => forms.push(newFormToAdd));
-      return newState;
+      return state.update("forms", forms => forms.push(newFormToAdd));
     }
     case ADD_NEW_FIELD: {
       const {formElementType, label} = action.payload;
@@ -26,23 +25,13 @@ export function mainReducer(state = im_initialState, action) {
         label: label,
       });
     }
-    case EDIT_INPUT_TEXT_FIELD: {
-      const {id: elementId, formId, inputTextFieldValue} = action.payload;
+    case EDIT_INPUT_FIELD: {
+      const {id: elementId, formId, inputFieldValue} = action.payload;
       const formIndex = getFormIndex(state, formId);
       const indexOfFormEl = indexOfFormElementFunction(state, formId, elementId);
-
-      return state.setIn(["forms", formIndex, "formElements", indexOfFormEl, "value"],
-        inputTextFieldValue
-      );
-    }
-    case EDIT_INPUT_TEXTAREA_FIELD: {
-      const {id: elementId, formId, inputTextAreaFieldValue} = action.payload;
-      const formIndex = getFormIndex(state, formId);
-      const indexOfFormEl = indexOfFormElementFunction(state, formId, elementId);
-
       return state.setIn(
         ["forms", formIndex, "formElements", indexOfFormEl, "value"],
-        inputTextAreaFieldValue
+        inputFieldValue
       );
     }
     case DELETE_FORM: {
@@ -54,7 +43,6 @@ export function mainReducer(state = im_initialState, action) {
       const {formId, id} = action.payload; // 'id' is ID of inputElement
       const formIndex = getFormIndex(state, formId);
       const indexOfFormEl = indexOfFormElementFunction(state, formId, id);
-
       let updatedState = state.deleteIn(["forms", formIndex, "formElements", indexOfFormEl]);
       let currentFormElements = state.getIn(["forms", formIndex, "formElements"]);
       if ((currentFormElements.size - 1) === 0) {
@@ -64,7 +52,13 @@ export function mainReducer(state = im_initialState, action) {
     }
     case ADD_SHARED_FORM_TO_STATE: {
       const {im_linkedForm} = action.payload;
-      const updatedState = state.update("forms", forms => forms.push(im_linkedForm));
+      const formIndex = getFormIndex(state, im_linkedForm.get("id"));
+      let updatedState;
+      if (formIndex !== -1) {
+        updatedState = state.setIn(["forms", formIndex, "formElements"], im_linkedForm.get("formElements"));
+      } else {
+        updatedState = state.update("forms", forms => forms.push(im_linkedForm));
+      }
       return updatedState;
     }
     default: {

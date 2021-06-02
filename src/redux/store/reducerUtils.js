@@ -10,8 +10,6 @@ export function getFormIndexByForms(forms, formId) {
 
 export function indexOfFormElementFunction(state, formId, elementId) {
   const formIndex = getFormIndex(state, formId);
-
-  // const finalRes =
   return state
     .getIn(["forms", formIndex, "formElements"])
     .findIndex((im_formElement) => im_formElement.get("id") === elementId);
