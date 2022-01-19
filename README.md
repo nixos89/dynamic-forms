@@ -1,3 +1,9 @@
+# App description
+
+Front-end web application which is using ReactJS as main technology built as part of traning to build Single Page Application. App is similar to Google Forms, it is hosted on [Netlify](https://condescending-albattani-487640.netlify.app/) and is simulating creation and deletion of dynamic form elements.
+
+-----------------------------------------------------------------------------------
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
