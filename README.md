@@ -1,4 +1,4 @@
-# App description
+# Dynamic Forms
 
 Front-end web application which is using ReactJS as main technology built as part of training to build Single Page Application. App is similar to Google
 Forms, it is hosted on [Netlify](https://condescending-albattani-487640.netlify.app/) and is simulating creation and deletion of dynamic form elements.
