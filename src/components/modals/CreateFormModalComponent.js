@@ -18,6 +18,7 @@ class CreateFormModalComponent extends React.Component {
     };
     this.handleOnAddNewFieldClick = this.handleOnAddNewFieldClick.bind(this);
     this.handleOnDeleteFieldClick = this.handleOnDeleteFieldClick.bind(this);
+    this.handleOnModalCloseButtonClick = this.handleOnModalCloseButtonClick.bind(this);
     this.handleOnFormSubmit = this.handleOnFormSubmit.bind(this);
   }
 
@@ -91,7 +92,7 @@ class CreateFormModalComponent extends React.Component {
       <div>
         <div className="form-inline">
           <div className="form-group mb-2">
-            <button className="btn btn-success" onClick={() => this.handleOnNewFormButtonClick()}>
+            <button className="btn btn-success" onClick={this.handleOnNewFormButtonClick}>
               <span role="img" aria-label="plus-sign">➕</span> Nytt Skjema
             </button>
           </div>
@@ -102,7 +103,7 @@ class CreateFormModalComponent extends React.Component {
         <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.handleOnModalCloseButtonClick.bind(this)}
                message={this.message} style={customStyles} contentLabel="Example Modal">
           <button type="button" className="close" aria-label="Close"
-                  onClick={() => this.handleOnModalCloseButtonClick()}>
+                  onClick={this.handleOnModalCloseButtonClick}>
             <span aria-hidden="true">&times;</span>
           </button>
           <div className="modal-header">
