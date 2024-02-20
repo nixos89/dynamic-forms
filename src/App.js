@@ -10,6 +10,7 @@ function App() {
   return (
     <div className="d-flex flex-column sticky-footer-wrapper min-vh-100">
       <Header/>
+      {/* Move  */}
       <Switch>
         <Route path="/" component={MainContent} exact/>
         <Route path="/:encodedForm" component={UserPOV}/>
