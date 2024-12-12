@@ -9,6 +9,9 @@ Modal.setAppElement("#root");
 const MainContent = (props) => {
   const {message, im_forms} = props;
 
+  // TODO: Implement filtering inside of this Main Component so only im_forms passed...
+  // ...to FormListComponent are rendered
+
   return (
     <div className="justify-content-center">
       <main id="main" role="main" className="flex-shrink-0">
